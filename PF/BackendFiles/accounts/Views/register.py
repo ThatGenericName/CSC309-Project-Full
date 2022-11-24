@@ -27,9 +27,18 @@ class RegisterAccount(APIView):
 
     def post(self, request: Request, format=None):
         errors = self.ValidateData(request.data)
+        
         if len(errors):
+            print('bad datapoints')
+            for (k,v) in errors.items():
+                print(f"{k}:{v}")
             return Response(errors, status=400)
         data = request.data
+        
+        if User.objects.filter(username=data['username']).exists():
+            print('username already taken')
+            return Response({'success': False, 'detail': 'username already taken'}, status=400)
+        
         user = User.objects.create_user(
             username=data['username'],
             email=data['email'],
@@ -43,6 +52,7 @@ class RegisterAccount(APIView):
             phone_num=data['phone_num'],
         )
         userExt.save()
+        print('Account Registered')
         return Response({"detail": 'account registered'}, status=200)
 
     keys = [

@@ -5,6 +5,7 @@ pip install pillow
 pip install djangorestframework
 pip install geopy
 pip install django-apscheduler
+pip install django-cors-headers
 python3 manage.py makemigrations
 python3 manage.py migrate
 python3 manage.py makemigrations
