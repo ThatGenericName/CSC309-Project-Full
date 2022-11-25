@@ -125,6 +125,7 @@ class UserExtendedSerializer(serializers.ModelSerializer):
 
         data['enrolled_classes'] = dat
 
+
         return data
 
 
