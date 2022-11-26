@@ -7,11 +7,12 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import MenuItem from '@mui/material/MenuItem';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import isEmail from 'validator/lib/isEmail';
+import { Alert, AlertTitle, Box, Typography } from '@mui/material';
 
 const REQUIRED_PARAMS = ['username', 'password1', 'password2', 'first_name', 'last_name', 'email']
 
@@ -35,14 +36,16 @@ export default class RegisterButton extends React.Component{
                 phone_num: ''
             },
             data: {
-                username: '',
-                password1: '',
-                password2: '',
-                first_name: '',
-                last_name: '',
-                email: '',
+                username: 'Test1',
+                password1: 'Password1',
+                password2: 'Password1',
+                first_name: 'firstname',
+                last_name: 'lastname',
+                email: 'test@mail.com',
                 phone_num: ''
-            }
+            },
+            generalMessage: "",
+            axiosLoading: false
         
         }
     }
@@ -88,6 +91,9 @@ export default class RegisterButton extends React.Component{
                 errors[key] = "This Field is required"
                 hasErrors = true
             }
+            else{
+                errors[key] = ""
+            } 
         }
         
         if (!(errors.username.length)){
@@ -115,13 +121,19 @@ export default class RegisterButton extends React.Component{
         }
 
         this.setState({errors: errors, hasErrors: hasErrors})
+        return hasErrors
     }
 
     OnSignupSubmit(){
-        this.ValidateData()
+        this.setState({
+            axiosLoading: true
+        })
+        let e = this.ValidateData()
         
-        if (this.state.hasErrors){
-            // stuff?
+        if (e){
+            this.setState({
+                axiosLoading: false
+            })
         }
         else{
             let targetURL = Constants.BASEURL + 'accounts/register/'
@@ -137,37 +149,63 @@ export default class RegisterButton extends React.Component{
             }
     
             var comp = this
-    
+
             axios(requestData)
             .then(function (response){
+                comp.setState({
+                    axiosLoading: false
+                })
                 let newData = {
                     reqSent: true,
                     reqSucc: true,
                     reqResp: response.data
                 }
-                console.log(response.status)
                 comp.setState(newData)
+
+                comp.setState({
+                    generalMessage: "Registration Successful! Please Sign In"
+                })
             })
             .catch(function (error){
+                comp.setState({
+                    axiosLoading: false
+                })
                 let a = error.response.data
+
+                let errors = comp.state.errors
+                for (let [key, value] of Object.entries(a)){
+                    errors[key] = value
+                }
+
                 let newData = {
                     reqSent: true,
                     reqSucc: false,
                     reqResp: a
                 }
-                console.log('test')
+
                 comp.setState(newData)
-            })
-            
-            if (this.state.reqSucc){
-                this.setOpen(false)
-            }
-            else{
-                // more stuff
-            }
+            }) 
+
+            // this delay mechanism taken from https://stackoverflow.com/questions/14226803/wait-5-seconds-before-executing-next-line
         }
     }
 
+    ShowGeneralMessage(){
+        if (this.state.reqSucc){
+            return (
+                <Alert severity="success">
+                    <AlertTitle>Registration successful! Please log in</AlertTitle>
+                </Alert>
+            )
+        }
+        else{
+            return (
+                <Alert severity="error">
+                    <AlertTitle>Please resolve errors</AlertTitle>
+                </Alert>
+            )
+        }
+    }
     
     render(){
 
@@ -179,7 +217,13 @@ export default class RegisterButton extends React.Component{
             if (event.key === "Tab") {
               event.stopPropagation();
             }
-          };
+        };
+
+        const loadingCircle = (
+            <Box sx={{ display: 'flex', justifyContent: 'center'}}>
+                <CircularProgress />
+            </Box>
+        )
 
         return (
             <div>
@@ -190,76 +234,106 @@ export default class RegisterButton extends React.Component{
                 maxWidth="sm"
                 onKeyDown={stopPropagationForTab}
                 >
-                <DialogTitle>Dialog Title</DialogTitle>
+                <DialogTitle>
+                    <Typography variant="h3" align="center">Register</Typography>
+                </DialogTitle>
+                <br/>
+                {this.state.axiosLoading && loadingCircle}
                 <DialogContent>
-                    <DialogContentText>
-                        Heres The first text content in dialog
-                    </DialogContentText>
 
-                    <TextField
-                        error={this.state.errors.username.length}
-                        required
-                        id='username'
-                        label='username'
-                        value={this.state.data.username}
-                        onChange={e => this.setFormData({username: e.target.value})}
-                    />
-                    <i style={{ color: 'red' }}>    {this.state.errors.username}</i>
-                    <br/><br/>
-                    <TextField
-                        error={this.state.errors.password1.length}
-                        type='password'
-                        id='password1'
-                        label='password'
-                        value={this.state.data.password1}
-                        onChange={e => this.setFormData({password1: e.target.value})}
-                    />
-                    <br/><br/>
-                    <TextField
-                        error={this.state.errors.password2.length}
-                        required={true}
-                        type='password'
-                        id='password2'
-                        label='confirm password'
-                        value={this.state.data.password2}
-                        onChange={e => this.setFormData({password2: e.target.value})}
-                    />
-                    <br/><br/>
-                    <TextField
-                        error={this.state.errors.first_name.length}
-                        required
-                        id='firstname'
-                        label='first name'
-                        value={this.state.data.first_name}
-                        onChange={e => this.setFormData({first_name: e.target.value})}
-                    />
-                    <br/><br/>
-                    <TextField
-                        error={this.state.errors.last_name.length}
-                        required
-                        id='lastname'
-                        label='last name'
-                        value={this.state.data.last_name}
-                        onChange={e => this.setFormData({last_name: e.target.value})}
-                    />
-                    <br/><br/>
-                    <TextField
-                        error={this.state.errors.email.length}
-                        required
-                        id='email'
-                        label='email'
-                        value={this.state.data.email}
-                        onChange={e => this.setFormData({email: e.target.value})}
-                    />
-                    <br/><br/>
-                    <TextField
-                        error={this.state.errors.phone_num.length}
-                        required
-                        id='phonenumber'
-                        label='phone number'
-                        value={this.state.data.phone_num}
-                        onChange={e => this.setFormData({phone_num: e.target.value})}
-                    />
+                    <Box
+                        noValidate
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          m: 'auto',
+                          width: 'fit-content',
+                        }}
+                    >
+                        {this.state.reqSent && this.ShowGeneralMessage()}
+                        <br/>
+                    </Box>
+                    <Box
+                        noValidate
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          m: 'auto',
+                          width: 'fit-content',
+                        }}
+                    >
+                        <TextField
+                            error={this.state.errors.username.length}
+                            required
+                            id='username'
+                            label='username'
+                            value={this.state.data.username}
+                            onChange={e => this.setFormData({username: e.target.value})}
+                        />
+                        <i style={{ color: 'red' }}>{this.state.errors.username}</i>
+                        <br/>
+                        <TextField
+                            error={this.state.errors.password1.length}
+                            type='password'
+                            id='password1'
+                            label='password'
+                            value={this.state.data.password1}
+                            onChange={e => this.setFormData({password1: e.target.value})}
+                        />
+                        <i style={{ color: 'red' }}>{this.state.errors.password1}</i>
+                        <br/>
+                        <TextField
+                            error={this.state.errors.password2.length}
+                            required={true}
+                            type='password'
+                            id='password2'
+                            label='confirm password'
+                            value={this.state.data.password2}
+                            onChange={e => this.setFormData({password2: e.target.value})}
+                        />
+                        <i style={{ color: 'red' }}>{this.state.errors.password2}</i>
+                        <br/>
+                        <TextField
+                            error={this.state.errors.first_name.length}
+                            required
+                            id='firstname'
+                            label='first name'
+                            value={this.state.data.first_name}
+                            onChange={e => this.setFormData({first_name: e.target.value})}
+                        />
+                        <i style={{ color: 'red' }}>{this.state.errors.first_name}</i>
+                        <br/>
+                        <TextField
+                            error={this.state.errors.last_name.length}
+                            required
+                            id='lastname'
+                            label='last name'
+                            value={this.state.data.last_name}
+                            onChange={e => this.setFormData({last_name: e.target.value})}
+                        />
+                        <i style={{ color: 'red' }}>{this.state.errors.last_name}</i>
+                        <br/>
+                        <TextField
+                            error={this.state.errors.email.length}
+                            required
+                            id='email'
+                            label='email'
+                            value={this.state.data.email}
+                            onChange={e => this.setFormData({email: e.target.value})}
+                        />
+                        <br/>
+                        <TextField
+                            error={this.state.errors.phone_num.length}
+                            required
+                            id='phonenumber'
+                            label='phone number'
+                            value={this.state.data.phone_num}
+                            onChange={e => this.setFormData({phone_num: e.target.value})}
+                        />
+                        <i style={{ color: 'red' }}>{this.state.errors.phone_num}</i>
+                        <br/>
+                    </Box>
+
                 </DialogContent>
                 <DialogActions>
                     <Button variant='outlined' onClick={() => this.HandleClose()}>Cancel</Button>

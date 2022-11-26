@@ -25,7 +25,10 @@ SECRET_KEY = 'django-insecure-x$4blb)b_fznj#f82t4#wlh8-92$x01pmv%y7*f(cj#nk8tpab
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.2.238']
+ALLOWED_HOSTS = [
+    '192.168.2.238',
+    '127.0.0.1'
+    ]
 
 
 # Application definition
@@ -40,7 +43,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
-    'corsheaders',
     'django_apscheduler',
     'accounts',
     'gymclasses',
@@ -71,7 +73,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-    'http://127.0.0.1:3000',
+    'http://127.0.0.1:3000'
 ]
 
 

@@ -57,7 +57,7 @@ export default class TopAppBar extends React.Component{
         axios(requestData)
         .then(function (response){
             let username = response.data['username']
-            let imgSrc = Constants.BASEURLNOEND + response.data['profile_pic']
+            let imgSrc = response.data['profile_pic'] === null ? null : Constants.BASEURLNOEND + response.data['profile_pic']
             let firstName = response.data['first_name'] === null ? "" : response.data['first_name']
             let lastName = response.data['last_name'] === null ? "" : response.data['last_name']
             comp.setState({
@@ -72,6 +72,7 @@ export default class TopAppBar extends React.Component{
             comp.setState({
                 userLoggedIn:false
             })
+            localStorage.removeItem('Auth')
         })
     }
 
@@ -124,32 +125,29 @@ export default class TopAppBar extends React.Component{
     render(){
 
         return (
-            <AppBar>
-                <Toolbar>
-                  <IconButton
-                    size="large"
-                    edge="start"
-                    color="inherit"
-                    aria-label="menu"
-                    sx={{ mr: 2 }}
-                  >
-                    <MenuIcon />
-                  </IconButton>
-                  <Box
-                    component="img"
-                    sx={{
-                    height: 64,
-                    }}
-                    alt="logo."
-                    src="/tfc_notext.png"
-                    />
+            <div>
+                <AppBar>
+                    <Toolbar>
+                        {/*Todo: Make this a clickable button, probably add an OnClick thing*/}
+                        <Box
+                            component="img"
+                            sx={{
+                            height: 64,
+                            }}
+                            alt="logo."
+                            src="/tfc_notext.png"
+                        />
 
-                  <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    Toronto Fitness Club
-                  </Typography>
-                  {this.UserSection()}
-                </Toolbar>
-            </AppBar>
+                      <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                        Toronto Fitness Club
+                      </Typography>
+                      {this.UserSection()}
+                    </Toolbar>
+                </AppBar>
+                <Toolbar/>
+            </div>
+
+            
         );
     }
 }

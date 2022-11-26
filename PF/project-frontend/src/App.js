@@ -2,12 +2,13 @@ import logo from './logo.svg';
 import './App.css';
 
 import React from 'react';
-import TestClass from './components/topbar/testfunc';
 
-import CookieTest from './components/topbar/CookieTest';
 import TopAppBar from './components/topbar/TopBar';
-
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Box, Toolbar } from '@mui/material';
+import Paper from '@mui/material/Paper';
+
+import { APIContext } from './components/constants';
 
 const theme = createTheme({
     palette: {
@@ -18,7 +19,7 @@ const theme = createTheme({
         main: "#2f528f"
       },
     },
-  });
+});
 
 
 class App extends React.Component{
@@ -32,40 +33,37 @@ class App extends React.Component{
     }
 
     render() {
-        let test = <TestClass/>
 
         return (
             <ThemeProvider theme={theme}>
-                <div className="App">
-                    <div>
-
+                <APIContext.Provider>
                     <TopAppBar/>
+                    <Box sx={{
+                        flexGrow: 1 ,
+                        borderRadius: 1,
+                        m:2
+                        }}>
+                        <Paper elevation={3} sx={{textAlign:'center'}}>
+                            Primary Content
+                            <br/><br/><br/><br/><br/><br/>
+                            Content
+                            <br/><br/><br/><br/><br/><br/>
+                            Content
+                            <br/><br/><br/><br/><br/><br/>
+                            Content
+                            <br/><br/><br/><br/><br/><br/>
+                            Content
+                            <br/><br/><br/><br/><br/><br/>
+                            Content
+                            <br/><br/><br/><br/><br/><br/>
+                            Content
+                            <br/><br/><br/><br/><br/><br/>
+                            Content
+                            <br/><br/><br/><br/><br/><br/>
 
-                    </div>
-                    <h1>Stuff Test</h1>
-                    <div>
-                        <h2>Stuff H2</h2>
-                        {test}
-                    </div>
-                    <div>
-                        <CookieTest/>
-                        <br/>
-                    </div>
-                    <div>
-                        Blank Space <br/><br/><br/>
-                        Blank Space <br/><br/><br/>
-                        Blank Space <br/><br/><br/>
-                        Blank Space <br/><br/><br/>
-                        Blank Space <br/><br/><br/>
-                        Blank Space <br/><br/><br/>
-                        Blank Space <br/><br/><br/>
-                        Blank Space <br/><br/><br/>
-                        Blank Space <br/><br/><br/>
-                        Blank Space <br/><br/><br/>
-                        Blank Space <br/><br/><br/>
-                        Blank Space <br/><br/><br/>
-                    </div>
-                </div>
+                        </Paper>
+                    </Box>
+                </APIContext.Provider>
             </ThemeProvider>
 
         );

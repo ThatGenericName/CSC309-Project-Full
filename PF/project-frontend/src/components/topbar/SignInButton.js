@@ -7,11 +7,10 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import MenuItem from '@mui/material/MenuItem';
-
-import isEmail from 'validator/lib/isEmail';
+import CircularProgress from '@mui/material/CircularProgress';
+import { Alert, AlertTitle, Box, Typography } from '@mui/material';
 
 const REQUIRED_PARAMS = ['username', 'password']
 
@@ -33,7 +32,9 @@ export default class SignInButton extends React.Component{
                 username: '',
                 password: '',
             },
-            OnSignIn: props.onSignIn
+            OnSignIn: props.onSignIn,
+            generalMessage: "",
+            axiosLoading: false
         }
     }
 
@@ -80,13 +81,17 @@ export default class SignInButton extends React.Component{
         }
 
         this.setState({errors: errors, hasErrors: hasErrors})
+        return hasErrors
     }
 
     OnSignupSubmit(){
-        this.ValidateData()
+        this.setState({axionLoading: true})
+        let e = this.ValidateData()
         
-        if (this.state.hasErrors){
-            // stuff?
+        if (e){
+            this.setState({
+                axiosLoading: false
+            })
         }
         else{
             let targetURL = Constants.BASEURL + 'accounts/login/'
@@ -104,6 +109,9 @@ export default class SignInButton extends React.Component{
     
             axios(requestData)
             .then(function (response){
+                comp.setState({
+                    axiosLoading: false
+                })
                 let newData = {
                     reqSent: true,
                     reqSucc: true,
@@ -115,24 +123,40 @@ export default class SignInButton extends React.Component{
                 if (comp.state.OnSignIn !== null){
                     comp.state.OnSignIn()
                 }
+                comp.setOpen(false)
             })
             .catch(function (error){
+                comp.setState({
+                    axiosLoading: false
+                })
                 let a = error.response.data
                 let newData = {
                     reqSent: true,
                     reqSucc: false,
                     reqResp: a
                 }
-                console.log('test')
                 comp.setState(newData)
+                
             })
-            
-            if (this.state.reqSucc){
-                this.setOpen(false)
+        }
+    }
+
+    ShowGeneralMessage(){
+        if (this.state.reqSent){
+            if (!this.state.reqSucc){
+                return (
+                    <Alert severity="error">
+                        <AlertTitle>Account or Password does not match</AlertTitle>
+                    </Alert>
+                )
             }
-            else{
-                // more stuff
-            }
+        }
+        else if (this.state.hasErrors) {
+            return (
+                <Alert severity="error">
+                    <AlertTitle>Please resolve errors</AlertTitle>
+                </Alert>
+            )
         }
     }
 
@@ -145,7 +169,13 @@ export default class SignInButton extends React.Component{
             if (event.key === "Tab") {
               event.stopPropagation();
             }
-          };
+        };
+
+        const loadingCircle = (
+            <Box sx={{ display: 'flex', justifyContent: 'center'}}>
+                <CircularProgress />
+            </Box>
+        )
 
         return (
             <div>
@@ -157,33 +187,56 @@ export default class SignInButton extends React.Component{
                 maxWidth="sm"
                 onKeyDown={stopPropagationForTab}
                 >
-                <DialogTitle>Sign In</DialogTitle>
+                <DialogTitle>
+                    <Typography variant="h3" align="center">Sign In</Typography>
+                </DialogTitle>
+                
+                {this.state.axiosLoading && loadingCircle}
                 <DialogContent>
-                    <DialogContentText>
-                        Something for Signin Dialogue
-                    </DialogContentText>
-                    <br/>
-                    <TextField
-                        error={this.state.errors.username.length}
-                        required
-                        id='username'
-                        label='username'
-                        value={this.state.data.username}
-                        onChange={e => this.setFormData({username: e.target.value})}
-                    />
-                    <i style={{ color: 'red' }}>    {this.state.errors.username}</i>
+                    <Box
+                        noValidate
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          m: 'auto',
+                          width: 'fit-content',
+                        }}
+                    >
+                        {this.state.reqSent && this.ShowGeneralMessage()}
+                        <br/>
+                    </Box>
 
-                    <br/><br/>
-                    <TextField
-                        error={this.state.errors.password.length}
-                        required
-                        type='password'
-                        id='password'
-                        label='password'
-                        value={this.state.data.password}
-                        onChange={e => this.setFormData({password: e.target.value})}
-                    />
-                    <i style={{ color: 'red' }}>    {this.state.errors.password}</i>
+                    <Box
+                        noValidate
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          m: 'auto',
+                          width: 'fit-content',
+                        }}
+                    >
+                        <TextField
+                            error={this.state.errors.username.length}
+                            required
+                            id='username'
+                            label='username'
+                            value={this.state.data.username}
+                            onChange={e => this.setFormData({username: e.target.value})}
+                        />
+                        <i style={{ color: 'red' }}>{this.state.errors.username}</i>
+                        <br/>
+                        <TextField
+                            error={this.state.errors.password.length}
+                            required
+                            type='password'
+                            id='password'
+                            label='password'
+                            value={this.state.data.password}
+                            onChange={e => this.setFormData({password: e.target.value})}
+                        />
+                        <i style={{ color: 'red' }}>{this.state.errors.password}</i>
+                    </Box>
+
                 </DialogContent>
                 <DialogActions>
                     <Button variant='outlined' onClick={() => this.HandleClose()}>Cancel</Button>
