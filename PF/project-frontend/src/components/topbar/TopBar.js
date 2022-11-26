@@ -13,16 +13,15 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 
 import GuestButton from './GuestButton';
+import {APIContext} from "../APIContextProvider";
+import AccountButton from "./AccountButton";
 
 
 export default class TopAppBar extends React.Component{
-    constructor(props){
-        super(props)
+    static contextType = APIContext
+    constructor(props, context){
+        super(props, context)
         this.state = {
-            userLoggedIn: false,
-            username: null,
-            userfullname: null,
-            imgSrc: null,
             anchorEl: null
         }
         this.checkLoginState()
@@ -38,7 +37,7 @@ export default class TopAppBar extends React.Component{
             this.checkAuth(a[1])
         }
     }
-    
+
     checkAuth(token){
 
         let targetURL = Constants.BASEURL + 'accounts/view/'
@@ -60,12 +59,15 @@ export default class TopAppBar extends React.Component{
             let imgSrc = response.data['profile_pic'] === null ? null : Constants.BASEURLNOEND + response.data['profile_pic']
             let firstName = response.data['first_name'] === null ? "" : response.data['first_name']
             let lastName = response.data['last_name'] === null ? "" : response.data['last_name']
-            comp.setState({
+            let isStaff = response.data['is_staff']
+            comp.context.setUserLoggedIn(true)
+            comp.context.setUserData({
                 imgSrc: imgSrc,
-                userLoggedIn: true,
                 username: username,
                 firstName: firstName,
-                lastName: lastName
+                lastName: lastName,
+                isStaff: isStaff,
+                fullUserData: response
             })
         })
         .catch(function (error){
@@ -76,48 +78,16 @@ export default class TopAppBar extends React.Component{
         })
     }
 
-    OnUserSignedIn(){
-        this.setState({
-            userLoggedIn: true,
-        })
-    }
-
-    ShowLoggedIn(){
-        let displayName
-        if (this.state.firstName === "" && this.state.lastName === ""){
-            displayName = this.state.username
-        }
-        else {
-            displayName = this.state.firstName + " " + this.state.lastName
-        }
-        let icon
-        if (this.state.imgSrc === null) {
-            icon = <AccountCircleIcon/>
-        }
-        else{
-            icon = <Avatar alt={displayName} src={this.state.imgSrc}/>
-        }
-
-        return (
-            <IconButton sx={{ p: 0 }}>
-                {icon}
-            </IconButton>
-        )
-    }
-
-    CloseGuestMenu(){
-        this.setState({guestMenuOpen: false})
-        this.checkLoginState()
-    }
-
 
     UserSection(){
-        if (this.state.userLoggedIn){
-            return this.ShowLoggedIn()
+        if (this.context.userLoggedIn){
+            return (
+                <AccountButton/>
+            )
         }
         else{
             return (
-                <GuestButton onSignIn={() => this.OnUserSignedIn()}/>
+                <GuestButton/>
             )
         }
     }
@@ -147,7 +117,7 @@ export default class TopAppBar extends React.Component{
                 <Toolbar/>
             </div>
 
-            
+
         );
     }
 }

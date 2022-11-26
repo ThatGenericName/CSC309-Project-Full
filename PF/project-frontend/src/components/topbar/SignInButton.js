@@ -11,13 +11,16 @@ import DialogTitle from '@mui/material/DialogTitle';
 import MenuItem from '@mui/material/MenuItem';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Alert, AlertTitle, Box, Typography } from '@mui/material';
+import {APIContext} from "../APIContextProvider";
+
+
 
 const REQUIRED_PARAMS = ['username', 'password']
 
 export default class SignInButton extends React.Component{
-    
-    constructor(props){
-        super(props)
+    static contextType = APIContext
+    constructor(props, context){
+        super(props, context)
         this.state = {
             reqSent: false,
             reqSucc: false,
@@ -32,10 +35,10 @@ export default class SignInButton extends React.Component{
                 username: '',
                 password: '',
             },
-            OnSignIn: props.onSignIn,
             generalMessage: "",
             axiosLoading: false
         }
+        console.log("test")
     }
 
     HandleClose(){
@@ -54,14 +57,6 @@ export default class SignInButton extends React.Component{
         this.setState({data: dat})
     }
 
-    setErrorData(change){
-        let dat = this.state.errors
-        for (let [key, value] of Object.entries(change)){
-            dat[key] = value
-        }
-        this.setState({errors: dat})
-    }
-
 
     OnClick(){
         this.setOpen(true)
@@ -73,7 +68,7 @@ export default class SignInButton extends React.Component{
         let errors = this.state.errors
         let hasErrors = false
         for (let [key, value] of Object.entries(data)){
-            
+
             if (!(value.length) && REQUIRED_PARAMS.includes(key)){
                 errors[key] = "This Field is required"
                 hasErrors = true
@@ -87,7 +82,7 @@ export default class SignInButton extends React.Component{
     OnSignupSubmit(){
         this.setState({axionLoading: true})
         let e = this.ValidateData()
-        
+
         if (e){
             this.setState({
                 axiosLoading: false
@@ -104,9 +99,9 @@ export default class SignInButton extends React.Component{
                 },
                 data: this.state.data
             }
-    
+
             var comp = this
-    
+
             axios(requestData)
             .then(function (response){
                 comp.setState({
@@ -120,9 +115,7 @@ export default class SignInButton extends React.Component{
                 console.log(response.status)
                 comp.setState(newData)
                 localStorage.setItem('Auth', response.data.detail)
-                if (comp.state.OnSignIn !== null){
-                    comp.state.OnSignIn()
-                }
+                comp.context.setUserLoggedIn(true)
                 comp.setOpen(false)
             })
             .catch(function (error){
@@ -136,7 +129,7 @@ export default class SignInButton extends React.Component{
                     reqResp: a
                 }
                 comp.setState(newData)
-                
+
             })
         }
     }
@@ -162,7 +155,7 @@ export default class SignInButton extends React.Component{
 
     render(){
         // Obtained from https://stackoverflow.com/questions/56284497/pressing-tab-key-closes-material-ui-dialog-that-is-opened-from-a-submenu
-        // It's use in Dialog in MaterialUI prevents the dialog from closing when you press tab to 
+        // It's use in Dialog in MaterialUI prevents the dialog from closing when you press tab to
         // switch to the next form.
 
         const stopPropagationForTab = (event) => {
@@ -181,7 +174,7 @@ export default class SignInButton extends React.Component{
             <div>
             <MenuItem onClick={() => this.OnClick()}>Sign In</MenuItem>
 
-            <Dialog 
+            <Dialog
                 open={this.state.openDiag} onClose={() => this.HandleClose()}
                 fullWidth={true}
                 maxWidth="sm"
@@ -190,7 +183,7 @@ export default class SignInButton extends React.Component{
                 <DialogTitle>
                     <Typography variant="h3" align="center">Sign In</Typography>
                 </DialogTitle>
-                
+
                 {this.state.axiosLoading && loadingCircle}
                 <DialogContent>
                     <Box

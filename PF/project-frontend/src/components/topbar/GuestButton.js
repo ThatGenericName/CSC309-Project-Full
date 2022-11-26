@@ -38,7 +38,7 @@ export default function GuestButton(props) {
                     'aria-labelledby': 'guest-button',
                 }}
             >
-                <SignInButton onSignIn={props.onSignIn}/>
+                <SignInButton/>
                 <RegisterButton/>
             </Menu>
         </div>

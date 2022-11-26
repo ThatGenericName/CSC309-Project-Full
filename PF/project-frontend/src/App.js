@@ -5,10 +5,12 @@ import React from 'react';
 
 import TopAppBar from './components/topbar/TopBar';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Box, Toolbar } from '@mui/material';
+import { Box } from '@mui/material';
 import Paper from '@mui/material/Paper';
 
-import { APIContext } from './components/constants';
+import {
+    APIContextProvider
+} from "./components/APIContextProvider";
 
 const theme = createTheme({
     palette: {
@@ -23,20 +25,17 @@ const theme = createTheme({
 
 
 class App extends React.Component{
-    constructor(){
-        super()
-
+    constructor(props){
+        super(props)
         this.state = {
-            testItem1: null,
-            testItem2: null
         }
     }
 
     render() {
-
+        let a = 7
         return (
             <ThemeProvider theme={theme}>
-                <APIContext.Provider>
+                <APIContextProvider>
                     <TopAppBar/>
                     <Box sx={{
                         flexGrow: 1 ,
@@ -60,12 +59,10 @@ class App extends React.Component{
                             <br/><br/><br/><br/><br/><br/>
                             Content
                             <br/><br/><br/><br/><br/><br/>
-
                         </Paper>
                     </Box>
-                </APIContext.Provider>
+                </APIContextProvider>
             </ThemeProvider>
-
         );
     }
 }
