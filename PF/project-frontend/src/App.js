@@ -11,6 +11,7 @@ import Paper from '@mui/material/Paper';
 import {
     APIContextProvider
 } from "./components/APIContextProvider";
+import TempLandingPage from "./components/TempLandingPage";
 
 const theme = createTheme({
     palette: {
@@ -37,30 +38,7 @@ class App extends React.Component{
             <ThemeProvider theme={theme}>
                 <APIContextProvider>
                     <TopAppBar/>
-                    <Box sx={{
-                        flexGrow: 1 ,
-                        borderRadius: 1,
-                        m:2
-                        }}>
-                        <Paper elevation={3} sx={{textAlign:'center'}}>
-                            Primary Content
-                            <br/><br/><br/><br/><br/><br/>
-                            Content
-                            <br/><br/><br/><br/><br/><br/>
-                            Content
-                            <br/><br/><br/><br/><br/><br/>
-                            Content
-                            <br/><br/><br/><br/><br/><br/>
-                            Content
-                            <br/><br/><br/><br/><br/><br/>
-                            Content
-                            <br/><br/><br/><br/><br/><br/>
-                            Content
-                            <br/><br/><br/><br/><br/><br/>
-                            Content
-                            <br/><br/><br/><br/><br/><br/>
-                        </Paper>
-                    </Box>
+                    <TempLandingPage/>
                 </APIContextProvider>
             </ThemeProvider>
         );
