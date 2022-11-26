@@ -12,6 +12,10 @@ import {
     APIContextProvider
 } from "./components/APIContextProvider";
 import TempLandingPage from "./components/TempLandingPage";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import UserDashboard from "./components/user/UserDashboard";
+import Subscription from "./components/subscriptions/Subscription";
+import Landing from "./components/landingPage/landing";
 
 const theme = createTheme({
     palette: {
@@ -33,15 +37,17 @@ class App extends React.Component{
     }
 
     render() {
-        let a = 7
         return (
-            <ThemeProvider theme={theme}>
-                <APIContextProvider>
-                    <TopAppBar/>
-                    <TempLandingPage/>
-                </APIContextProvider>
-            </ThemeProvider>
-        );
+        <BrowserRouter>
+            <Routes>
+                <Route path="/">
+                    <Route path="" element={<Landing/>} />
+                    <Route path="account" element={<UserDashboard />} />
+                    <Route path="subscription" element={<Subscription />} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
+        )
     }
 }
 
