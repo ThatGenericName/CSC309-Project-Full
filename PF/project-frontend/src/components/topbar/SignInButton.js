@@ -115,8 +115,11 @@ export default class SignInButton extends React.Component{
                 console.log(response.status)
                 comp.setState(newData)
                 localStorage.setItem('Auth', response.data.detail)
-                comp.context.setUserLoggedIn(true)
+                if (localStorage.getItem('Auth') !== response.data.detail){
+                    throw "Auth Token not saved!"
+                }
                 comp.setOpen(false)
+                comp.context.setUserToken(response.data.detail)
             })
             .catch(function (error){
                 comp.setState({
@@ -129,7 +132,6 @@ export default class SignInButton extends React.Component{
                     reqResp: a
                 }
                 comp.setState(newData)
-
             })
         }
     }

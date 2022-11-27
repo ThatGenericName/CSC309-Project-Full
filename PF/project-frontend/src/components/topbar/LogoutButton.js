@@ -91,6 +91,15 @@ export default class LogoutButton extends React.Component{
             comp.setState(newData)
             localStorage.removeItem('Auth')
             comp.context.setUserLoggedIn(false)
+            comp.context.setUserData({
+                fullUserData: {},
+                username: "",
+                firstName: "",
+                lastName: "",
+                isStaff: false,
+                imgSrc: ""
+            })
+            Constants.SetUserData(null)
             comp.setOpen(false)
         })
         .catch(function (error){

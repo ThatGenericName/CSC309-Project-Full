@@ -117,6 +117,8 @@ class UserExtendedSerializer(serializers.ModelSerializer):
         a = qs.filter(start_time__gte=now).order_by('start_time')
         maxCount = 10
         dat = []
+        uid = instance.user.id
+        data['id'] = uid
         for i, gcs in enumerate(a):
             if i > maxCount:
                 break

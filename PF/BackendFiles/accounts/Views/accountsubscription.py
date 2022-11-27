@@ -99,7 +99,7 @@ class AddSubscription(APIView):
         if uext.active_subscription is None:
             # user does not have existing subscription
             now = timezone.now()
-            next = now + sub.duration()
+            next = now + sub.duration
 
             dat1 = {
                 'user': request.user,
