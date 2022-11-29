@@ -3,11 +3,72 @@ import InitElements from "../InitElements";
 import Button from "@mui/material/Button";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import Paper from "@mui/material/Paper";
-import {Box} from "@mui/material";
-import DashboardMenu from "./DashboardMenu";
+import {
+    Box,
+    Divider,
+    List,
+    ListItem,
+    styled,
+    Typography
+} from "@mui/material";
+import DashboardMenuOpen from "./DashboardMenuOpen";
 import {APIContext} from "../APIContextProvider";
 import {BASEURL} from "../constants";
 import axios from "axios";
+import Toolbar from "@mui/material/Toolbar";
+import MuiDrawer from "@mui/material/Drawer"
+
+
+const drawerWidth = 240;
+
+const openedMixin = (theme) => ({
+  width: drawerWidth,
+  transition: theme.transitions.create("width", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen
+  }),
+  overflowX: "hidden"
+});
+
+const closedMixin = (theme) => ({
+  transition: theme.transitions.create("width", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen
+  }),
+  overflowX: "hidden",
+  width: `calc(${theme.spacing(7)} + 1px)`,
+  [theme.breakpoints.up("sm")]: {
+    width: `calc(${theme.spacing(8)} + 1px)`
+  }
+});
+
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-end",
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar
+}));
+
+
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== "open"
+})(({ theme, open }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  whiteSpace: "nowrap",
+  boxSizing: "border-box",
+  ...(open && {
+    ...openedMixin(theme),
+    "& .MuiDrawer-paper": openedMixin(theme)
+  }),
+  ...(!open && {
+    ...closedMixin(theme),
+    "& .MuiDrawer-paper": closedMixin(theme)
+  })
+}));
+
 
 export default class UserLanding extends React.Component{
     static contextType = APIContext
@@ -18,7 +79,8 @@ export default class UserLanding extends React.Component{
             reqSent: false,
             reqRec: false,
             tokenChecked: false,
-            userData: null
+            userData: null,
+            drawerOpen: true
         }
     }
 
@@ -69,6 +131,10 @@ export default class UserLanding extends React.Component{
         )
     }
 
+    openDrawer(){
+
+    }
+
     loggedInDisplay(){
         let p = {
             menuOpened: this.state.menuOpened,
@@ -76,14 +142,33 @@ export default class UserLanding extends React.Component{
         }
         let userData = this.context.userData.fullUserData
         return (
-            <Grid2 p={2} container spacing={2}>
-                <Grid2 item style={{width: "300px"}}>
-                    <DashboardMenu menuOpened={p} userData={userData}></DashboardMenu>
-                </Grid2>
-                <Grid2 xs>
-                    <Paper>xs=4</Paper>
-                </Grid2>
-            </Grid2>)
+            <Box sx={{ display: "flex" }}>
+                <Drawer variant="permanent" open={true}>
+                <Toolbar/>
+                <Divider/>
+                <DashboardMenuOpen userData={userData}/>
+                </Drawer>
+                <Box component="main" sx={{ flexGrow: 1, p: 2 }}>
+                    <Paper>
+                        <Typography paragraph>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
+                            dolor purus non enim praesent elementum facilisis leo vel. Risus at
+                            ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum
+                            quisque non tellus. Convallis convallis tellus id interdum velit
+                            laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed
+                            adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
+                            integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate
+                            eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo
+                            quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat
+                            vivamus at augue. At augue eget arcu dictum varius duis at consectetur
+                            lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien
+                            faucibus et molestie ac.
+                        </Typography>
+                    </Paper>
+                </Box>
+            </Box>
+        )
     }
 
     render(){
@@ -97,17 +182,9 @@ export default class UserLanding extends React.Component{
 
 
         return (
-            <InitElements>
-                <Box>
-                    This is the user dashboard page
-                    <Button href="/subscription">
-                        Go To Subscriptions
-                    </Button>
-                </Box>
-                <Box sx={{ flexGrow: 1 }}>
-                    {display}
-                </Box>
-            </InitElements>
+            <Box sx={{ flexGrow: 1 }}>
+                {display}
+            </Box>
         )
     }
 }

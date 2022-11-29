@@ -4,20 +4,23 @@ import Button from "@mui/material/Button";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import Paper from "@mui/material/Paper";
 import {APIContext} from "../APIContextProvider";
-import {Box, Divider, Stack, Typography} from "@mui/material";
+import {
+    Box,
+    Divider,
+    List,
+    ListItem,
+    ListItemButton,
+    Stack,
+    Typography
+} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-export default class DashboardMenu extends React.Component{
+export default class DashboardMenuOpen extends React.Component{
     static contextType = APIContext
     constructor(props, context) {
         super(props, context);
         let a = 1
-    }
-
-    GetUserData(){
-        // for some reason, context isn't being passed to here and so I need
-        // to collect the data again.
     }
 
     UserIconGrid(){
@@ -52,7 +55,7 @@ export default class DashboardMenu extends React.Component{
         }
 
         return (
-            <Grid2 p={2} container spacing={2}>
+            <Grid2 p={0} container spacing={3}>
                 <Grid2 xs={3}>
                     {icon}
                 </Grid2>
@@ -72,53 +75,36 @@ export default class DashboardMenu extends React.Component{
     }
 
 
-    Navigation(){
-
-
-        return (
-            <Stack spacing={3}>
-                <Button variant="text">Edit Profile</Button>
-                <Button variant="text">Subscriptions</Button>
-                <Button variant="text">Classes</Button>
-            </Stack>
-        )
-    }
-
-    openedMenu(){
-        return (
-            <div>
-                Opened Menu
-                {this.UserIconGrid()}
-                <Divider/>
-                {this.Navigation()}
-            </div>
-        )
-    }
-
-    closedMenu(){
-        return (
-            <box
-                sx={{
-                    flexGrow: 1 ,
-                    borderRadius: 1,
-                    m:2,
-                    textAlign: 'center'
-                }}
-            >
-                Closed menu
-
-            </box>
-        )
-    }
-
     render(){
         return (
-            <Paper
-                elevation={3}
-                sx={{textAlign:'center'}}
-            >
-                {this.props.menuOpened ? this.openedMenu() : this.closedMenu()}
-            </Paper>
+            <List>
+                <ListItem>
+                    Opened Menu
+                </ListItem>
+                <ListItem>
+                    {this.UserIconGrid()}
+                </ListItem>
+                <ListItem>
+                    <ListItemButton>
+                        Edit Profile
+                    </ListItemButton>
+                </ListItem>
+                <ListItem>
+                    <ListItemButton>
+                        Classes
+                    </ListItemButton>
+                </ListItem>
+                <ListItem>
+                    <ListItemButton>
+                        Subscriptions
+                    </ListItemButton>
+                </ListItem>
+                <ListItem>
+                    <ListItemButton>
+                        Payment
+                    </ListItemButton>
+                </ListItem>
+            </List>
         )
     }
 }

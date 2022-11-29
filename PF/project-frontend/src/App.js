@@ -13,6 +13,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import UserLanding from "./components/user/UserLanding";
 import Subscription from "./components/subscriptions/Subscription";
 import Landing from "./components/landingPage/landing";
+import TopAppBar from "./components/topbar/TopBar";
 
 const theme = createTheme({
     palette: {
@@ -25,6 +26,7 @@ const theme = createTheme({
     },
 });
 
+
 class App extends React.Component{
     constructor(props){
         super(props)
@@ -36,15 +38,16 @@ class App extends React.Component{
         return (
         <APIContextProvider>
             <ThemeProvider theme={theme}>
+                <TopAppBar>
                 <BrowserRouter>
                     <Routes>
                         <Route path="/">
-                            <Route path="" element={<Landing/>} />
                             <Route path="account" element={<UserLanding />} />
                             <Route path="subscription" element={<Subscription />} />
                         </Route>
                     </Routes>
                 </BrowserRouter>
+                </TopAppBar>
             </ThemeProvider>
         </APIContextProvider>
         )

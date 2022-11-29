@@ -40,7 +40,13 @@ export default class TopAppBar extends React.Component{
         let a = 1
         return (
             <div>
-                <AppBar>
+                <AppBar
+                    position='relative'
+                    style={{
+                        zIndex: 1400
+                    }}
+
+                >
                     <Toolbar>
                         {/*Todo: Make this a clickable button, probably add an OnClick thing*/}
                         <Box
@@ -58,7 +64,7 @@ export default class TopAppBar extends React.Component{
                       {this.UserSection()}
                     </Toolbar>
                 </AppBar>
-                <Toolbar/>
+
                 {this.props.children}
             </div>
         );

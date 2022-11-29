@@ -10,8 +10,9 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import {APIContext} from "../APIContextProvider";
-import {Divider} from "@mui/material";
+import {Divider, Link} from "@mui/material";
 import LogoutButton from "./LogoutButton";
+import {redirect} from "react-router-dom";
 
 
 export default class AccountButton extends React.Component{
@@ -67,6 +68,11 @@ export default class AccountButton extends React.Component{
         )
     }
 
+    redirect(){
+        // eslint-disable-next-line no-restricted-globals
+        history.push('/your-path')
+    }
+
 
     render(){
         return (
@@ -94,7 +100,13 @@ export default class AccountButton extends React.Component{
                 >
                     {this.InitialMenuItem()}
                     <Divider />
-                    <MenuItem>My account</MenuItem>
+                    <MenuItem
+                        component='a'
+                        href='/account'
+                    >
+                        My Account
+                    </MenuItem>
+
                     <LogoutButton/>
                     {this.context.userData.isStaff && null} {/*This will be fore future admin access*/}
                 </Menu>

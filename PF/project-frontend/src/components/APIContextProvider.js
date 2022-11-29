@@ -6,11 +6,11 @@ import isEqual from 'lodash.isequal';
 
 export const APIContext = createContext();
 
+
 export class APIContextProvider extends React.Component{
 
     constructor(props) {
         super(props);
-
         this.state = {
             userData: {
                 fullUserData: {},
