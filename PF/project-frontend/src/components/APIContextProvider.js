@@ -1,11 +1,9 @@
 import React, {Component, createContext, useState} from "react";
 import * as Constants from "./constants";
 import axios from "axios";
-import {SetUserData} from "./constants";
 import isEqual from 'lodash.isequal';
 
 export const APIContext = createContext();
-
 
 export class APIContextProvider extends React.Component{
 
@@ -22,7 +20,8 @@ export class APIContextProvider extends React.Component{
             },
             userLoggedIn: false,
             appBarLoaded: false,
-            userToken: null
+            userToken: null,
+            updateData: null
         }
 
         this.checkLoginState(true)
@@ -46,6 +45,10 @@ export class APIContextProvider extends React.Component{
 
     setUserToken = (v) => {
         this.setState({userToken: v})
+    }
+
+    setUpdateDataFlag = () => {
+        this.setState({updateDataFlag: true})
     }
 
     clearUserData(){
@@ -109,7 +112,6 @@ export class APIContextProvider extends React.Component{
             let firstName = response.data['first_name'] === null ? "" : response.data['first_name']
             let lastName = response.data['last_name'] === null ? "" : response.data['last_name']
             let isStaff = response.data['is_staff']
-            SetUserData(response.data)
             let fd = {
                 userData: {
                     imgSrc: imgSrc,
@@ -146,7 +148,8 @@ export class APIContextProvider extends React.Component{
 
     checkLoginStateChange(nextState){
         return (
-            this.state.userLoggedIn !== nextState.userLoggedIn
+            nextState.updateDataFlag
+            || this.state.userLoggedIn !== nextState.userLoggedIn
             || this.state.userToken !== nextState.userToken
         )
     }
@@ -154,6 +157,7 @@ export class APIContextProvider extends React.Component{
     componentWillUpdate(nextProps, nextState, nextContext) {
         if (this.checkLoginStateChange(nextState)){
             this.checkLoginState(false, nextState.userToken)
+            this.setState({updateDataFlag: false})
         }
     }
 
@@ -167,7 +171,8 @@ export class APIContextProvider extends React.Component{
                     setUserData: this.setUserData,
                     setUserLoggedIn: this.setUserLoggedIn,
                     setAppBarLoaded: this.setAppBarLoaded,
-                    setUserToken: this.setUserToken
+                    setUserToken: this.setUserToken,
+                    updateDataFlag: this.setUpdateDataFlag
                     }}
             >
                 {this.props.children}

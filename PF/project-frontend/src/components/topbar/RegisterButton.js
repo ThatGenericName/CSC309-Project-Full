@@ -17,7 +17,7 @@ import { Alert, AlertTitle, Box, Typography } from '@mui/material';
 const REQUIRED_PARAMS = ['username', 'password1', 'password2', 'first_name', 'last_name', 'email']
 
 export default class RegisterButton extends React.Component{
-    
+
     constructor(props){
         super(props)
         this.state = {
@@ -46,7 +46,7 @@ export default class RegisterButton extends React.Component{
             },
             generalMessage: "",
             axiosLoading: false
-        
+
         }
     }
 
@@ -86,16 +86,16 @@ export default class RegisterButton extends React.Component{
         let errors = this.state.errors
         let hasErrors = false
         for (let [key, value] of Object.entries(data)){
-            
+
             if (!(value.length) && REQUIRED_PARAMS.includes(key)){
                 errors[key] = "This Field is required"
                 hasErrors = true
             }
             else{
                 errors[key] = ""
-            } 
+            }
         }
-        
+
         if (!(errors.username.length)){
             // nothing for now?
         }
@@ -129,7 +129,7 @@ export default class RegisterButton extends React.Component{
             axiosLoading: true
         })
         let e = this.ValidateData()
-        
+
         if (e){
             this.setState({
                 axiosLoading: false
@@ -147,7 +147,7 @@ export default class RegisterButton extends React.Component{
                 },
                 data: dat
             }
-    
+
             var comp = this
 
             axios(requestData)
@@ -184,7 +184,7 @@ export default class RegisterButton extends React.Component{
                 }
 
                 comp.setState(newData)
-            }) 
+            })
 
             // this delay mechanism taken from https://stackoverflow.com/questions/14226803/wait-5-seconds-before-executing-next-line
         }
@@ -206,11 +206,11 @@ export default class RegisterButton extends React.Component{
             )
         }
     }
-    
+
     render(){
 
         // Obtained from https://stackoverflow.com/questions/56284497/pressing-tab-key-closes-material-ui-dialog-that-is-opened-from-a-submenu
-        // It's use in Dialog in MaterialUI prevents the dialog from closing when you press tab to 
+        // It's use in Dialog in MaterialUI prevents the dialog from closing when you press tab to
         // switch to the next form.
 
         const stopPropagationForTab = (event) => {
@@ -228,11 +228,14 @@ export default class RegisterButton extends React.Component{
         return (
             <div>
             <MenuItem onClick={() => this.OnClick()}>Register</MenuItem>
-            <Dialog 
+            <Dialog
                 open={this.state.openDiag} onClose={() => this.HandleClose()}
                 fullWidth={true}
                 maxWidth="sm"
                 onKeyDown={stopPropagationForTab}
+                style={{
+                    zIndex: 1401
+                }}
                 >
                 <DialogTitle>
                     <Typography variant="h3" align="center">Register</Typography>
@@ -263,7 +266,7 @@ export default class RegisterButton extends React.Component{
                         }}
                     >
                         <TextField
-                            error={this.state.errors.username.length}
+                            error={Boolean(this.state.errors.username.length)}
                             required
                             id='username'
                             label='username'

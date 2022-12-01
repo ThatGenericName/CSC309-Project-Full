@@ -35,7 +35,7 @@ class ViewEnrolledClasses(ListAPIView):
     def ProcessRequestParams(self):
 
         p = []
-        dat = self.request.data
+        dat = self.request.query_params
         sort = 0
         if 'sort' in dat:
             if dat['sort'].lower() == 'des':

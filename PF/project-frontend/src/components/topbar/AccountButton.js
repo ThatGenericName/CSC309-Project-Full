@@ -97,6 +97,9 @@ export default class AccountButton extends React.Component{
                         vertical: 'top',
                         horizontal: 'left',
                     }}
+                    style={{
+                        zIndex: 1401
+                    }}
                 >
                     {this.InitialMenuItem()}
                     <Divider />

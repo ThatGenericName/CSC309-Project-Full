@@ -1,4 +1,4 @@
-from datetime import timedelta, datetime
+from datetime import timedelta
 import datetime
 
 from django.db import models
@@ -6,6 +6,7 @@ from django.utils import timezone
 from rest_framework import serializers
 from rest_framework.authtoken.admin import User
 
+from gymclasses.coachserializer import CoachSerializer
 from studios.models import Studio, StudioSerializer
 
 # Create your models here.
@@ -51,14 +52,7 @@ Serializer
 """
 
 
-class CoachSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = [
-            'first_name',
-            'last_name',
-            'email'
-        ]
+
 
 
 class GymClassSerializer(serializers.ModelSerializer):

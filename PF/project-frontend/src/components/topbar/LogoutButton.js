@@ -1,9 +1,7 @@
 import React from 'react';
-import * as Constants from '../constants';
 import axios from 'axios';
 
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -11,11 +9,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import MenuItem from '@mui/material/MenuItem';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Alert, AlertTitle, Box, Typography } from '@mui/material';
+
 import {APIContext} from "../APIContextProvider";
+import * as Constants from '../constants';
 
-
-
-const REQUIRED_PARAMS = ['username', 'password']
 
 export default class LogoutButton extends React.Component{
     static contextType = APIContext
@@ -99,7 +96,6 @@ export default class LogoutButton extends React.Component{
                 isStaff: false,
                 imgSrc: ""
             })
-            Constants.SetUserData(null)
             comp.setOpen(false)
         })
         .catch(function (error){
@@ -143,6 +139,9 @@ export default class LogoutButton extends React.Component{
                     fullWidth={true}
                     maxWidth="sm"
                     onKeyDown={stopPropagationForTab}
+                    style={{
+                        zIndex: 1401
+                    }}
                     >
                     <DialogTitle>
                         Are you sure you want to log out?

@@ -1,6 +1,7 @@
 import rest_framework.parsers
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
+from django.http import QueryDict
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -40,7 +41,12 @@ class EditProfile(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request: Request, format=None):
-        errors = self.ValidateData(request.data.dict())
+        if isinstance(request.data, QueryDict):
+            dat = request.data.dict()
+        else:
+            dat = request.data
+
+        errors = self.ValidateData(dat)
 
         if len(errors):
             return Response(errors, status=400)
@@ -49,7 +55,7 @@ class EditProfile(APIView):
         userExt = UserExtension.objects.get(user=user)
         data = self.cleanedData
 
-        if 'password1' in data:
+        if 'password1' in data and len(data['password1']):
             user.set_password(data['password1'])
             data.pop('password1')
             if 'password2' in data:
@@ -85,7 +91,7 @@ class EditProfile(APIView):
                 if data['password1'] != data['password2']:
                     errors['password2'] = 'The passwords do not match'
 
-            if len(data['password1']) < 8:
+            if len(data['password1']) and len(data['password1']) < 8:
                 errors['password1'] = "This password is too short"
 
         if 'email' in data:

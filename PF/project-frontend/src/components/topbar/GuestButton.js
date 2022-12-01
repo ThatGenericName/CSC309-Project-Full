@@ -37,6 +37,9 @@ export default function GuestButton(props) {
                 MenuListProps={{
                     'aria-labelledby': 'guest-button',
                 }}
+                style={{
+                    zIndex: 1401
+                }}
             >
                 <SignInButton/>
                 <RegisterButton/>

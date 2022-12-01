@@ -12,7 +12,6 @@ import {
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import UserLanding from "./components/user/UserLanding";
 import Subscription from "./components/subscriptions/Subscription";
-import Landing from "./components/landingPage/landing";
 import TopAppBar from "./components/topbar/TopBar";
 
 const theme = createTheme({
@@ -39,14 +38,14 @@ class App extends React.Component{
         <APIContextProvider>
             <ThemeProvider theme={theme}>
                 <TopAppBar>
-                <BrowserRouter>
-                    <Routes>
-                        <Route path="/">
-                            <Route path="account" element={<UserLanding />} />
-                            <Route path="subscription" element={<Subscription />} />
-                        </Route>
-                    </Routes>
-                </BrowserRouter>
+                    <BrowserRouter>
+                        <Routes>
+                            <Route path="/">
+                                <Route path="account/*" element={<UserLanding />} />
+                                <Route path="subscription" element={<Subscription />} />
+                            </Route>
+                        </Routes>
+                    </BrowserRouter>
                 </TopAppBar>
             </ThemeProvider>
         </APIContextProvider>

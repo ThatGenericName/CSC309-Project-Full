@@ -41,7 +41,7 @@ export default class TopAppBar extends React.Component{
         return (
             <div>
                 <AppBar
-                    position='relative'
+                    position='fixed'
                     style={{
                         zIndex: 1400
                     }}
@@ -64,6 +64,7 @@ export default class TopAppBar extends React.Component{
                       {this.UserSection()}
                     </Toolbar>
                 </AppBar>
+                <Toolbar/>
 
                 {this.props.children}
             </div>

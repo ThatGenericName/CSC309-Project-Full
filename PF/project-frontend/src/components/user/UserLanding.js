@@ -1,8 +1,5 @@
 import React from 'react';
 import InitElements from "../InitElements";
-import Button from "@mui/material/Button";
-import Grid2 from "@mui/material/Unstable_Grid2";
-import Paper from "@mui/material/Paper";
 import {
     Box,
     Divider,
@@ -11,13 +8,27 @@ import {
     styled,
     Typography
 } from "@mui/material";
-import DashboardMenuOpen from "./DashboardMenuOpen";
+import DashboardMenu from "./DashboardMenu";
 import {APIContext} from "../APIContextProvider";
 import {BASEURL} from "../constants";
 import axios from "axios";
 import Toolbar from "@mui/material/Toolbar";
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import MuiDrawer from "@mui/material/Drawer"
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from '@mui/icons-material/Menu';
+import {Route, Routes, useLocation, useParams} from "react-router-dom";
+import AccountDashboard from "./AccountDashboard";
+import EditProfile from "./EditProfile";
+import AccountClasses from "./AccountClasses";
 
+function withParams(Component) {
+  return props => <Component {...props} params={useParams()} location={useLocation()}/>;
+}
+
+// large sections of the code below is taken from the documentation for
+// MaterialUI Drawer component
+// https://mui.com/material-ui/react-drawer/
 
 const drawerWidth = 240;
 
@@ -42,15 +53,6 @@ const closedMixin = (theme) => ({
   }
 });
 
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "flex-end",
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar
-}));
-
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open"
@@ -69,18 +71,24 @@ const Drawer = styled(MuiDrawer, {
   })
 }));
 
+const tgtPage = {
+    'edit': 1,
+    'classes': 2,
+    'subscriptions': 3,
+    'payment': 4
+}
 
-export default class UserLanding extends React.Component{
+class UserLanding extends React.Component{
     static contextType = APIContext
+
     constructor(props, context) {
         super(props, context);
         this.state = {
-            menuOpened: false,
             reqSent: false,
             reqRec: false,
             tokenChecked: false,
             userData: null,
-            drawerOpen: true
+            menuOpen: true,
         }
     }
 
@@ -120,7 +128,7 @@ export default class UserLanding extends React.Component{
 
 
     setMenuOpened(val){
-        this.setState({menuOpened: val})
+        this.setState({menuOpen: val})
     }
 
     showUnauthorized(){
@@ -131,50 +139,38 @@ export default class UserLanding extends React.Component{
         )
     }
 
-    openDrawer(){
 
-    }
-
-    loggedInDisplay(){
-        let p = {
-            menuOpened: this.state.menuOpened,
-            setMenuOpened: this.setMenuOpened
-        }
+    loggedInDisplay2(){
         let userData = this.context.userData.fullUserData
         return (
             <Box sx={{ display: "flex" }}>
-                <Drawer variant="permanent" open={true}>
+                <Drawer variant="permanent" open={this.state.menuOpen}>
                 <Toolbar/>
+                <IconButton onClick={() => this.setMenuOpened(!this.state.menuOpen)}>
+                    {this.state.menuOpen ? <ChevronLeftIcon /> : <MenuIcon />}
+                </IconButton>
                 <Divider/>
-                <DashboardMenuOpen userData={userData}/>
+                    <DashboardMenu
+                        userData={userData}
+                        open={this.state.menuOpen}
+                    />
                 </Drawer>
                 <Box component="main" sx={{ flexGrow: 1, p: 2 }}>
-                    <Paper>
-                        <Typography paragraph>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
-                            dolor purus non enim praesent elementum facilisis leo vel. Risus at
-                            ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum
-                            quisque non tellus. Convallis convallis tellus id interdum velit
-                            laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed
-                            adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
-                            integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate
-                            eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo
-                            quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat
-                            vivamus at augue. At augue eget arcu dictum varius duis at consectetur
-                            lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien
-                            faucibus et molestie ac.
-                        </Typography>
-                    </Paper>
+                    <Routes>
+                        <Route path="" element={<AccountDashboard/>}/>
+                        <Route path="edit" element={<EditProfile/>}/>
+                        <Route path='classes' element={<AccountClasses/>}/>
+                    </Routes>
                 </Box>
             </Box>
         )
     }
 
     render(){
+
         let display
         if (this.context.userLoggedIn && this.context.userData.fullUserData != null){
-            display = this.loggedInDisplay()
+            display = this.loggedInDisplay2()
         }
         else{
             display = this.showUnauthorized()
@@ -183,8 +179,11 @@ export default class UserLanding extends React.Component{
 
         return (
             <Box sx={{ flexGrow: 1 }}>
+
                 {display}
             </Box>
         )
     }
 }
+
+export default withParams(UserLanding)

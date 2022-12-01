@@ -181,6 +181,9 @@ export default class SignInButton extends React.Component{
                 fullWidth={true}
                 maxWidth="sm"
                 onKeyDown={stopPropagationForTab}
+                style={{
+                    zIndex: 1401
+                }}
                 >
                 <DialogTitle>
                     <Typography variant="h3" align="center">Sign In</Typography>
