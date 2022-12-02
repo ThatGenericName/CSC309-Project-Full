@@ -1,4 +1,4 @@
-import {Box, Card} from "@mui/material";
+import {Box, ButtonGroup, Card} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import SimpleTimeCard from "./SimpleTimeCard";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
@@ -6,6 +6,8 @@ import {StudioPreview} from "../studios/StudioPreview";
 import CoachPreview from "./CoachPreview";
 import React from "react";
 import {getTimeObj} from "./TimeObject";
+import Button from "@mui/material/Button";
+import DropClassButton from "./userclass/DropClassButton";
 
 
 export function ClassSessionPreview(classData){
@@ -31,8 +33,11 @@ export function ClassSessionPreview(classData){
                         {data['parent_class']['name']}
                     </Box>
                 </Grid2>
-                <Grid2 xs={13}/>
-                <Grid2 xs={3}>
+                <Grid2 xs={2}/>
+                <Grid2 xs={12}>
+                    <DropClassButton/>
+                </Grid2>
+                <Grid2 xs={2}>
                     {data['enrollment_count']}/{data['enrollment_capacity']}
                 </Grid2>
                 <Grid2 xs={5}>

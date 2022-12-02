@@ -34,7 +34,7 @@ export default class AccountButton extends React.Component{
             icon = <AccountCircleIcon/>
         }
         else{
-            icon = <Avatar alt={displayName} src={this.state.imgSrc}/>
+            icon = <Avatar alt={displayName} src={userData.imgSrc}/>
         }
 
         this.state = {

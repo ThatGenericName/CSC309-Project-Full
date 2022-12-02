@@ -21,6 +21,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import PaymentIcon from '@mui/icons-material/Payment';
 import {Link} from "react-router-dom"
+import {BASEURLNOEND} from "../constants";
 
 
 export default class DashboardMenu extends React.Component{
@@ -38,9 +39,10 @@ export default class DashboardMenu extends React.Component{
             />
         }
         else{
+            var src = BASEURLNOEND + userData.profile_pic
             icon = <Avatar
                 alt={userData.username}
-                src={this.state.imgSrc}
+                src={src}
                 sx={{ width: 48, height: 48 }}
             />
         }

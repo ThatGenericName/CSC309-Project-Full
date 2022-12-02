@@ -15,10 +15,11 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import isEmail from "validator/lib/isEmail";
 import isMobilePhone from "validator/lib/isMobilePhone";
-
-import {LOCALE, BASEURL} from "../constants"
 import {APIContext} from "../APIContextProvider";
 import axios from "axios";
+import FormData from 'form-data'
+
+import {LOCALE, BASEURL, BASEURLNOEND} from "../constants"
 
 
 export default function EditProfile(){
@@ -34,6 +35,12 @@ export default function EditProfile(){
         password1: "",
         password2: ""
     })
+
+    const [imageData, setImageDat] = useState({
+        image: null,
+        previewURL: null
+    })
+
 
     const formDataRef = useRef({})
     formDataRef.current = formData
@@ -258,21 +265,75 @@ export default function EditProfile(){
 
 
     let icon
-    if (userData.profile_pic === null || ctx.userData.profile_pic === "") {
+    if (imageData.previewURL !== null) {
+        icon = <Avatar
+            alt={'upload_preview'}
+            src={imageData.previewURL}
+            sx={{ width: 128, height: 128 }}
+        />
+    }
+    else if (userData.profile_pic === null || ctx.userData.profile_pic === "") {
         icon = <AccountCircleIcon
             sx={{ width: 128, height: 128 }}
         />
     }
     else{
+        var src = BASEURLNOEND + userData.profile_pic
         icon = <Avatar
             alt={userData.username}
-            src={this.state.imgSrc}
-            sx={{ width: 256, height: 256 }}
+            src={src}
+            sx={{ width: 128, height: 128 }}
         />
     }
 
     const vertical = 'bottom'
     const horizontal = 'center';
+
+    function handleFileUpload(e){
+        if (!e.target.files) {
+            return;
+        }
+        const reader = new FileReader();
+        const file = e.target.files[0];
+        reader.readAsDataURL(file)
+
+        reader.onload = function (e){
+            var url = e.target.result
+
+            var formDat = new FormData()
+            formDat.set('avatar', file)
+
+            var targetURL = BASEURL + 'accounts/icon/set/'
+            var token = ctx.userToken
+            token = token.replace("Token ")
+            var requestData = {
+                url: targetURL,
+                method: "POST",
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: "Token " + token
+                },
+                data: formDat
+            }
+
+            axios(requestData)
+                .then(function (response){
+                    setImageDat({
+                        image: file,
+                        previewURL: url
+                    })
+                    ctx.updateDataFlag()
+            })
+                .catch(function(error){
+                    console.log('image upload failed')
+            })
+
+        }
+    }
+
+    function removeImage(){
+
+    }
 
     return (
         <Paper elevation={3} sx={{textAlign:'center'}}>
@@ -287,11 +348,28 @@ export default function EditProfile(){
                 </Alert>
             </Snackbar>
 
-            {/*Todo replace the brs with proper formatting*/}
-            <br/>
-            <Typography variant="h3">{userData.username}</Typography>
-            {icon}
-            <br/><br/>
+            <Box sx={{p:2}}>
+                <Typography variant="h3">{userData.username}</Typography>
+                <Box style={{ justifyContent: "center", display: "flex" }}>
+                    {icon}
+                </Box>
+                <ButtonGroup
+
+                >
+                    <Button onClick={removeImage}>Remove</Button>
+                    <Button
+                        component="label"
+                    >
+                        Upload
+                        <input
+                            type="file"
+                            accept="image/*"
+                            hidden
+                            onChange={(e) => handleFileUpload(e)}
+                        />
+                    </Button>
+                </ButtonGroup>
+            </Box>
             <Divider/>
             <Stack spacing={4} sx={{p:4}}>
                 {form()}
