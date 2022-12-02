@@ -66,7 +66,7 @@ export default class TopAppBar extends React.Component{
                                 Classes
                             </Button>
                             <Button sx={{color:'#ffffff'}}>
-                                Something
+                                Subscription
                             </Button>
                         </Box>
 
