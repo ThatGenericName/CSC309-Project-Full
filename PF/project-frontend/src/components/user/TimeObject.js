@@ -7,6 +7,10 @@ export function getTimeObj(datetime){
     let month = MONTHS[dt.getMonth()]
     let date = dt.getDate()
     let hr = dt.getHours()
+    let hr12 = (hr) % 12
+    if (hr12 === 0){
+        hr12 = 12
+    }
     let mni = dt.getMinutes()
     let mn = mni > 10 ? "" + mni : "0" + mni
     return {
@@ -14,14 +18,14 @@ export function getTimeObj(datetime){
             month: dt.getMonth(),
             date: date,
             hour24: hr,
-            hour12: hr % 12,
+            hour12: hr12,
             minute: mni
         },
         day: day,
         month: month,
         date: "" + date,
         hour24: "" + hr,
-        hour12: "" + (hr % 12),
+        hour12: "" + hr12,
         am: (hr < 13),
         minute: mn
     }

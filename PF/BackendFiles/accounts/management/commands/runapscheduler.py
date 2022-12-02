@@ -14,7 +14,8 @@ from django_apscheduler import util
 from django.contrib.auth.models import User
 from django.utils import timezone
 from PB.utility import VerifyPayment
-from accounts.Views.accountsubscription import ResetActiveSubscription
+from accounts.Views.accountsubscription import RemoveAndShiftUnpaidSubs, \
+    ResetActiveSubscription
 from accounts.models import GetUserExtension, InternalUserPaymentDataSerializer, \
     UserExtension, \
     UserPaymentData, UserSubscription
@@ -44,6 +45,21 @@ def CheckForSubscriptionRenewals():
         activeSub = uext.active_subscription
         if activeSub is not None and activeSub.end_time < range:
             print(f'{user.username} has an active subscription')
+            # check that the active su is in fact paid for
+            if (activeSub.payment_time is None):
+                print(f'{user.username}\'s active subscription is unpaid, paying')
+                upd = UserPaymentData.objects.get(user=user, active=True)
+                dat = InternalUserPaymentDataSerializer(upd).data
+                dat['pin'] = '0000'
+                if VerifyPayment(dat):
+                    activeSub.payment_time = timezone.now()
+                    nextSub.payment_detail = upd
+                    nextSub.save()
+                else:
+                    print(f'{user.username}\'s payment failed, cancelling subscriptions')
+                    RemoveAndShiftUnpaidSubs(user, now)
+
+
             futureSubs = UserSubscription.objects.filter(
                 user=user,
                 start_time__gt=now
@@ -60,7 +76,7 @@ def CheckForSubscriptionRenewals():
                 dat = InternalUserPaymentDataSerializer(upd).data
                 dat['pin'] = '0000'
                 if VerifyPayment(dat):
-                    nextSub.payment_time = activeSub.end_time
+                    nextSub.payment_time = timezone.now()
                     nextSub.payment_detail = upd
                     nextSub.save()
                 else:

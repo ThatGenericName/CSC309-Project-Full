@@ -355,7 +355,7 @@ class GetAllUserSubscriptions(ListAPIView):
 
     def ProcessRequestParams(self):
         p = []
-        dat = self.request.data
+        dat = self.request.query_params
         sort = 1
         if 'sort' in dat:
             if dat['sort'].lower() == 'asc':

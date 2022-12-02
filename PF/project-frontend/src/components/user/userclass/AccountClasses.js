@@ -1,5 +1,5 @@
 import React, {useContext, useState} from "react";
-import {APIContext} from "../APIContextProvider";
+import {APIContext} from "../../APIContextProvider";
 import {
     Accordion,
     AccordionSummary, Alert,
@@ -9,17 +9,21 @@ import {
     Stack, ToggleButton, ToggleButtonGroup
 } from "@mui/material";
 import Grid2 from '@mui/material/Unstable_Grid2';
-import {BASEURL} from "../constants";
+import {BASEURL} from "../../constants";
 import axios from "axios";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Avatar from "@mui/material/Avatar";
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import CoachPreview from "./CoachPreview";
-import SimpleTimeCard from "./SimpleTimeCard";
-import {StudioPreview} from "../studios/StudioPreview";
+import SimpleTimeCard from "../SimpleTimeCard";
+import {StudioPreview} from "../../studios/StudioPreview";
 import {ClassSessionPreview} from "./ClassSessionPreview";
 import {TEST_DATA} from "./TestData";
-import FilterControls from "./FilterControls";
+import FilterControls from "../FilterControls";
+import {
+    ActiveSubscriptionDashboard
+} from "../usersubscription/ActiveSubscriptionDashboard";
+import {UpcomingClassesDashboard} from "./UpcomingClassesDashboard";
 
 const PAGINATION_SIZE = 10
 
@@ -41,7 +45,6 @@ export default class AccountClasses extends React.Component{
 
     makeRequest(inputState){
         const targetState = inputState === undefined ? this.state : inputState
-
 
         var targetURL = BASEURL + 'accounts/enrolledclasses/'
 
@@ -68,7 +71,6 @@ export default class AccountClasses extends React.Component{
 
         axios(requestData)
             .then( function (response) {
-                console.log("user class data collected")
                 comp.setState({
                     axiosLoading: false,
                     responseData: response.data,
@@ -102,7 +104,12 @@ export default class AccountClasses extends React.Component{
             <Stack spacing={2}>
                 {ListData.map(data => {
                     return (
-                        <ClassSessionPreview classData={data}/>
+                        <ClassSessionPreview
+                            classData={data}
+                            filterSetter={e => {
+                                e.makeRequest = true
+                                this.setState(e)
+                            }}/>
                     )
                 })}
             </Stack>
@@ -142,18 +149,28 @@ export default class AccountClasses extends React.Component{
             let pages = Math.ceil(inputData['count'] / 10)
 
             return (
-                <Box sx={{textAlign:'center'}}>
-                    <FilterControls
-                        filterSetter={e => {
-                                e.makeRequest = true
-                                this.setState(e)
-                            }}
-                        pcount={pages}
-                    />
-                    <Divider/>
-                    {this.state.axiosLoading ? <LinearProgress /> : null}
-                    {inputList.length === 0 ? this.noResults() : this.generateList(inputList)}
-                </Box>
+                <Stack spacing={3}>
+                    <Box>
+                        <UpcomingClassesDashboard
+                            filterSetter={e => {
+                                    e.makeRequest = true
+                                    this.setState(e)
+                                }}
+                        />
+                    </Box>
+                    <Box sx={{textAlign:'center'}}>
+                        <FilterControls
+                            filterSetter={e => {
+                                    e.makeRequest = true
+                                    this.setState(e)
+                                }}
+                            pcount={pages}
+                        />
+                        <Divider/>
+                        {this.state.axiosLoading ? <LinearProgress /> : null}
+                        {inputList.length === 0 ? this.noResults() : this.generateList(inputList)}
+                    </Box>
+                </Stack>
             )
         }
     }

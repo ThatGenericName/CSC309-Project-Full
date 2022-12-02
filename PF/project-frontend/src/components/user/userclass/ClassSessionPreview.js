@@ -1,22 +1,27 @@
 import {Box, ButtonGroup, Card} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import SimpleTimeCard from "./SimpleTimeCard";
+import SimpleTimeCard from "../SimpleTimeCard";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-import {StudioPreview} from "../studios/StudioPreview";
+import {StudioPreview} from "../../studios/StudioPreview";
 import CoachPreview from "./CoachPreview";
 import React from "react";
-import {getTimeObj} from "./TimeObject";
+import {getTimeObj} from "../TimeObject";
 import Button from "@mui/material/Button";
-import DropClassButton from "./userclass/DropClassButton";
+import DropClassButton from "./DropClassButton";
 
 
-export function ClassSessionPreview(classData){
-    var data = classData.classData
-    var startTime = Date.parse(data['start_time'])
-    var endTime = Date.parse(data['end_time'])
+export function ClassSessionPreview(props){
+    var classData = props.classData
+    var startTime = Date.parse(classData['start_time'])
+    var endTime = Date.parse(classData['end_time'])
 
     var startTimeObj = getTimeObj(startTime)
     var endTimeObj = getTimeObj(endTime)
+
+    var sessionID = classData['id']
+    var classID = classData['parent_class']['id']
+
+    var now = Date.now()
 
     return (
         <Card sx={{p: 1}} variant="outlined">
@@ -30,15 +35,19 @@ export function ClassSessionPreview(classData){
             >
                 <Grid2 xs={8}>
                     <Box sx={{ fontWeight: 'bold', fontSize: 24}}>
-                        {data['parent_class']['name']}
+                        {classData['parent_class']['name']}
                     </Box>
                 </Grid2>
                 <Grid2 xs={2}/>
                 <Grid2 xs={12}>
-                    <DropClassButton/>
+                    <DropClassButton
+                        classID={classID}
+                        sessionID={sessionID}
+                        filterSetter={props.filterSetter}
+                    />
                 </Grid2>
                 <Grid2 xs={2}>
-                    {data['enrollment_count']}/{data['enrollment_capacity']}
+                    {classData['enrollment_count']}/{classData['enrollment_capacity']}
                 </Grid2>
                 <Grid2 xs={5}>
                     <SimpleTimeCard timeObj={startTimeObj}/>
@@ -50,10 +59,10 @@ export function ClassSessionPreview(classData){
                     <SimpleTimeCard timeObj={endTimeObj}/>
                 </Grid2>
                 <Grid2 xs={6}>
-                    <StudioPreview studioData={data['parent_class']['studio']}/>
+                    <StudioPreview studioData={classData['parent_class']['studio']}/>
                 </Grid2>
                 <Grid2 xs>
-                    <CoachPreview coachData={data['coach']}/>
+                    <CoachPreview coachData={classData['coach']}/>
                 </Grid2>
             </Grid2>
         </Card>

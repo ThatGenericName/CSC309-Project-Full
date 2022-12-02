@@ -20,14 +20,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import {Route, Routes, useLocation, useParams} from "react-router-dom";
 import AccountDashboard from "./AccountDashboard";
 import EditProfile from "./EditProfile";
-import AccountClasses from "./AccountClasses";
+import AccountClasses from "./userclass/AccountClasses";
+import AccountSubscriptions from "./usersubscription/AccountSubscriptions";
 
 function withParams(Component) {
   return props => <Component {...props} params={useParams()} location={useLocation()}/>;
 }
 
 // large sections of the code below is taken from the documentation for
-// MaterialUI Drawer component
+// MaterialUI Drawer component and then modified to fit the use case here
 // https://mui.com/material-ui/react-drawer/
 
 const drawerWidth = 240;
@@ -160,6 +161,7 @@ class UserLanding extends React.Component{
                         <Route path="" element={<AccountDashboard/>}/>
                         <Route path="edit" element={<EditProfile/>}/>
                         <Route path='classes' element={<AccountClasses/>}/>
+                        <Route path='subscriptions' element={<AccountSubscriptions/>}/>
                     </Routes>
                 </Box>
             </Box>

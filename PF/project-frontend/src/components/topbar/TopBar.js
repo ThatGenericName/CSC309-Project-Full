@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import GuestButton from './GuestButton';
 import {APIContext} from "../APIContextProvider";
 import AccountButton from "./AccountButton";
+import Button from "@mui/material/Button";
 
 
 export default class TopAppBar extends React.Component{
@@ -57,11 +58,19 @@ export default class TopAppBar extends React.Component{
                             alt="logo."
                             src="/tfc_notext.png"
                         />
+                        <Box sx={{ flexGrow: 1, fontStyle:'bold'}}>
+                            <Button sx={{color:'#ffffff'}} >
+                                Studios
+                            </Button>
+                            <Button sx={{color:'#ffffff'}}>
+                                Classes
+                            </Button>
+                            <Button sx={{color:'#ffffff'}}>
+                                Something
+                            </Button>
+                        </Box>
 
-                      <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Toronto Fitness Club
-                      </Typography>
-                      {this.UserSection()}
+                        {this.UserSection()}
                     </Toolbar>
                 </AppBar>
                 <Toolbar/>

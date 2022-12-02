@@ -131,7 +131,7 @@ export default class DashboardMenu extends React.Component{
                     </ListItemButton>
                 </ListItem>
                 <ListItem disablePadding sx={{ display: 'block' }}>
-                    <ListItemButton>
+                    <ListItemButton component={Link} to={'/account/subscriptions'}>
                         <ListItemIcon>
                             <FitnessCenterIcon/>
                         </ListItemIcon>
