@@ -1,22 +1,39 @@
 import React from 'react';
-import InitElements from "../InitElements";
 import Button from "@mui/material/Button";
-import {Box} from "@mui/material";
+import {Box, Paper, Stack, Typography} from "@mui/material";
 
-export default class Subscription extends React.Component{
+import SubscriptionsList from "./SubscriptionsList";
+import {SUBSCRIPTION_TEST_DATA} from "./SubscriptionTestData";
+import {LIPSUM} from "../constants";
 
-    render(){
-        return (
-            <InitElements>
-                <Box>
+export default function Subscription(){
 
-                    This is the subscription page
+    let data = SUBSCRIPTION_TEST_DATA
 
-                    <Button href="/account">
-                        Go To Accounts
-                    </Button>
-                </Box>
-            </InitElements>
-        )
-    }
+    let listItems = data['results']
+
+    let t = LIPSUM
+
+    return (
+            <Box>
+                <Paper sx={{m:3, p:2}}>
+                    <Stack spacing={2}>
+                        <Typography style={{textAlign: "center",}} variant='h1'>
+                            Subscriptions
+                        </Typography>
+                        <Stack spacing={2}>
+                            <Box>
+                                {LIPSUM[0]}
+                            </Box>
+                            <Box>
+                                {LIPSUM[1]}
+                            </Box>
+                        </Stack>
+                    </Stack>
+                </Paper>
+                <Paper sx={{p:2, m:0}}>
+                    <SubscriptionsList items={listItems}/>
+                </Paper>
+            </Box>
+    )
 }

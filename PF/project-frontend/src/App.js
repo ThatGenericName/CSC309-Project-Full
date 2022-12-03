@@ -35,20 +35,20 @@ class App extends React.Component{
 
     render() {
         return (
-        <APIContextProvider>
-            <ThemeProvider theme={theme}>
-                <TopAppBar>
+            <APIContextProvider>
+                <ThemeProvider theme={theme}>
                     <BrowserRouter>
-                        <Routes>
-                            <Route path="/">
-                                <Route path="account/*" element={<UserLanding />} />
-                                <Route path="subscription" element={<Subscription />} />
-                            </Route>
-                        </Routes>
+                        <TopAppBar>
+                            <Routes>
+                                <Route path="/">
+                                    <Route path="account/*" element={<UserLanding />} />
+                                    <Route path="subscriptions/*" element={<Subscription />} />
+                                </Route>
+                            </Routes>
+                        </TopAppBar>
                     </BrowserRouter>
-                </TopAppBar>
-            </ThemeProvider>
-        </APIContextProvider>
+                </ThemeProvider>
+            </APIContextProvider>
         )
     }
 }

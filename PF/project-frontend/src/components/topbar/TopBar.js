@@ -7,12 +7,12 @@ import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-
+import {Link} from "react-router-dom"
+import Button from "@mui/material/Button";
 
 import GuestButton from './GuestButton';
 import {APIContext} from "../APIContextProvider";
 import AccountButton from "./AccountButton";
-import Button from "@mui/material/Button";
 
 
 export default class TopAppBar extends React.Component{
@@ -59,13 +59,19 @@ export default class TopAppBar extends React.Component{
                             src="/tfc_notext.png"
                         />
                         <Box sx={{ flexGrow: 1, fontStyle:'bold'}}>
-                            <Button sx={{color:'#ffffff'}} >
+                            <Button
+                                sx={{color:'#ffffff'}}
+                            >
                                 Studios
                             </Button>
                             <Button sx={{color:'#ffffff'}}>
                                 Classes
                             </Button>
-                            <Button sx={{color:'#ffffff'}}>
+                            <Button
+                                sx={{color:'#ffffff'}}
+                                component={Link}
+                                to={'/subscriptions'}
+                            >
                                 Subscription
                             </Button>
                         </Box>

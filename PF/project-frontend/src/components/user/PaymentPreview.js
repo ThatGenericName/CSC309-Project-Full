@@ -5,6 +5,15 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 export function PaymentPreview(props){
     const cardDat = props.cardData
 
+    if (cardDat === undefined){
+        return (
+            <Card>
+
+            </Card>
+        )
+    }
+
+
     const formatExpDat = (month, year) => {
         var y = "" + year
         y = y[2] + y[3]

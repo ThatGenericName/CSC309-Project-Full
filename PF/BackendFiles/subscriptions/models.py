@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from rest_framework import serializers
 
@@ -29,3 +31,16 @@ class SubscriptionSerializer(serializers.ModelSerializer):
             'price',
             'duration'
         ]
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        inst = Subscription.objects.get(id=data['id'])
+        durDict = {
+            "days": inst.duration.days,
+            'hours': inst.duration.seconds // 3600,
+            'minutes': inst.duration.seconds // 60 % 60,
+            'seconds': inst.duration.seconds % 60
+        }
+        data['duration_map'] = durDict
+
+        return data

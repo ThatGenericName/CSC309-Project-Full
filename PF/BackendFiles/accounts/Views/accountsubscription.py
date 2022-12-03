@@ -60,7 +60,7 @@ class AddSubscription(APIView):
         if res2.error:
             errors['pin'] = "Please enter a valid pin"
         else:
-            data['pin'] = res.value
+            data['pin'] = res2.value
 
         self.cleaned_data = data
 
@@ -70,7 +70,7 @@ class AddSubscription(APIView):
 
         errors = self.ValidateData(request.data.dict())
         if len(errors):
-            return Response(errors, status=200)
+            return Response(errors, status=400)
 
         id = self.cleaned_data['id']
         recurring = 'do_not_renew' not in request.data
