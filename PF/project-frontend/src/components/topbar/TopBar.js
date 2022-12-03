@@ -72,7 +72,7 @@ export default class TopAppBar extends React.Component{
                                 component={Link}
                                 to={'/subscriptions'}
                             >
-                                Subscription
+                                Membership
                             </Button>
                         </Box>
 

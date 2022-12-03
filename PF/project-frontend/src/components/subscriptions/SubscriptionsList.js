@@ -18,7 +18,11 @@ export default function SubscriptionsList(props){
     const horizontal = 'center';
 
     return (
-        <Box sx={{p:2}} style={{maxWidth: "100%", overflow: 'auto'}}>
+        <Box
+            sx={{p:2}}
+            style={{maxWidth: "100%", overflow: 'auto'}}
+            alignItems='center'
+        >
             {generateSubscriptionsList(props.items)}
             <Snackbar
                 anchorOrigin={{ vertical, horizontal }}

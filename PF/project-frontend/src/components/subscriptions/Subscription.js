@@ -5,6 +5,12 @@ import {Box, Paper, Stack, Typography} from "@mui/material";
 import SubscriptionsList from "./SubscriptionsList";
 import {SUBSCRIPTION_TEST_DATA} from "./SubscriptionTestData";
 import {LIPSUM} from "../constants";
+import {
+    SubscriptionPromoCards
+} from "./SubscriptionPromoCards/SubscriptionPromoCards";
+import SubscriptionBenefits
+    from "./SubscriptionPromoCards/SubscriptionBenefits";
+import {TopHeader} from "./SubscriptionPromoCards/TopHeader";
 
 export default function Subscription(){
 
@@ -16,24 +22,18 @@ export default function Subscription(){
 
     return (
             <Box>
-                <Paper sx={{m:3, p:2}}>
-                    <Stack spacing={2}>
-                        <Typography style={{textAlign: "center",}} variant='h1'>
-                            Subscriptions
-                        </Typography>
-                        <Stack spacing={2}>
-                            <Box>
-                                {LIPSUM[0]}
-                            </Box>
-                            <Box>
-                                {LIPSUM[1]}
-                            </Box>
-                        </Stack>
-                    </Stack>
-                </Paper>
-                <Paper sx={{p:2, m:0}}>
+                <TopHeader/>
+                <Paper sx={{p:2, mx:2}}>
                     <SubscriptionsList items={listItems}/>
                 </Paper>
+                <Box>
+                    <SubscriptionPromoCards/>
+                </Box>
+                <Box sx={{px:2}} alignItems='center'>
+                    <Paper sx={{p:1}}>
+                        <SubscriptionBenefits/>
+                    </Paper>
+                </Box>
             </Box>
     )
 }

@@ -41,7 +41,7 @@ export function SubscriptionCard(props){
     }
 
     var subButton = ctx.userLoggedIn ? (
-        <Button onClick={handleSubscriptionOpen}>
+        <Button onClick={handleSubscriptionOpen} variant='contained'>
         Subscribe
         </Button>) : null
 
