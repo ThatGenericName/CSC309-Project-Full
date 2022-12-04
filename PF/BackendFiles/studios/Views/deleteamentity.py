@@ -30,7 +30,7 @@ class DeleteAmenity(APIView):
     def delete(self, request: Request, *args, **kwargs):
 
         if not Amenity.objects.filter(pk=kwargs['pk']):
-            return Response({"Amenity Does not Exist"})
+            return Response({'error':"Amenity Does not Exist"})
 
         amenity = Amenity.objects.get(pk=kwargs['pk'])
 

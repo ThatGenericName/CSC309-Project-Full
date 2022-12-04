@@ -12,6 +12,7 @@ from .Views.studiogenerator import AdminGenerateStudios
 from .Views.viewstudios import ViewStudios
 from .Views.getimages import ImageView
 from .Views.viewsinglestudio import ViewStudio
+from .Views.GetSingleAmenity import *
 
 app_name = 'studios'
 
@@ -24,6 +25,7 @@ urlpatterns = [
     path('<int:pk>/amenities/add/', AddAmenity.as_view(), name='AddAmenity'),
     path('<int:pk>/amenities/delete/', DeleteAmenity.as_view(), name='DeleteAmenity'),
     path('<int:pk>/amenities/', ListAmenity.as_view(), name='ListAmenity'),
+    path('<int:amenity_id>/amenities/get/', ViewSingleAmenity.as_view(), name='GetAmenity'),
     path('<int:pk>/amenities/edit/', EditAmenity.as_view(), name='EditAmenity'),
     path('', ViewStudios.as_view(), name='viewStudios'),
     path('admingenerate/', AdminGenerateStudios.as_view(), name='generateStudios')

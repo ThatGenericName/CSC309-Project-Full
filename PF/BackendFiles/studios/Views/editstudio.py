@@ -20,7 +20,7 @@ class EditStudio(APIView):
         rest_framework.parsers.MultiPartParser
     ]
 
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
     keys = [
         'name',
@@ -34,8 +34,8 @@ class EditStudio(APIView):
         pk = kwargs['pk']
 
         if not Studio.objects.filter(id=pk):
-            return Response({"Wrong Studio Id"}, status=404)
-        errors = self.ValidateData(request.data)
+            return Response({'error': "Wrong Studio Id"}, status=404)
+        errors = self.ValidateData(request.data, pk)
 
         if len(errors):
             return Response(errors, status=400)
@@ -70,9 +70,9 @@ class EditStudio(APIView):
                                                     studio=studio)
                     image.save()
 
-        return Response({"success"}, status=200)
+        return Response({"success": True}, status=200)
 
-    def ValidateData(self, data) -> dict:
+    def ValidateData(self, data, pk) -> dict:
         errors = {}
         for key in self.keys:
             if key not in data:
@@ -80,12 +80,15 @@ class EditStudio(APIView):
         if 'images' not in data:
             errors['images'] = "Missing Key"
 
-        if 'name' not in errors and data['name']:
-            try:
-                Studio.objects.get(name=data['name'])
-                errors['name'] = "This Studio name is already taken"
-            except ObjectDoesNotExist:
-                pass
+        studio = Studio.objects.get(id=pk)
+
+        if studio.name != data['name']:
+            if 'name' not in errors and data['name']:
+                try:
+                    Studio.objects.get(name=data['name'])
+                    errors['name'] = "This Studio name is already taken"
+                except ObjectDoesNotExist:
+                    pass
 
         if 'phone_num' not in errors and data['phone_num']:
             if not ValidatePhoneNumber(data['phone_num']):

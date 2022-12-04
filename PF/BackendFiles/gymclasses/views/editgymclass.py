@@ -51,10 +51,10 @@ class EditGymClass(APIView):
             return Response(errors, status=400)
 
         if not GymClass.objects.filter(id=gym_class_id):
-            return Response({"Wrong GymClass Id"}, status=404)
+            return Response({'error':"Wrong GymClass Id"}, status=404)
 
         if data["studio"] and not Studio.objects.filter(id=data["studio"]):
-            return Response({"Wrong Studio Id"}, status=404)
+            return Response({'error': "Wrong Studio Id"}, status=404)
 
         gym_class = GymClass.objects.get(id=gym_class_id)
 
