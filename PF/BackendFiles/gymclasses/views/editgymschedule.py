@@ -50,7 +50,7 @@ class EditGymClassSchedule(APIView):
             return Response(errors, status=400)
 
         if not GymClassSchedule.objects.filter(id=gym_class_schedule_id):
-            return Response({"Wrong GymClass Id"}, status=404)
+            return Response({'error': "Wrong GymClass Id"}, status=404)
 
         if data["coach"]:
             try:

@@ -25,12 +25,12 @@ class EditAmenity(APIView):
         'quantity'
     ]
 
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
     def post(self, request: Request, *args, **kwargs):
 
         if not Amenity.objects.filter(pk=kwargs['pk']):
-            return Response({"Amenity Does not Exist"}, status=404)
+            return Response({'error':"Amenity Does not Exist"}, status=404)
 
         errors = self.ValidateData(request.data)
 
@@ -56,7 +56,7 @@ class EditAmenity(APIView):
         for key in self.keys:
             if key not in data:
                 errors[key] = "Missing Key"
-            elif not data[key]:
+            elif not data[key] and data[key] != 0:
                 errors[key] = "This Field is required"
 
         if "quantity" not in errors:

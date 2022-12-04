@@ -46,7 +46,7 @@ class CreateGymClass(APIView):
         rest_framework.parsers.MultiPartParser
     ]
 
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
     def post(self, request: Request, *args, **kwargs):
 
@@ -68,8 +68,8 @@ class CreateGymClass(APIView):
         except ObjectDoesNotExist:
             return Response({'error': 'Coach was not found'}, status=404)
 
-        if not coach.groups.filter(name='Coach').exists():
-            return Response({'error': 'Coach was not found'}, status=404)
+        # if not coach.groups.filter(name='Coach').exists():
+        #     return Response({'error': 'Coach was not found'}, status=404)
 
         start_time = dt.datetime.strptime(data['start_time'], '%H:%M').time()
         end_time = dt.datetime.strptime(data['end_time'], '%H:%M').time()
@@ -94,13 +94,13 @@ class CreateGymClass(APIView):
         if not any_classes:
             return Response({"No Classes given in start and end date"}, status=400)
 
-        keywords = data.getlist('keywords')
+        model_keywords = data.get('keywords')
 
-        model_keywords = ""
-
-        for item in keywords:
-            model_keywords += item + ","
-        model_keywords = model_keywords[:-1]
+        # model_keywords = ""
+        #
+        # for item in keywords:
+        #     model_keywords += item + ","
+        # model_keywords = model_keywords[:-1]
 
         gymclass = GymClass.objects.create(
             studio=studio,

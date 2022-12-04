@@ -25,13 +25,13 @@ class AddAmenity(APIView):
         'quantity'
     ]
 
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
     def post(self, request: Request, *args, **kwargs):
 
         pk = kwargs['pk']
         if not Studio.objects.filter(id=pk):
-            return Response({"Wrong Studio Id"}, status=404)
+            return Response({'error': "Wrong Studio Id"}, status=404)
 
         errors = self.ValidateData(request.data)
 
