@@ -12,6 +12,7 @@ import SubscriptionBenefits
     from "./SubscriptionPromoCards/SubscriptionBenefits";
 import {TopHeader} from "./SubscriptionPromoCards/TopHeader";
 import axios from "axios";
+import {AllSubscriptions} from "./AllSubscriptions/AllSubscriptions";
 
 export default function Subscription(){
 
@@ -20,6 +21,8 @@ export default function Subscription(){
         subscriptionsList: null,
         responseReceived: false,
     })
+
+    const [allSubsOpen, setAllSubsOpen] = useState(false)
 
     function setCompState(data){
         var clone = {}
@@ -57,8 +60,6 @@ export default function Subscription(){
             let a = 1
 
         })
-
-
     }
 
     if (!compState.responseReceived){
@@ -76,9 +77,13 @@ export default function Subscription(){
                 <React.Fragment>
                     {<SubscriptionsList items={listItems}/>}
                     <Box style={{textAlign:'center'}}>
-                        <Button>
+                        <Button onClick={e => setAllSubsOpen(true)}>
                             View All Subscriptions
                         </Button>
+                        <AllSubscriptions
+                            open={allSubsOpen}
+                            onClose={e => setAllSubsOpen(false)}
+                        />
                     </Box>
                 </React.Fragment>
             )

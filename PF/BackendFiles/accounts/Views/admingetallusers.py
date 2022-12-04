@@ -24,6 +24,19 @@ class GetAllUsers(ListAPIView):
     serializer_class = AdminSimpleUserSerializer
 
     def get_queryset(self):
-
-        users = User.objects.all().order_by('username')
+        users = User.objects.all().order_by('username').distinct()
         return users
+
+    def filter_queryset(self, queryset):
+        if ('filter' in self.request.query_params):
+            key = self.request.query_params['filter']
+            f1 = queryset.filter(username__contains=key)
+            f2 = queryset.filter(first_name__contains=key)
+            f3 = queryset.filter(last_name__contains=key)
+            f4 = queryset.filter(email__contains=key)
+
+            f5 = f1 | f2 | f3 | f4
+
+            return f5
+
+        return super().filter_queryset(queryset)
