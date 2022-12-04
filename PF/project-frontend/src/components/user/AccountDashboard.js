@@ -5,6 +5,7 @@ import {UpcomingClassesDashboard} from "./userclass/UpcomingClassesDashboard";
 import {
     ActiveSubscriptionDashboard
 } from "./usersubscription/ActiveSubscriptionDashboard";
+import {AccountPaymentDashboard} from "./userpayment/AccountPaymentDashboard";
 
 
 export default function AccountDashboard(){
@@ -13,6 +14,7 @@ export default function AccountDashboard(){
             <Stack spacing={2}>
                 <UpcomingClassesDashboard/>
                 <ActiveSubscriptionDashboard/>
+                <AccountPaymentDashboard/>
             </Stack>
         </Paper>
     )

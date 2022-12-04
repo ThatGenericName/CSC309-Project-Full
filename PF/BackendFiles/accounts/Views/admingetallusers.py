@@ -1,5 +1,5 @@
 import rest_framework.parsers
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAdminUser
@@ -11,7 +11,7 @@ from accounts.models import AdminSimpleUserSerializer, IsCoach
 class CoachesPagination(PageNumberPagination):
     page_size = 10
 
-class GetAllCoaches(ListAPIView):
+class GetAllUsers(ListAPIView):
 
     parser_classes = [
         rest_framework.parsers.JSONParser,
@@ -24,6 +24,6 @@ class GetAllCoaches(ListAPIView):
     serializer_class = AdminSimpleUserSerializer
 
     def get_queryset(self):
-        group, created = Group.objects.get_or_create(name='Coach')
-        users = group.user_set.all().order_by('username')
+
+        users = User.objects.all().order_by('username')
         return users

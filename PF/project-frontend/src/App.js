@@ -12,14 +12,7 @@ import {
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import UserLanding from "./components/user/UserLanding";
 import Subscription from "./components/subscriptions/Subscription";
-import AddStudio from "./components/Studio/AddStudio";
-import EditStudio from "./components/Studio/EditStudio";
-import AddAmenity from "./components/Amenity/AddAmenity";
-import EditAmenity from "./components/Amenity/EditAmenity";
-import AddGymClasses from "./components/GymClasses/AddGymClasses";
-import Landing from "./components/landingPage/landing";
 import TopAppBar from "./components/topbar/TopBar";
-import EditGymClassSchedule from "./components/GymClasses/EditGymClassSchedule";
 
 const theme = createTheme({
     palette: {

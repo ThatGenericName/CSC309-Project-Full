@@ -22,6 +22,7 @@ import AccountDashboard from "./AccountDashboard";
 import EditProfile from "./EditProfile";
 import AccountClasses from "./userclass/AccountClasses";
 import AccountSubscriptions from "./usersubscription/AccountSubscriptions";
+import AccountPayment from "./userpayment/AccountPayment";
 
 function withParams(Component) {
   return props => <Component {...props} params={useParams()} location={useLocation()}/>;
@@ -162,6 +163,7 @@ class UserLanding extends React.Component{
                         <Route path="edit" element={<EditProfile/>}/>
                         <Route path='classes' element={<AccountClasses/>}/>
                         <Route path='subscriptions' element={<AccountSubscriptions/>}/>
+                        <Route path='payment' element={<AccountPayment/>}/>
                     </Routes>
                 </Box>
             </Box>

@@ -25,7 +25,7 @@ export function ActiveSubscriptionDashboard(props){
     if (actSub === null){
         return (
             <Paper sx={{p:3, textAlign:'center'}} >
-                <Typography variant="h3">
+                <Typography variant="h4">
                     You do not have any active subscriptions
                 </Typography>
             </Paper>

@@ -96,7 +96,7 @@ class UserSerializer(serializers.ModelSerializer):
         ]
 
 
-class AdminCoachSerializer(serializers.ModelSerializer):
+class AdminSimpleUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
@@ -146,7 +146,7 @@ class UserExtendedSerializer(serializers.ModelSerializer):
             dat.append(datS)
 
         data['enrolled_classes'] = dat
-
+        data['is_coach'] = instance.user.groups.filter(name='Member').exists()
 
         return data
 

@@ -235,7 +235,6 @@ export default function EditProfile(){
             var targetURL = BASEURL + 'accounts/edit/'
             var dat = formData
 
-
             var token = ctx.userToken
             token = token.replace("Token ")
             var requestData = {

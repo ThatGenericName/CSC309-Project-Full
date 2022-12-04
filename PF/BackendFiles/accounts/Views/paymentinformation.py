@@ -180,7 +180,11 @@ class RemovePaymentInformation(APIView):
             .filter(start_time__gt=now)\
             .order_by('start_time')
 
-        nextT = GetUserExtension(user).active_subscription.end_time
+        act = GetUserExtension(user).active_subscription
+        if (act == None):
+            return
+
+        nextT = act.end_time
 
         for q in qs2:
             q.start_time = nextT

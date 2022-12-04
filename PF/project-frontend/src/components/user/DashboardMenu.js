@@ -69,6 +69,14 @@ export default class DashboardMenu extends React.Component{
             displayUsername = userData.username
         }
 
+        let staffBox = ""
+        if (userData.is_staff){
+            staffBox = "Staff"
+        }
+        else if (userData.is_coach){
+            staffBox = "Coach"
+        }
+
         return (
             <Box>
                 <Box sx={{ fontWeight: 'bold'}}>
@@ -78,7 +86,7 @@ export default class DashboardMenu extends React.Component{
                     {displayUsername}
                 </Box>
                 <Box>
-                    {userData.is_staff ? "Staff" : ""}
+                    {staffBox}
                 </Box>
             </Box>
         )
@@ -139,7 +147,7 @@ export default class DashboardMenu extends React.Component{
                     </ListItemButton>
                 </ListItem>
                 <ListItem disablePadding sx={{ display: 'block' }}>
-                    <ListItemButton>
+                    <ListItemButton component={Link} to={'/account/payment'}>
                         <ListItemIcon>
                             <PaymentIcon/>
                         </ListItemIcon>

@@ -20,6 +20,7 @@ import {useContext, useState} from "react";
 import {PaymentPreview} from "../user/PaymentPreview";
 import axios from "axios";
 import {BASEURL} from "../constants";
+import {Link} from "react-router-dom";
 
 
 export function SubscriptionPayment(props){
@@ -30,7 +31,8 @@ export function SubscriptionPayment(props){
         confirmPin: "",
         axiosLoading: true,
         paymentData: null,
-        paymentAxios: false
+        paymentAxios: false,
+        hasPaymentInformation: false
     })
 
     function loadPaymentData(){
@@ -56,12 +58,20 @@ export function SubscriptionPayment(props){
             var data = response.data
 
             setData({
-                confirmPin: null,
+                confirmPin: "",
                 paymentData: data,
                 axiosLoading: false,
                 paymentSuccess: data.paymentSuccess,
+                hasPaymentInformation: true
             })
         }).catch(function (error){
+            if (error.response.status === 404){
+                var dat = data
+                dat.axiosLoading = false
+                dat.hasPaymentInformation = false
+                setData(dat)
+            }
+
             var a = 1
         })
     }
@@ -74,6 +84,19 @@ export function SubscriptionPayment(props){
             return (
                 <Box>
                     <LinearProgress />
+                </Box>
+            )
+        }
+        else if (!data.hasPaymentInformation){
+            return (
+                <Box>
+                    You do not have a payment option enabled
+                    <Button
+                        component={Link}
+                        to={'/account/payment'}
+                    >
+                        Add Payment Method
+                    </Button>
                 </Box>
             )
         }
@@ -136,10 +159,13 @@ export function SubscriptionPayment(props){
     }
 
     function pay(){
-        var targetURL = BASEURL + 'accounts/subscriptions/add/'
-        var token = ctx.userToken
+        const targetURL = BASEURL + 'accounts/subscriptions/add/'
+        const token = ctx.userToken.replace("Token ")
 
-        var dat1 = data
+        var dat1 = {}
+        Object.keys(data).forEach(k => {
+            dat1[k] = data[k]
+        })
         dat1.paymentAxios = true
         setData(dat1)
 
@@ -164,7 +190,10 @@ export function SubscriptionPayment(props){
         }
 
         axios(requestData).then(function(response) {
-            var dataState = data
+            var dataState = {}
+            Object.keys(data).forEach(k => {
+                dataState[k] = data[k]
+            })
             dataState.paymentAxios = false
             setData(dataState)
             props.onPaymentSuccess()
@@ -174,17 +203,37 @@ export function SubscriptionPayment(props){
         })
     }
 
-
-    const btnNm = (
-        <Box>
-            <Button variant='outlined' onClick={props.onClose}>
-                Cancel
-            </Button>
-            <Button variant='contained' onClick={pay}>
-                Subscribe
-            </Button>
-        </Box>
+    const disabledButton = (
+        <Button
+            variant='contained'
+            disabled
+        >
+            Subscribe
+        </Button>
     )
+
+    const enabledButton = (
+        <Button
+            variant='contained'
+            onClick={pay}
+        >
+            Subscribe
+        </Button>
+    )
+
+
+    function subButton(){
+        return (
+            <Box>
+                <Button variant='outlined' onClick={props.onClose}>
+                    Cancel
+                </Button>
+                {(!data.axiosLoading && data.hasPaymentInformation) ? enabledButton : disabledButton}
+            </Box>
+        )
+    }
+
+
 
     let a = 1
 
@@ -203,8 +252,11 @@ export function SubscriptionPayment(props){
                         label='cvv'
                         value={data.confirmPin}
                         onChange={e => {
-                            var dat = data
-                            data['confirmPin'] = e.target.value
+                            var dat = {}
+                            Object.keys(data).forEach(k => {
+                                dat[k] = data[k]
+                            })
+                            dat['confirmPin'] = e.target.value
                             setData(dat)
                         }}
                     />
@@ -212,7 +264,7 @@ export function SubscriptionPayment(props){
                 </Stack>
             </DialogContent>
             <DialogActions>
-                {btnNm}
+                {subButton()}
             </DialogActions>
         </Dialog>
     )

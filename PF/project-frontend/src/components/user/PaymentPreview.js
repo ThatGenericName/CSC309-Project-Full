@@ -1,4 +1,4 @@
-import {Card} from "@mui/material";
+import {Box, Card} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 
 
@@ -8,11 +8,10 @@ export function PaymentPreview(props){
     if (cardDat === undefined){
         return (
             <Card>
-
+                undef
             </Card>
         )
     }
-
 
     const formatExpDat = (month, year) => {
         var y = "" + year

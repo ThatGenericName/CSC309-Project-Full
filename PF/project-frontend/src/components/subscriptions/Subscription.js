@@ -1,30 +1,95 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Button from "@mui/material/Button";
-import {Box, Paper, Stack, Typography} from "@mui/material";
+import {Box, LinearProgress, Paper, Stack, Typography} from "@mui/material";
 
 import SubscriptionsList from "./SubscriptionsList";
 import {SUBSCRIPTION_TEST_DATA} from "./SubscriptionTestData";
-import {LIPSUM} from "../constants";
+import {BASEURL, LIPSUM} from "../constants";
 import {
     SubscriptionPromoCards
 } from "./SubscriptionPromoCards/SubscriptionPromoCards";
 import SubscriptionBenefits
     from "./SubscriptionPromoCards/SubscriptionBenefits";
 import {TopHeader} from "./SubscriptionPromoCards/TopHeader";
+import axios from "axios";
 
 export default function Subscription(){
 
-    let data = SUBSCRIPTION_TEST_DATA
+    const [compState, setComp] = useState({
+        axiosLoading: true,
+        subscriptionsList: null,
+        responseReceived: false,
+    })
 
-    let listItems = data['results']
+    function setCompState(data){
+        var clone = {}
+        Object.keys(compState).forEach(k => {
+            clone[k] = compState[k]
+        })
+        Object.keys(data).forEach(k => {
+            clone[k] = data[k]
+        })
+        setComp(clone)
+    }
 
-    let t = LIPSUM
+    function getSubscriptionOptions(){
+        const targetURL = BASEURL + 'subscriptions/'
+        const params = {
+            page: 1
+        }
+
+        const requestData = {
+            url: targetURL,
+            method: "GET",
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            params: params
+        }
+
+        axios(requestData).then(function(response){
+            setCompState({
+                subscriptionsList: response.data['results'],
+                axiosLoading: false,
+                responseReceived: true
+            })
+        }).catch(function(error){
+            let a = 1
+
+        })
+
+
+    }
+
+    if (!compState.responseReceived){
+        getSubscriptionOptions()
+    }
+
+    let listItems = compState.subscriptionsList
+
+    function SubBox(){
+        if (compState.axiosLoading){
+            return <LinearProgress />
+        }
+        else{
+            return (
+                <React.Fragment>
+                    {<SubscriptionsList items={listItems}/>}
+                    <Box style={{textAlign:'center'}}>
+                        <Button>
+                            View All Subscriptions
+                        </Button>
+                    </Box>
+                </React.Fragment>
+            )
+        }
+    }
 
     return (
             <Box>
                 <TopHeader/>
                 <Paper sx={{p:2, mx:2}}>
-                    <SubscriptionsList items={listItems}/>
+                    {SubBox()}
                 </Paper>
                 <Box>
                     <SubscriptionPromoCards/>

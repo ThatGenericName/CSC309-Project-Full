@@ -3,6 +3,7 @@ from django.urls import path
 from accounts.Views.accountsubscription import AddSubscription, \
     CanceAllSubscriptions, GetAllUserSubscriptions, GetSubscription
 from accounts.Views.addtocoach import SetUserCoach
+from accounts.Views.admingetallusers import GetAllUsers
 from accounts.Views.adminsubrenew import AdminRenew
 from accounts.Views.getallcoaches import GetAllCoaches
 from accounts.Views.paymentinformation import AddPaymentInformation, \
@@ -39,6 +40,7 @@ urlpatterns = [
     path('setcoach/<int:user_id>/', SetUserCoach.as_view(), name='setUserCoach'),
     path('enrolledclasses/', ViewEnrolledClasses.as_view(), name='viewEnrolledClasses'),
     path('admin/getcoaches/', GetAllCoaches.as_view(), name='getAllCoaches'),
+    path('admin/allusers/', GetAllUsers.as_view(), name='getAllUsers'),
     # Below are the admin debug calls
     path('admin/generatesubscriptions/', AdminCreateUSubs.as_view(), name='adminCreateUSubs'),
     path('admin/renew/', AdminRenew.as_view(), name='adminRenew')
