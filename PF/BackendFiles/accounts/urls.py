@@ -38,7 +38,7 @@ urlpatterns = [
     path('payment/remove/', RemovePaymentInformation.as_view(), name='removePaymentInfo'),
     path('setcoach/<int:user_id>/', SetUserCoach.as_view(), name='setUserCoach'),
     path('enrolledclasses/', ViewEnrolledClasses.as_view(), name='viewEnrolledClasses'),
-    path('getcoaches', GetAllCoaches.as_view(), name='getAllCoaches'),
+    path('getcoaches/', GetAllCoaches.as_view(), name='getAllCoaches'),
     # Below are the admin debug calls
     path('admin/generatesubscriptions/', AdminCreateUSubs.as_view(), name='adminCreateUSubs'),
     path('admin/renew/', AdminRenew.as_view(), name='adminRenew')
