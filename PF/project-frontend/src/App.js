@@ -13,6 +13,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import UserLanding from "./components/user/UserLanding";
 import Subscription from "./components/subscriptions/Subscription";
 import TopAppBar from "./components/topbar/TopBar";
+import {AdminLandingPage} from "./components/Admin/AdminLandingPage";
 
 const theme = createTheme({
     palette: {
@@ -52,6 +53,7 @@ class App extends React.Component{
                                 <Route path="/">
                                     <Route path="account/*" element={<UserLanding />} />
                                     <Route path="subscriptions/*" element={<Subscription />} />
+                                    <Route path="admin/*" element={<AdminLandingPage />} />
                                 </Route>
                             </Routes>
                         </TopAppBar>

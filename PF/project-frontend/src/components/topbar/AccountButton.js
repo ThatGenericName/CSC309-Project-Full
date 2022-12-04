@@ -68,11 +68,6 @@ export default class AccountButton extends React.Component{
         )
     }
 
-    redirect(){
-        // eslint-disable-next-line no-restricted-globals
-        history.push('/your-path')
-    }
-
 
     render(){
         return (
@@ -111,7 +106,15 @@ export default class AccountButton extends React.Component{
                     </MenuItem>
 
                     <LogoutButton/>
-                    {this.context.userData.isStaff && null} {/*This will be fore future admin access*/}
+                    {this.context.userData.isStaff && <Divider/>}
+                    {this.context.userData.isStaff &&
+                        <MenuItem
+                            component='a'
+                            href='/admin'
+                        >
+                            Admin Panel
+                        </MenuItem>
+                    }
                 </Menu>
             </div>
         );
