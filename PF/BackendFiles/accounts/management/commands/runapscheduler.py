@@ -105,15 +105,6 @@ def CheckForSubscriptionRenewals():
                     a.save()
         ResetActiveSubscription(user)
 
-@util.close_old_connections
-def AutoCreateCoachGroup():
-    '''
-    A startup task that creates the Coach usergroup.
-    '''
-    from django.contrib.auth.models import Group
-    new_group, created = Group.objects.get_or_create(name='Coach')
-    print("Coach Usergroup Ready")
-
 '''
 The Below code is largely taken from the documentation for the
 django-apscheduler library, a library that does some integration
@@ -171,19 +162,6 @@ def InitScheduler():
         replace_existing=True,
     )
     logger.info("Added job 'ClearOldSearchHash'.")
-
-    tz = datetime.now().astimezone().tzinfo
-    SCHEDULER.add_job(
-        AutoCreateCoachGroup,
-        trigger=DateTrigger(
-            run_date=datetime.now() + timedelta(seconds=30),
-            timezone=tz
-        ),
-        id="CoachUsergroupCheck",
-        max_instances=1,
-        replace_existing=True
-    )
-    logger.info("Added job 'CoachUsergroupCheck'.")
 
     SCHEDULER.add_job(
         delete_old_job_executions,

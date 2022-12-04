@@ -96,6 +96,26 @@ class UserSerializer(serializers.ModelSerializer):
         ]
 
 
+class AdminCoachSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'id',
+            'username',
+            'first_name',
+            'last_name',
+            'email'
+        ]
+
+    def to_representation(self, instance):
+        dat = super().to_representation(instance)
+        uext = GetUserExtension(instance)
+        dat2 = UserExtendedSerializer(uext).data
+        dat["profile_pic"] = dat2["profile_pic"]
+
+        return dat
+
+
 class UserExtendedSerializer(serializers.ModelSerializer):
     user = UserSerializer()
 
