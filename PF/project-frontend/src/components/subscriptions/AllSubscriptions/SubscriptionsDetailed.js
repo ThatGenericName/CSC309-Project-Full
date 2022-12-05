@@ -48,6 +48,4 @@ export function SubscriptionsDetailed(props){
             </Grid2>
         </Card>
     )
-
-
 }

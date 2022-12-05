@@ -1,6 +1,6 @@
 import {Box, Stack, Tab, Tabs, Typography} from "@mui/material";
 import Button from "@mui/material/Button";
-import {Route, Routes} from "react-router-dom";
+import {Link, Route, Routes} from "react-router-dom";
 import AccountDashboard from "../user/AccountDashboard";
 import EditProfile from "../user/EditProfile";
 import AccountClasses from "../user/userclass/AccountClasses";
@@ -9,6 +9,9 @@ import AccountSubscriptions
 import AccountPayment from "../user/userpayment/AccountPayment";
 import React from "react";
 import {AdminMain} from "./AdminMain";
+import {
+    SubscriptionControlPanel
+} from "./Subscription/SubscriptionControlPanel";
 
 export function AdminLandingPage(){
 
@@ -17,10 +20,11 @@ export function AdminLandingPage(){
         <Stack sx={{p:2}}>
             <Box
                 style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}>
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}
+            >
                 <Typography variant='h3'>
                     Admin Control Panel
                 </Typography>
@@ -39,7 +43,7 @@ export function AdminLandingPage(){
                 <Button>
                     Class Management
                 </Button>
-                <Button>
+                <Button component={Link} to={'/admin/subscription'}>
                     Membership Management
                 </Button>
                 <Button>
@@ -48,6 +52,7 @@ export function AdminLandingPage(){
             </Box>
             <Routes>
                 <Route path="" element={<AdminMain/>}/>
+                <Route path="/subscription" element={<SubscriptionControlPanel/>}/>
             </Routes>
         </Stack>
     )

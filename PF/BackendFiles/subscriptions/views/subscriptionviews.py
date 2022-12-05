@@ -10,7 +10,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from PB.utility import ValidateBool, ValidateFloat, ValidateInt
-from subscriptions.models import Subscription, SubscriptionSerializer
+from subscriptions.models import Subscription, SubscriptionSerializer, \
+    SubscriptionSerializerAdmin
+
 
 class SubscriptionPagination(PageNumberPagination):
     page_size = 10
@@ -32,6 +34,22 @@ class ViewSubscriptions(ListAPIView):
         a = queryset.filter(available=True).values()
         return a
 
+class ViewSubscriptionsAdmin(ListAPIView):
+
+    parser_classes = [
+        rest_framework.parsers.JSONParser,
+        rest_framework.parsers.FormParser,
+        rest_framework.parsers.MultiPartParser
+    ]
+    permission_classes = []
+    pagination_class = SubscriptionPagination
+    model = Subscription
+    serializer_class = SubscriptionSerializerAdmin
+    queryset = Subscription.objects.order_by('-price')
+    permission_classes = [IsAdminUser]
+    def filter_queryset(self, queryset):
+        a = queryset.filter().values()
+        return a
 
 class GetSubscription(RetrieveAPIView):
 
@@ -59,7 +77,7 @@ class GetSubscription(RetrieveAPIView):
         if 'remove' in dat:
             val = ValidateBool(dat['remove'])
             if not val.error:
-                remove = val
+                remove = val.value
 
         try:
             sub = Subscription.objects.get(id=subId)

@@ -44,3 +44,29 @@ class SubscriptionSerializer(serializers.ModelSerializer):
         data['duration_map'] = durDict
 
         return data
+
+class SubscriptionSerializerAdmin(serializers.ModelSerializer):
+    class Meta:
+        model = Subscription
+        fields = [
+            'id',
+            'name',
+            'description',
+            'price',
+            'duration',
+            'available',
+            'tgen'
+        ]
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        inst = Subscription.objects.get(id=data['id'])
+        durDict = {
+            "days": inst.duration.days,
+            'hours': inst.duration.seconds // 3600,
+            'minutes': inst.duration.seconds // 60 % 60,
+            'seconds': inst.duration.seconds % 60
+        }
+        data['duration_map'] = durDict
+
+        return data

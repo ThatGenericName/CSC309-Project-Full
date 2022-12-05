@@ -48,8 +48,10 @@ export function AllSubscriptions(props){
         }
 
         axios(requestData).then(function(response){
+
+
             setCompState({
-                axiosLoading: true,
+                axiosLoading: false,
                 responseReceived: true,
                 data: response.data['results'],
                 pages: response.data['count']
