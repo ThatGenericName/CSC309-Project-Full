@@ -14,6 +14,9 @@ import UserLanding from "./components/user/UserLanding";
 import Subscription from "./components/subscriptions/Subscription";
 import TopAppBar from "./components/topbar/TopBar";
 import {AdminLandingPage} from "./components/Admin/AdminLandingPage";
+import {MapComp} from "./components/studios/MapComp";
+import {MapContainer} from "./components/studios/MapContainer";
+import {StudiosLanding} from "./components/studios/StudioLanding";
 
 const theme = createTheme({
     palette: {
@@ -54,6 +57,7 @@ class App extends React.Component{
                                     <Route path="account/*" element={<UserLanding />} />
                                     <Route path="subscriptions/*" element={<Subscription />} />
                                     <Route path="admin/*" element={<AdminLandingPage />} />
+                                    <Route path='studios/*' element={<StudiosLanding/>} />
                                 </Route>
                             </Routes>
                         </TopAppBar>

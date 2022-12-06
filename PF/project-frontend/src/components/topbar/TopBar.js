@@ -13,6 +13,7 @@ import Button from "@mui/material/Button";
 import GuestButton from './GuestButton';
 import {APIContext} from "../APIContextProvider";
 import AccountButton from "./AccountButton";
+import {ButtonBase} from "@mui/material";
 
 
 export default class TopAppBar extends React.Component{
@@ -50,17 +51,25 @@ export default class TopAppBar extends React.Component{
                 >
                     <Toolbar>
                         {/*Todo: Make this a clickable button, probably add an OnClick thing*/}
-                        <Box
-                            component="img"
-                            sx={{
-                            height: 64,
-                            }}
-                            alt="logo."
-                            src="/tfc_notext.png"
-                        />
+                        <ButtonBase
+                            component={Link}
+                            to={'/'}
+                        >
+                            <Box
+                                component="img"
+                                sx={{
+                                height: 64,
+                                }}
+                                alt="logo."
+                                src="/tfc_notext.png"
+                            />
+                        </ButtonBase>
+
                         <Box sx={{ flexGrow: 1, fontStyle:'bold'}}>
                             <Button
                                 sx={{color:'#ffffff'}}
+                                component={Link}
+                                to={'/studios'}
                             >
                                 Studios
                             </Button>

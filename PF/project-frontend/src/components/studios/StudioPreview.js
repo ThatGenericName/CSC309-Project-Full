@@ -3,6 +3,7 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import React from "react";
 
 
+
 export function StudioPreview(props){
     const studioData = props.studioData
 
