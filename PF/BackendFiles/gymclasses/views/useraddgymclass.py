@@ -9,7 +9,8 @@ from rest_framework.views import APIView
 import rest_framework.parsers
 
 from PB.utility import ValidateInt, ValidatePhoneNumber
-from accounts.models import GetUserExtension, UserExtension
+from accounts.models import GetUserExtension, HasSubscription, \
+    UserClassInterface, UserExtension
 from gymclasses.models import GymClass, GymClassSchedule
 
 # Create your views here.
@@ -31,10 +32,10 @@ class AddGymClassSessionToUser(APIView):
         rest_framework.parsers.MultiPartParser
     ]
 
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated & HasSubscription]
 
     def get(self, request: Request, *args, **kwargs):
-
+        from accounts.models import UserClassInterface
         classId = kwargs['session_id']
         try:
             gclasssched = GymClassSchedule.objects.get(id=classId)
@@ -48,11 +49,23 @@ class AddGymClassSessionToUser(APIView):
 
         user = request.user
         uext = UserExtension.objects.get(user=user)
-        if gclasssched.userextension_set.filter(user=user).exists():
-            return Response({'details': 'You are already enrolled in this class session'}, status=200)
+
+        if UserClassInterface.objects.filter(user=user, class_session=gclasssched).exists():
+            uci = UserClassInterface.objects.get(user=user, class_session=gclasssched)
+            if gclasssched.enrollment_count < gclasssched.enrollment_capacity:
+                if uci.dropped:
+                    uci.dropped = False
+                    uci.financial_hold = False
+                    gclasssched.enrollment_count += 1
+                    uci.save()
+                    gclasssched.save()
+            return Response(
+                {'details': 'You are already enrolled in this class session'},
+                status=200)
 
         if gclasssched.enrollment_count < gclasssched.enrollment_capacity:
-            uext.enrolled_classes.add(gclasssched)
+            newUCI = UserClassInterface.objects.create(user=user, class_session=gclasssched)
+            newUCI.save()
             gclasssched.enrollment_count += 1
             gclasssched.save()
             uext.save()
@@ -88,17 +101,18 @@ class RemoveGymClassSessionFromUser(APIView):
             return Response({'details': 'This class session has already ended'}, status=401)
 
         user = request.user
-        uext = UserExtension.objects.get(user=user)
-        if gclass.userextension_set.filter(user=user).exists():
-            uext.enrolled_classes.remove(gclass)
+
+        try:
+            uci = UserClassInterface.objects.get(user=user, class_session=gclass)
+            uci.dropped = True
             gclass.enrollment_count -= 1
-            uext.save()
+            uci.save()
             gclass.save()
             return Response(
                 {'details': 'You have successfully dropped this class session'},
                 status=200)
-
-        return Response({'details': 'You are not enrolled in this class session'}, status=200)
+        except ObjectDoesNotExist:
+            return Response({'details': 'You are not enrolled in this class session'}, status=200)
 
 
 class AddGymClassToUser(APIView):
@@ -108,7 +122,7 @@ class AddGymClassToUser(APIView):
         rest_framework.parsers.MultiPartParser
     ]
 
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated & HasSubscription]
 
     def get(self, request: Request, *args, **kwargs):
 
@@ -120,20 +134,25 @@ class AddGymClassToUser(APIView):
         now = timezone.now()
         gcsq = GymClassSchedule.objects.filter(parent_class=gclass, start_time__gt=now)
         fullClasses = []
-
-        uext = GetUserExtension(request.user)
+        user = request.user
 
         for gcs in gcsq:
             # gcs = GymClassSchedule()
             if gcs.enrollment_count < gcs.enrollment_capacity:
-                if not uext.enrolled_classes.all().filter(id=gcs.id).exists():
-                    gcs.enrollment_count += 1
-                    uext.enrolled_classes.add(gcs)
-                    gcs.save()
+                if UserClassInterface.objects.filter(user=user, class_session=gcs).exists():
+                    uci = UserClassInterface.objects.get(user=user, class_session=gcs)
+                    if (uci.dropped or uci.financial_hold):
+                        uci.dropped = False
+                        uci.financial_hold = False
+                        uci.save()
+                        gcs.enrollment_count += 1
+                        gcs.save()
+                else:
+                    uci = UserClassInterface.objects.create(user=user, class_session=gcs)
+                    uci.save()
             else:
                 fullClasses.append(gcs.id)
 
-        uext.save()
         return Response({'details': {'full_classes': fullClasses}}, status=200)
 
 class RemoveGymClassFromUser(APIView):
@@ -153,17 +172,14 @@ class RemoveGymClassFromUser(APIView):
         except ObjectDoesNotExist:
             return Response({'details': 'Class was not found'}, status=404)
         now = timezone.now()
+        user = request.user
+        ucis = UserClassInterface.objects.filter(user=user, class_session__start_time__gt=now, class_session__parent_class=gclass)
 
-        uext = GetUserExtension(request.user)
-        gcsq = uext.enrolled_classes.all().filter(parent_class=gclass, start_time__gt=now)
-
-        for gcs in gcsq:
-            # gcs = GymClassSchedule()
-            uext.enrolled_classes.remove(gcs)
-            gcs.enrollment_count -= 1
-            gcs.save()
-
-        uext.save()
+        for uci in ucis:
+            uci.dropped = True
+            uci.class_session.enrollment_count -= 1
+            uci.save(0)
+            uci.class_session.save()
 
         return Response({'details': 'class successfully unenrolled'}, status=200)
 
@@ -181,13 +197,12 @@ class DropAllClasses(APIView):
 
         now = timezone.now()
 
-        uext = GetUserExtension(request.user)
-        gcsq = uext.enrolled_classes.all().filter(start_time__gt=now)
+        ucis = UserClassInterface.objects.filter(user=request.user, class_session__start_time__gt=now)
 
-        for gcs in gcsq:
-            uext.enrolled_classes.remove(gcs)
-            gcs.enrollment_count -= 1
-            gcs.save()
+        for uci in ucis:
+            uci.dropped = True
+            uci.class_session.enrollment_count -= 1
+            uci.save()
+            uci.class_session.save()
 
-        uext.save()
         return Response({'details': 'classes successfully unenrolled'}, status=200)

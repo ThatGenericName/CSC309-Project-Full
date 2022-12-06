@@ -9,8 +9,8 @@ from django.utils import timezone
 from rest_framework import serializers
 from rest_framework.permissions import BasePermission
 
-from gymclasses.models import GymClass, GymClassSchedule, \
-    GymClassScheduleSerializer
+
+from gymclasses.models import GymClass, GymClassSchedule
 from subscriptions.models import Subscription
 
 # Create your models here.
@@ -35,7 +35,6 @@ class UserExtension(models.Model):
     profile_pic = models.ImageField(blank=True,
                                     upload_to=RandomNameGen)
     last_modified = models.DateTimeField(auto_now=True)
-    enrolled_classes = models.ManyToManyField(GymClassSchedule, blank=True)
     active_subscription = models.OneToOneField("UserSubscription", null=True,
                                                on_delete=models.SET_NULL)
 
@@ -79,6 +78,13 @@ class UserPaymentData(models.Model):
     tgen = models.BooleanField(null=False, default=False)
 
 
+class UserClassInterface(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    class_session = models.ForeignKey(GymClassSchedule, on_delete=models.CASCADE)
+    financial_hold = models.BooleanField(null=False, default=False)
+    dropped = models.BooleanField(null=False, default=False)
+
+
 '''
 Serializers
 '''
@@ -104,7 +110,8 @@ class AdminSimpleUserSerializer(serializers.ModelSerializer):
             'username',
             'first_name',
             'last_name',
-            'email'
+            'email',
+            'is_staff'
         ]
 
     def to_representation(self, instance):
@@ -112,7 +119,7 @@ class AdminSimpleUserSerializer(serializers.ModelSerializer):
         uext = GetUserExtension(instance)
         dat2 = UserExtendedSerializer(uext).data
         dat["profile_pic"] = dat2["profile_pic"]
-
+        dat['is_coach'] = instance.groups.filter(name='Coach').exists()
         return dat
 
 
@@ -131,10 +138,13 @@ class UserExtendedSerializer(serializers.ModelSerializer):
         depth = 1
 
     def to_representation(self, instance):
+        from accounts.Serializers.UserClassInterfaceSerialzier import \
+            UserClassInterfaceSerializerNoUser
         data = super().to_representation(instance)
-        qs = instance.enrolled_classes.all()
+        user = instance.user
+        qs = UserClassInterface.objects.filter(user=user)
         now = timezone.now()
-        a = qs.filter(start_time__gte=now).order_by('start_time')
+        a = qs.filter(class_session__start_time__gte=now).order_by('class_session__start_time')
         maxCount = 10
         dat = []
         uid = instance.user.id
@@ -142,7 +152,7 @@ class UserExtendedSerializer(serializers.ModelSerializer):
         for i, gcs in enumerate(a):
             if i > maxCount:
                 break
-            datS = GymClassScheduleSerializer(gcs).data
+            datS = UserClassInterfaceSerializerNoUser(gcs).data
             dat.append(datS)
 
         data['enrolled_classes'] = dat
@@ -223,4 +233,13 @@ class IsCoach(BasePermission):
         new_group, created = Group.objects.get_or_create(name='Coach')
         if bool(request.user):
             return request.user.groups.filter(name='Coach').exists()
+        return False
+
+class HasSubscription(BasePermission):
+
+    def has_permission(self, request, view):
+        if bool(request.user):
+            uext = GetUserExtension(request.user)
+            if uext.active_subscription is not None:
+                return True
         return False

@@ -7,7 +7,9 @@ from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 
-from accounts.models import GetUserExtension, UserExtension
+from accounts.Serializers.UserClassInterfaceSerialzier import \
+    UserClassInterfaceSerializer
+from accounts.models import GetUserExtension, UserClassInterface, UserExtension
 from gymclasses.models import GymClassScheduleSerializer, GymClassSerializer
 
 
@@ -24,7 +26,7 @@ class ViewEnrolledClasses(ListAPIView):
 
     permission_classes = [IsAuthenticated]
     pagination_class = AccountClassesPagination
-    serializer_class = GymClassScheduleSerializer
+    serializer_class = UserClassInterfaceSerializer
 
     # def get(self, request, *args, **kwargs):
     #
@@ -56,18 +58,22 @@ class ViewEnrolledClasses(ListAPIView):
     def get_queryset(self):
         self.ProcessRequestParams()
         user = self.request.user
-        uext = GetUserExtension(user)
         now = timezone.now()
         if self.requestParams[1] == 0:
-            qs = uext.enrolled_classes
+            # all
+            qs = UserClassInterface.objects.filter(user=user)
         elif self.requestParams[1] == 1:
-            qs = uext.enrolled_classes.filter(start_time__lt=now)
+            # past
+            qs = UserClassInterface.objects.filter(user=user, class_session__start_time__lt=now)
         else:
-            qs = uext.enrolled_classes.filter(start_time__gte=now)
+            # future
+            qs = UserClassInterface.objects.filter(user=user, class_session__start_time__gte=now)
 
         if self.requestParams[0] == 0:
-            qs = qs.order_by('start_time')
+            # ascending
+            qs = qs.order_by('class_session__start_time')
         else:
-            qs = qs.order_by('-start_time')
+            # descending
+            qs = qs.order_by('-clas_session__start_time')
 
         return qs

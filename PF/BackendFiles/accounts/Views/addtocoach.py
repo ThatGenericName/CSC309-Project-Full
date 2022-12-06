@@ -50,3 +50,39 @@ class SetUserCoach(APIView):
             return Response({"detail": "User does not exist"}, status=404)
 
         return Response({'detail': 'User has been removed as a coach'}, status=200)
+
+
+class SetUserAdmin(APIView):
+    parser_classes = [
+        rest_framework.parsers.JSONParser,
+        rest_framework.parsers.FormParser,
+        rest_framework.parsers.MultiPartParser
+    ]
+
+    permission_classes = [IsAdminUser]
+
+    def get(self, request: Request, *args, **kwargs):
+        userId = kwargs['user_id']
+
+        try:
+            user = User.objects.get(id=userId)
+            user.is_staff = True
+            user.is_admin = True
+            user.save()
+        except ObjectDoesNotExist:
+            return Response({"error": "User does not exist"}, status=404)
+
+        return Response({'detail': "User has been set as an admin"}, status=200)
+
+    def delete(self, request, *args, **kwargs):
+        userId = kwargs['user_id']
+
+        try:
+            user = User.objects.get(id=userId)
+            user.is_staff = False
+            user.is_admin = False
+            user.save()
+        except ObjectDoesNotExist:
+            return Response({"detail": "User does not exist"}, status=404)
+
+        return Response({'detail': 'User has been removed as an admin'}, status=200)

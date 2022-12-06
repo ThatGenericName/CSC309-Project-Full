@@ -52,9 +52,6 @@ Serializer
 """
 
 
-
-
-
 class GymClassSerializer(serializers.ModelSerializer):
     studio = StudioSerializer
 

@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from accounts.models import UserExtension, UserPaymentData, UserSubscription
+from accounts.models import UserClassInterface, UserExtension, UserPaymentData, \
+    UserSubscription
 
 
 # Register your models here.
@@ -17,3 +18,8 @@ class UserSubAdmin(admin.ModelAdmin):
 @admin.register(UserPaymentData)
 class UserSubAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'user', 'card_num', 'card_name', 'active')
+
+@admin.register(UserClassInterface)
+class UCIAdmin(admin.ModelAdmin):
+    list_display = ('user', 'class_session', 'financial_hold', 'dropped')
+    list_filter = ('user', 'class_session')

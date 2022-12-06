@@ -2,7 +2,8 @@ from django.urls import path
 
 from accounts.Views.accountsubscription import AddSubscription, \
     CanceAllSubscriptions, GetAllUserSubscriptions, GetSubscription
-from accounts.Views.addtocoach import SetUserCoach
+from accounts.Views.addtocoach import SetUserAdmin, SetUserCoach
+from accounts.Views.adminanalytics import UserAnalytics
 from accounts.Views.admingetallusers import GetAllUsers
 from accounts.Views.adminsubrenew import AdminRenew
 from accounts.Views.getallcoaches import GetAllCoaches
@@ -38,9 +39,11 @@ urlpatterns = [
     path('payment/add/', AddPaymentInformation.as_view(), name='addPaymentInfo'),
     path('payment/remove/', RemovePaymentInformation.as_view(), name='removePaymentInfo'),
     path('setcoach/<int:user_id>/', SetUserCoach.as_view(), name='setUserCoach'),
+    path('setadmin/<int:user_id>/', SetUserAdmin.as_view(), name='setUserAdmin'),
     path('enrolledclasses/', ViewEnrolledClasses.as_view(), name='viewEnrolledClasses'),
     path('admin/getcoaches/', GetAllCoaches.as_view(), name='getAllCoaches'),
     path('admin/allusers/', GetAllUsers.as_view(), name='getAllUsers'),
+    path('admin/analytics/', UserAnalytics.as_view(), name='adminUserAnalytics'),
     # Below are the admin debug calls
     path('admin/generatesubscriptions/', AdminCreateUSubs.as_view(), name='adminCreateUSubs'),
     path('admin/renew/', AdminRenew.as_view(), name='adminRenew')

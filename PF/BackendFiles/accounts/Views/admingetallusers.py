@@ -19,7 +19,7 @@ class GetAllUsers(ListAPIView):
         rest_framework.parsers.MultiPartParser
     ]
 
-    permission_classes = [IsAdminUser | IsCoach]
+    permission_classes = [IsAdminUser]
     pagination_class = CoachesPagination
     serializer_class = AdminSimpleUserSerializer
 

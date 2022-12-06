@@ -4,6 +4,8 @@ from django.db import models
 from rest_framework import serializers
 
 
+
+
 # Create your models here.
 
 class Subscription(models.Model):
@@ -59,6 +61,7 @@ class SubscriptionSerializerAdmin(serializers.ModelSerializer):
         ]
 
     def to_representation(self, instance):
+        from accounts.models import UserExtension, UserSubscription
         data = super().to_representation(instance)
         inst = Subscription.objects.get(id=data['id'])
         durDict = {
@@ -68,5 +71,12 @@ class SubscriptionSerializerAdmin(serializers.ModelSerializer):
             'seconds': inst.duration.seconds % 60
         }
         data['duration_map'] = durDict
+        activeList = UserExtension.objects.filter(active_subscription__subscription__id=instance['id'])
+        totalList = UserSubscription.objects.filter(subscription__id=instance['id'])
+
+        activeCnt = activeList.count()
+        totalCnt = totalList.count()
+        data['active_count'] = activeCnt
+        data['total_count'] = totalCnt
 
         return data
