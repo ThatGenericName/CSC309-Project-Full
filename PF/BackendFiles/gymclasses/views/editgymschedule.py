@@ -27,7 +27,7 @@ class EditGymClassSchedule(APIView):
         rest_framework.parsers.MultiPartParser
     ]
 
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
     keys = [
         'date',
@@ -122,7 +122,7 @@ class EditGymClassSchedule(APIView):
             if key not in data:
                 errors[key] = "Missing Key"
 
-        if 'date' not in errors:
+        if 'date' not in errors and data["date"]:
             try:
                 datetime.datetime.strptime(data['date'], '%d/%m/%Y')
             except ValueError:
@@ -151,11 +151,5 @@ class EditGymClassSchedule(APIView):
                 datetime.datetime.strptime(data['end_time'], '%H:%M').time()
             except ValueError:
                 errors['end_time'] = "Wrong End Time Format"
-
-        if 'is_cancelled' not in errors and data["is_cancelled"]:
-            try:
-                json.loads(data["is_cancelled"].lower())
-            except json.decoder.JSONDecodeError:
-                errors['is_cancelled'] = "Wrong input format Boolean expected"
 
         return errors

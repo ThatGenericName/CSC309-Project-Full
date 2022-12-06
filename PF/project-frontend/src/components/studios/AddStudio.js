@@ -140,7 +140,7 @@ export default class Studio extends React.Component{
             formdat.set("phone_num", this.state.data.phone_num)
             formdat.set("images", [])
             for(var img of this.state.data.images){
-                formdat.append("images", img)
+                formdat.append("images", JSON.stringify(img))
             }
 
             // var token = this.context.userToken
@@ -270,19 +270,28 @@ export default class Studio extends React.Component{
                     <i style={{ color: 'red' }}>{this.state.errors.phone_num}</i>
                     <br/>
 
-                    <label> Studio Images
-                      <input
-                          multiple
-                          type="file"
-                          name="studio_images"
-                          accept='image/png, image/jpeg'
-                          id='images'
-                          onChange={e => {this.setImage(e)
+                    <div style={{
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                  }}>
+                        <input
+                        multiple
+                        type="file"
+                        name="studio_images"
+                        accept='image/png, image/jpeg'
+                        id='images'
+                        style={{ display: 'none' }}
+                        onChange={e => {this.setImage(e)
                               let a = e.target.images
                           console.log("")
                           }}
-                      />
+                    />
+                    <label htmlFor="images">
+                        <Button variant="contained" color="primary" component="span">
+                            Studio Images
+                        </Button>
                     </label>
+                    </div>
 
                     <br/>
 

@@ -26,7 +26,7 @@ class EditGymClass(APIView):
         rest_framework.parsers.MultiPartParser
     ]
 
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
     keys = [
         'studio',
@@ -156,12 +156,6 @@ class EditGymClass(APIView):
                                    'Friday', 'Saturday', 'Sunday']:
                 errors['day'] = "Wrong day name. Must be Monday, Tuesday, Wednesday," \
                                 " Thursday, Friday, Saturday or Sunday"
-
-        if 'enrollment_capacity' not in errors and data["enrollment_capacity"]:
-            try:
-                int(data['enrollment_capacity'])
-            except ValueError:
-                errors['enrollment_capacity'] = "Wrong input format integer expected"
 
         if 'earliest_date' not in errors and data["earliest_date"]:
             try:
