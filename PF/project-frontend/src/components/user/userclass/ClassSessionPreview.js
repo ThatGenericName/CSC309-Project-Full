@@ -1,4 +1,4 @@
-import {Box, ButtonGroup, Card} from "@mui/material";
+import {Box, ButtonGroup, Card, Chip} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import SimpleTimeCard from "../SimpleTimeCard";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
@@ -11,7 +11,7 @@ import DropClassButton from "./DropClassButton";
 
 
 export function ClassSessionPreview(props){
-    var classData = props.classData
+    var classData = props.classData['class_session']
     var startTime = Date.parse(classData['start_time'])
     var endTime = Date.parse(classData['end_time'])
 
@@ -33,14 +33,20 @@ export function ClassSessionPreview(props){
                 alignItems="center"
                 justifyContent='center'
             >
-                <Grid2 xs={8}>
+                <Grid2 xs={5}>
                     <Box sx={{ fontWeight: 'bold', fontSize: 24}}>
                         {classData['parent_class']['name']}
                     </Box>
                 </Grid2>
-                <Grid2 xs={2}/>
-                <Grid2 xs={12}>
+                <Grid2 xs={3}>
+                    {props.classData['dropped'] && <Chip label="Dropped" />}
+                </Grid2>
+                <Grid2 xs={4}>
+                    {props.classData['financial_hold'] && <Chip label="Financial Held" />}
+                </Grid2>
+                <Grid2 xs={10}>
                     <DropClassButton
+                        data={props.classData}
                         classID={classID}
                         sessionID={sessionID}
                         filterSetter={props.filterSetter}

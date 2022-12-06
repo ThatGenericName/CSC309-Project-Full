@@ -24,7 +24,7 @@ export function AdminSubscriptionList(props){
     function setCompState(obj){
         var d = {}
         Object.keys(compState).forEach(k => {
-            d[k] = compState[d]
+            d[k] = compState[k]
         })
         Object.keys(obj).forEach(k => {
             d[k] = obj[k]
@@ -62,7 +62,6 @@ export function AdminSubscriptionList(props){
             setCompState({
                 list: response.data['results'],
                 pages: pages,
-                targetPage: 1,
                 axiosLoading: false,
                 respReceived: true,
                 onSendFlag: false
@@ -114,7 +113,7 @@ export function AdminSubscriptionList(props){
                         if (v !== compState.targetPage){
                             setCompState({
                                 targetPage: v,
-                                responseReceived: false,
+                                respReceived: false,
                                 axiosLoading: true
                             })
                         }

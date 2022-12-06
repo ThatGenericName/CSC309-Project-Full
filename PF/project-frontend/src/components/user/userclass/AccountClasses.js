@@ -51,7 +51,8 @@ export default class AccountClasses extends React.Component{
         var par = {
             page: targetState.page,
             sort: targetState.sortData,
-            filter: targetState.filterData
+            filter: targetState.filterData,
+            dropped: 'true'
         }
 
         var token = this.context.userToken

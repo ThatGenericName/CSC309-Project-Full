@@ -54,7 +54,7 @@ export function AllSubscriptions(props){
                 axiosLoading: false,
                 responseReceived: true,
                 data: response.data['results'],
-                pages: response.data['count']
+                pages: Math.ceil(response.data['count'] / 10)
             })
         }).catch(function(error){
             let a = 1

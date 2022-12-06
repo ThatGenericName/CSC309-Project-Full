@@ -34,6 +34,7 @@ export default function DropClassButton(props){
         })
     }
 
+
     function handleClose(){
         setDialogueState({
             open: false,
@@ -47,20 +48,64 @@ export default function DropClassButton(props){
         dialogueText = "Are you sure you want to drop all sessions of this class?"
     }
     else{
-        dialogueText = "Are you sure you want to drop this session?"
+        if (props.data['dropped']){
+            if (props.data['financial_hold']){
+                dialogueText = "You are currently under financial hold, please sign up for a membership before enrolling in classes"
+            }
+            else{
+                dialogueText = "Are you sure you want to re-enroll in this session?"
+            }
+        }
+        else{
+            dialogueText = "Are you sure you want to drop this session?"
+        }
     }
 
     function send(){
         setAxiosLoading(true)
         if (dialogueState.all){
-            sendDropSession()
+            sendDropClass()
         }
         else{
-            sendDropClass()
+            if (props.data['dropped']){
+                sendReenrollClassSession()
+            }
+            else{
+                sendDropClassSession()
+            }
         }
     }
 
-    function sendDropClass(){
+    function sendReenrollClassSession(){
+        const token = ctx.userToken.replace("Token ")
+
+        var targetURL = BASEURL + 'classes/session/' + props.sessionID + '/signup/'
+
+        var requestData = {
+            url: targetURL,
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: "Token " + token
+            }
+        }
+
+        axios(requestData)
+            .then(function (response) {
+                setAxiosLoading(false)
+                // class has been dropped, now what?
+                props.filterSetter({makeRequest: true})
+                handleClose()
+            })
+            .catch(function (error) {
+                // ya dun goof'd
+                if (error.response.status = 403){
+                    let a = 1
+                }
+                let a = 1
+            })
+    }
+
+    function sendDropClassSession(){
         const token = ctx.userToken.replace("Token ")
 
         var targetURL = BASEURL + 'classes/session/' + props.sessionID + '/drop/'
@@ -86,7 +131,7 @@ export default function DropClassButton(props){
             })
     }
 
-    function sendDropSession(){
+    function sendDropClass(){
         const token = ctx.userToken.replace("Token ")
 
         var targetURL = BASEURL + 'classes/' + props.classID + '/drop/'
@@ -115,7 +160,7 @@ export default function DropClassButton(props){
         <Box>
             <ButtonGroup>
                 <Button onClick={dropSession}>
-                    Drop Session
+                    {props.data['dropped'] ? "Re-enroll" : "Drop Session"}
                 </Button>
                 <Button onClick={dropAllSessions}>
                     Drop Class
@@ -126,8 +171,17 @@ export default function DropClassButton(props){
                     {dialogueText}
                 </Box>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={send}>Confirm</Button>
+                    <Button
+                        onClick={handleClose}
+                    >
+                        Cancel
+                    </Button>
+                    <Button
+                        onClick={send}
+                        disabled={props.data['financial_hold'] && props.data['dropped']}
+                    >
+                        Confirm
+                    </Button>
                 </DialogActions>
             </Dialog>
         </Box>

@@ -12,6 +12,7 @@ import {AdminMain} from "./AdminMain";
 import {
     SubscriptionControlPanel
 } from "./Subscription/SubscriptionControlPanel";
+import {UserControlPanel} from "./User/UserControlPanel";
 
 export function AdminLandingPage(){
 
@@ -46,13 +47,14 @@ export function AdminLandingPage(){
                 <Button component={Link} to={'/admin/subscription'}>
                     Membership Management
                 </Button>
-                <Button>
+                <Button component={Link} to={'/admin/users'}>
                     User Management
                 </Button>
             </Box>
             <Routes>
                 <Route path="" element={<AdminMain/>}/>
                 <Route path="/subscription" element={<SubscriptionControlPanel/>}/>
+                <Route path='/users' element={<UserControlPanel/>}/>
             </Routes>
         </Stack>
     )

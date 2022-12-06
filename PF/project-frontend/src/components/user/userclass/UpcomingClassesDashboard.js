@@ -28,7 +28,8 @@ export function UpcomingClassesDashboard(props){
         var par = {
             page: 1,
             sort: 'asc',
-            filter: 'future'
+            filter: 'future',
+            dropped: 'false'
         }
 
         var token = ctx.userToken

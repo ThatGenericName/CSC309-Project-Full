@@ -66,7 +66,7 @@ export function SubscriptionDisplayAdmin(props){
                 container
                 alignItems='center'
             >
-                <Grid2 xs={8}>
+                <Grid2 xs={4}>
                     <Stack spacing={1}>
                         <Typography variant='h5'>
                             {data['name']}
@@ -79,6 +79,16 @@ export function SubscriptionDisplayAdmin(props){
                         </Typography>
                         <Typography>
                             {data['description']}
+                        </Typography>
+                    </Stack>
+                </Grid2>
+                <Grid2 xs={4}>
+                    <Stack>
+                        <Typography>
+                            Total Subscriptions: {data['total_count']}
+                        </Typography>
+                        <Typography>
+                            Active Subscriptions: {data['active_count']}
                         </Typography>
                     </Stack>
                 </Grid2>

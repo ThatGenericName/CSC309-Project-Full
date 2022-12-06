@@ -13,6 +13,7 @@ export function SubscriptionsDetailed(props){
 
     return (
         <Card
+            key={props.key}
             variant='outlined'
             sx={{p:2}}
             style={{width:'90%'}}

@@ -50,15 +50,26 @@ class ViewEnrolledClasses(ListAPIView):
             elif dat['filter'] == 'future':
                 filt = 2
 
+        cancelled = 0
+        if 'cancelled' in dat:
+            if dat['cancelled'] == 'true':
+                cancelled = 1
+
+        dropped = 0
+        if 'dropped' in dat:
+            if dat['dropped'] == 'true':
+                dropped = 1
+
         p.append(sort)
         p.append(filt)
-
+        p.append(cancelled)
+        p.append(dropped)
         self.requestParams = p
 
     def get_queryset(self):
+        now = timezone.now()
         self.ProcessRequestParams()
         user = self.request.user
-        now = timezone.now()
         if self.requestParams[1] == 0:
             # all
             qs = UserClassInterface.objects.filter(user=user)
@@ -75,5 +86,11 @@ class ViewEnrolledClasses(ListAPIView):
         else:
             # descending
             qs = qs.order_by('-clas_session__start_time')
-        end = timezone.now()
+
+        if self.requestParams[2] == 0:
+            qs = qs.filter(class_session__is_cancelled=False)
+
+        if self.requestParams[3] == 0:
+            qs = qs.filter(dropped=False)
+
         return qs
