@@ -115,11 +115,13 @@ class AdminSimpleUserSerializer(serializers.ModelSerializer):
         ]
 
     def to_representation(self, instance):
+
         dat = super().to_representation(instance)
         uext = GetUserExtension(instance)
         dat2 = UserExtendedSerializer(uext).data
         dat["profile_pic"] = dat2["profile_pic"]
         dat['is_coach'] = instance.groups.filter(name='Coach').exists()
+
         return dat
 
 

@@ -4,6 +4,7 @@ from accounts.Views.accountsubscription import AddSubscription, \
     CanceAllSubscriptions, GetAllUserSubscriptions, GetSubscription
 from accounts.Views.addtocoach import SetUserAdmin, SetUserCoach
 from accounts.Views.adminanalytics import UserAnalytics
+from accounts.Views.adminchecksubscriptions import AdminCheckSubscriptions
 from accounts.Views.admingetallusers import GetAllUsers
 from accounts.Views.adminsubrenew import AdminRenew
 from accounts.Views.getallcoaches import GetAllCoaches
@@ -44,6 +45,7 @@ urlpatterns = [
     path('admin/getcoaches/', GetAllCoaches.as_view(), name='getAllCoaches'),
     path('admin/allusers/', GetAllUsers.as_view(), name='getAllUsers'),
     path('admin/analytics/', UserAnalytics.as_view(), name='adminUserAnalytics'),
+    path('admin/checksubscriptions/', AdminCheckSubscriptions.as_view(), name='adminCheckSubs'),
     # Below are the admin debug calls
     path('admin/generatesubscriptions/', AdminCreateUSubs.as_view(), name='adminCreateUSubs'),
     path('admin/renew/', AdminRenew.as_view(), name='adminRenew')

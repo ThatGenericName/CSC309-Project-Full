@@ -57,8 +57,31 @@ def unEnroll(user, uext):
     for uci in ucis:
         classSession = uci.class_session
         classSession.enrollment_count -= 1
-        uci.active = False
         uci.financial_hold = True
         uci.save()
         classSession.save()
 
+
+def reactivateClasses(user):
+    now = timezone.now()
+
+    ucis = UserClassInterface.objects.filter(
+        user=user,
+        class_session__start_time__gt=now,
+        financial_hold=True,
+        dropped=False,
+    )
+
+    fullClasses = []
+
+    for uci in ucis:
+        classSession = uci.class_session
+        if (classSession.enrollment_count < classSession.enrollment_capacity):
+            classSession.enrollment_count += 1
+            uci.financial_hold = False
+            uci.save()
+            classSession.save()
+        else:
+            fullClasses.append(fullClasses)
+
+    return fullClasses

@@ -13,8 +13,9 @@ import datetime
 import rest_framework.parsers
 
 from PB.utility import ValidateInt, ValidatePicture, VerifyPayment
+from accounts.management.manageactivesubscriptions import reactivateClasses
 from accounts.models import GetUserExtension, InternalUserPaymentDataSerializer, \
-    UserExtension, \
+    UserClassInterface, UserExtension, \
     UserPaymentData, \
     UserPaymentDataSerializer, UserSubscription, UserSubscriptionSerializer
 from subscriptions.models import Subscription
@@ -129,6 +130,7 @@ class AddSubscription(APIView):
                 }
                 uSub = UserSubscription.objects.create(**dat)
                 uSub.save()
+                reactivateClasses(request.user)
         else:
             # User already has an active subscription
             activeSub = uext.active_subscription
@@ -372,3 +374,6 @@ class GetAllUserSubscriptions(ListAPIView):
         p.append(filt)
 
         self.requestParams = p
+
+
+

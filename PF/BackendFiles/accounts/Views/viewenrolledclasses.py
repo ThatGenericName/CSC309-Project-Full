@@ -75,5 +75,5 @@ class ViewEnrolledClasses(ListAPIView):
         else:
             # descending
             qs = qs.order_by('-clas_session__start_time')
-
+        end = timezone.now()
         return qs
