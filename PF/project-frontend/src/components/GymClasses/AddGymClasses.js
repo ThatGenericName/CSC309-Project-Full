@@ -35,16 +35,16 @@ export default class AddGymClasses extends Component{
                 enrollment_capacity: ''
             },
             data: {
-                name: 'test1',
-                coach: '1',
-                description: 'shoulder',
-                keywords: 'shoulder',
-                earliest_date: '15/12/2022',
-                last_date: '30/12/2022',
-                day: 'Monday',
-                start_time: '9:00',
-                end_time: '10:00',
-                enrollment_capacity: 100
+                name: '',
+                coach: '',
+                description: '',
+                keywords: '',
+                earliest_date: '',
+                last_date: '',
+                day: '',
+                start_time: '',
+                end_time: '',
+                enrollment_capacity: 0
             },
             generalMessage: "",
             axiosLoading: false
@@ -53,13 +53,27 @@ export default class AddGymClasses extends Component{
 
     }
 
+
     setFormData(change){
         let dat = this.state.data
         for (let [key, value] of Object.entries(change)){
             dat[key] = value
         }
+        let emptyErrors = {
+            name: '',
+            coach: '',
+            description: '',
+            keywords: '',
+            earliest_date: '',
+            last_date: '',
+            day: '',
+            start_time: '',
+            end_time: '',
+            enrollment_capacity: ''
+        }
 
-        this.setState({data: dat})
+
+        this.setState({data: dat, errors: emptyErrors})
     }
 
 
@@ -67,7 +81,7 @@ export default class AddGymClasses extends Component{
         if (this.state.reqSucc){
             return (
                 <Alert severity="success">
-                    <AlertTitle>Amenity Added successfully to studio</AlertTitle>
+                    <AlertTitle>Gym Class Added successfully to studio</AlertTitle>
                 </Alert>
             )
         }
@@ -86,7 +100,7 @@ export default class AddGymClasses extends Component{
         let hasErrors = false
         for (let [key, value] of Object.entries(data)){
 
-            if (!(value.length) && REQUIRED_PARAMS.includes(key)){
+            if (!((value.length)) && REQUIRED_PARAMS.includes(key)){
                 errors[key] = "This Field is required"
                 hasErrors = true
             }
@@ -96,18 +110,16 @@ export default class AddGymClasses extends Component{
 
         }
 
+        if(errors["enrollment_capacity"] === "" && data["enrollment_capacity"] < 1){
+            errors["enrollment_capacity"] = "Enrollment Capacity should be >= 1"
+            hasErrors = true
+        }
+
         if(errors["data"] === "" && !['Monday', 'Tuesday', 'Wednesday', 'Thursday',
                                    'Friday', 'Saturday', 'Sunday'].includes(data["day"])){
             errors["day"] = "Wrong day name"
             hasErrors = true
         }
-
-        if(errors["enrollment_capacity"] === "" &&
-            Number.isInteger(data["enrollment_capacity"])){
-            errors["enrollment_capacity"] = "Wrong input format integer expected"
-            hasErrors = true
-        }
-
 
         this.setState({errors: errors, hasErrors: hasErrors})
         return hasErrors
@@ -154,7 +166,7 @@ export default class AddGymClasses extends Component{
                 comp.setState(newData)
 
                 comp.setState({
-                    generalMessage: "Studio Added Successfully"
+                    generalMessage: "Gym Class Added Successfully"
                 })
             })
             .catch(function (error){
@@ -212,7 +224,7 @@ export default class AddGymClasses extends Component{
                         type='text'
                         id='name'
                         label='GymClass Name'
-                        onChange={e => this.setFormData({type: e.target.value})}
+                        onChange={e => this.setFormData({name: e.target.value})}
                     />
 
                     <i style={{ color: 'red' }}>{this.state.errors.name}</i>
@@ -224,7 +236,7 @@ export default class AddGymClasses extends Component{
                         type='number'
                         id='coach'
                         label='Coach Id'
-                        onChange={e => this.setFormData({type: e.target.value})}
+                        onChange={e => this.setFormData({coach: e.target.value})}
                     />
                     <i style={{ color: 'red' }}>{this.state.errors.coach}</i>
                     <br/>
@@ -235,7 +247,7 @@ export default class AddGymClasses extends Component{
                         type='text'
                         id='description'
                         label='GymClass Description'
-                        onChange={e => this.setFormData({type: e.target.value})}
+                        onChange={e => this.setFormData({description: e.target.value})}
                     />
                     <i style={{ color: 'red' }}>{this.state.errors.description}</i>
                     <br/>
@@ -246,7 +258,7 @@ export default class AddGymClasses extends Component{
                         type='text'
                         id='keywords'
                         label='Keywords'
-                        onChange={e => this.setFormData({type: e.target.value})}
+                        onChange={e => this.setFormData({keywords: e.target.value})}
                     />
                     <i style={{ color: 'red' }}>{this.state.errors.keywords}</i>
                     <br/>
@@ -257,7 +269,7 @@ export default class AddGymClasses extends Component{
                         type='text'
                         id='earliest_date'
                         label='Start Date (dd/mm/YY)'
-                        onChange={e => this.setFormData({type: e.target.value})}
+                        onChange={e => this.setFormData({earliest_date: e.target.value})}
                     />
                     <i style={{ color: 'red' }}>{this.state.errors.earliest_date}</i>
                     <br/>
@@ -268,7 +280,7 @@ export default class AddGymClasses extends Component{
                         type='text'
                         id='last_date'
                         label='Last Date (dd/mm/YY)'
-                        onChange={e => this.setFormData({type: e.target.value})}
+                        onChange={e => this.setFormData({last_date: e.target.value})}
                     />
                     <i style={{ color: 'red' }}>{this.state.errors.last_date}</i>
                     <br/>
@@ -279,7 +291,7 @@ export default class AddGymClasses extends Component{
                         type='text'
                         id='day'
                         label='Day'
-                        onChange={e => this.setFormData({type: e.target.value})}
+                        onChange={e => this.setFormData({day: e.target.value})}
                     />
                     <i style={{ color: 'red' }}>{this.state.errors.day}</i>
                     <br/>
@@ -290,7 +302,7 @@ export default class AddGymClasses extends Component{
                         type='text'
                         id='start_time'
                         label='Start Time (HH:MM)'
-                        onChange={e => this.setFormData({type: e.target.value})}
+                        onChange={e => this.setFormData({start_time: e.target.value})}
                     />
                     <i style={{ color: 'red' }}>{this.state.errors.start_time}</i>
                     <br/>
@@ -301,7 +313,7 @@ export default class AddGymClasses extends Component{
                         type='text'
                         id='end_time'
                         label='End Time (HH:MM)'
-                        onChange={e => this.setFormData({type: e.target.value})}
+                        onChange={e => this.setFormData({end_time: e.target.value})}
                     />
                     <i style={{ color: 'red' }}>{this.state.errors.end_time}</i>
                     <br/>
@@ -312,7 +324,7 @@ export default class AddGymClasses extends Component{
                         type='number'
                         id='enrollment_capacity'
                         label='Enrollment Capacity'
-                        onChange={e => this.setFormData({type: e.target.value})}
+                        onChange={e => this.setFormData({enrollment_capacity: e.target.value})}
                     />
                     <i style={{ color: 'red' }}>{this.state.errors.enrollment_capacity}</i>
                     <br/>

@@ -52,8 +52,16 @@ export default class Studio extends React.Component{
         for (let [key, value] of Object.entries(change)){
             dat[key] = value
         }
+        var errors = {
+                name: '',
+                address: '',
+                post_code: '',
+                phone_num: '',
+                images: ''
+            }
 
-        this.setState({data: dat})
+
+        this.setState({data: dat, errors: errors})
     }
     setImage(change){
         let dat = this.state.data
@@ -140,7 +148,7 @@ export default class Studio extends React.Component{
             formdat.set("phone_num", this.state.data.phone_num)
             formdat.set("images", [])
             for(var img of this.state.data.images){
-                formdat.append("images", JSON.stringify(img))
+                formdat.append("images", img)
             }
 
             // var token = this.context.userToken

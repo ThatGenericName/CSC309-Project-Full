@@ -150,7 +150,9 @@ export default function EditAmenity(props){
                     var err = Boolean(errorsRef.current[fieldID].length);
                     const label = fieldNames[index]
                     var val = formDataRef.current[fieldID]
-                    return (
+
+                    if(fieldID === 'type'){
+                        return (
                         <Stack spacing={0} key={fieldID} >
                             <Box>
                                 <TextField
@@ -169,6 +171,29 @@ export default function EditAmenity(props){
                             </Box>
                         </Stack>
                         )
+                    }
+                    else{
+                        return (
+                        <Stack spacing={0} key={fieldID} >
+                            <Box>
+                                <TextField
+                                    type='number'
+                                    error={err}
+                                    label={label}
+                                    id={fieldID}
+                                    value={val}
+                                    onChange={e => reset2(fieldID, e.target.value)}
+                                    InputLabelProps={{
+                                      shrink: true,
+                                    }}
+                                />
+                            </Box>
+                            <Box>
+                                <i style={{ color: 'red'}}>{errorsRef.current[fieldID]}</i>
+                            </Box>
+                        </Stack>
+                        )
+                    }
                     })
                 }
 
