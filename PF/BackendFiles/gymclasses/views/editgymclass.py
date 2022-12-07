@@ -54,7 +54,8 @@ class EditGymClass(APIView):
             return Response({'error':"Wrong GymClass Id"}, status=404)
 
         if data["studio"] and not Studio.objects.filter(id=data["studio"]):
-            return Response({'error': "Wrong Studio Id"}, status=404)
+            errors["studio"] = "Wrong Studio Id"
+            return Response(errors, status=404)
 
         gym_class = GymClass.objects.get(id=gym_class_id)
 
@@ -87,9 +88,14 @@ class EditGymClass(APIView):
             day = data["day"]
 
         if earliest_date >= last_date:
-            return Response({"Last date must be later than the Start date"})
+            errors["earliest_date"] = "Start Date must be later than the End Date"
+            errors["last_date"] = "Start Date must be later than the End Date"
+            return Response(errors, status=400)
         if start_time >= end_time:
-            return Response({"Last date must be later than the Start date"})
+            errors["start_time"] = "Start Time must be later than the End Time"
+            errors["end_time"] = "Start Time must be later than the End Time"
+            return Response(errors, status=400)
+
 
         if data["studio"]:
             setattr(gym_class, "studio", Studio.objects.get(id=data["studio"]))

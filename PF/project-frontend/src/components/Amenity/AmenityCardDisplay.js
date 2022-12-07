@@ -75,7 +75,7 @@ export function AmenityCardDisplay(props){
             key={props.key}
             variant='outlined'
             sx={{p:2}}
-            style={{width:'40%'}}
+            style={{width:'60%'}}
         >
             <Grid2
                 container
@@ -85,13 +85,13 @@ export function AmenityCardDisplay(props){
                 alignItems="center"
                 justifyContent='center'
             >
-                <Grid2 xs={8}>
+                <Grid2 xs={12}>
                     <Stack spacing={1}>
                         <Typography>
-                            {props.data.type}
+                            {"Amenity Type : " + props.data.type}
                         </Typography>
                         <Typography>
-                            {props.data.quantity}
+                            {"Quantity : "+ props.data.quantity}
                         </Typography>
                     </Stack>
                 </Grid2>

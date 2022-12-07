@@ -56,7 +56,8 @@ class EditGymClassSchedule(APIView):
             try:
                 User.objects.get(id=data["coach"])
             except ObjectDoesNotExist:
-                return Response({'error': 'Coach was not found'}, status=404)
+                errors["coach"] = 'Coach was not found'
+                return Response(errors, status=404)
 
         gym_class_schedule = GymClassSchedule.objects.get(id=gym_class_schedule_id)
 
@@ -98,11 +99,15 @@ class EditGymClassSchedule(APIView):
             is_cancelled = data["is_cancelled"]
 
         if start_time.time() >= end_time.time():
-            return Response({"End Time must be later than the Start Time"}, status=400)
+            errors["start_time"] = "Start Time must be later than the End Time"
+            errors["end_time"] = "Start Time must be later than the End Time"
+            return Response(errors, status=400)
 
         if gym_class_schedule.parent_class.earliest_date >= date or \
                 gym_class_schedule.parent_class.last_date < date:
-            return Response({"Date not between class earliest date and last date"}, status=400)
+            errors["earliest_date"] = "Date not between class earliest date and last date"
+            errors["last_date"] = "Date not between class earliest date and last date"
+            return Response(errors, status=400)
 
         setattr(gym_class_schedule, "date", date)
         setattr(gym_class_schedule, "coach", coach)

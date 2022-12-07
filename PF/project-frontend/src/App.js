@@ -5,7 +5,10 @@ import React from 'react';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {AdminLandingPage} from "./components/Admin/AdminLandingPage";
-
+import {MapComp} from "./components/studios/MapComp";
+import {MapContainer} from "./components/studios/MapContainer";
+import {StudiosLanding} from "./components/studios/StudioLanding";
+import ViewStudio from "./components/studios/StudioView";
 
 import {
     APIContextProvider
@@ -21,11 +24,13 @@ import EditAmenity from "./components/Amenity/EditAmenity";
 import AddAmenity from "./components/Amenity/AddAmenity";
 import EditStudio from "./components/studios/EditStudio";
 import EditSchedule from "./components/GymClasses/EditGymClassSchedule";
+import GymClass from "./components/GymClasses/GymClass";
+import GymClassSchedule from "./components/GymClasses/GymClassSchedule";
+import EditGymClassSchedule from "./components/GymClasses/EditGymClassSchedule";
 import EditGymClass from "./components/GymClasses/EditGymClass";
+import AddGymClass from "./components/GymClasses/AddGymClasses";
 
-import {MapComp} from "./components/studios/MapComp";
-import {MapContainer} from "./components/studios/MapContainer";
-import {StudiosLanding} from "./components/studios/StudioLanding";
+
 import {NotFound404} from "./components/ErrorPages/404NotFound";
 import {
     InternalServerError500
@@ -76,6 +81,7 @@ class App extends React.Component{
                                     <Route path="subscriptions/*" element={<Subscription />} />
                                     <Route path="studios/" element={<Studio/>} />
                                     <Route path="studios/">
+                                        <Route path=":id/view" element={<ViewStudio />} />
                                         <Route path=":id/edit/" element={<EditStudio />} />
                                         <Route path="create/" element={<AddStudio />} />
                                         <Route path=":id/amenities/" element={< Amenity/>} />
@@ -83,19 +89,18 @@ class App extends React.Component{
                                             <Route path=":id_2/edit/" element={<EditAmenity />} />
                                             <Route path="create/" element={<AddAmenity />} />
                                         </Route>
+                                        <Route path=":id/gymclasses/" element={<GymClass/>} />
+                                        <Route path=":id/schedules/" element={<GymClassSchedule/>} />
                                     </Route>
-                                    <Route path="/classes/schedule/:id/edit/"
-                                           element={<EditSchedule/>} />
-                                    <Route path="/classes/:id/edit/"
-                                           element={<EditGymClass/>} />
-                                    {/*<Route path="amenity/" element={<Amenity props={1}/>} />*/}
-                                    {/*<Route path="amenity/">*/}
-                                    {/*    <Route path=":id/edit/" element={<EditAmenity />} />*/}
-                                    {/*    <Route path="create/" element={<AddAmenity />} />*/}
-                                    {/*</Route>*/}
+                                    <Route path="schedule/:id/edit" element={<EditGymClassSchedule/>} />
+                                    <Route path="class/:id/edit" element={<EditGymClass/>} />
+
+
+                                    <Route path="class/:id/create" element={<AddGymClass/>} />
+
 
                                     <Route path="admin/*" element={<AdminLandingPage />} />
-                                    <Route path='studios/*' element={<StudiosLanding/>} />
+                                    {/*<Route path='studios/*' element={<StudiosLanding/>} />*/}
                                     <Route path='testbed/' element={<StudiosLanding/>} />
                                     <Route path='*' element={<NotFound404/>}/>
                                     <Route path='error/500' element={<InternalServerError500/>} />

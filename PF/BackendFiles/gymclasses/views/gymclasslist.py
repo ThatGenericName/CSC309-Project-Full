@@ -35,7 +35,7 @@ class GymClassList(ListAPIView):
         rest_framework.parsers.MultiPartParser
     ]
 
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     pagination_class = ClassesofStudioPagination
     model = GymClass
     serializer_class = GymClassSerializer
@@ -47,8 +47,8 @@ class GymClassList(ListAPIView):
         except ObjectDoesNotExist:
             return Response({'error': 'Studio Class was not found'}, status=404)
 
-        if not len(GymClass.objects.filter(studio=studio)):
-            return Response({'error':'No Classes  found'}, status=404)
+        # if not len(GymClass.objects.filter(studio=studio)):
+        #     return Response({'error':'No Classes  found'}, status=404)
 
         return super().get(request, *args, **kwargs)
 
@@ -58,9 +58,7 @@ class GymClassList(ListAPIView):
 
         studio = Studio.objects.get(id=studio_id)
 
-        classes = GymClass.objects.filter(studio=studio)
+        qs = GymClass.objects.filter(studio=studio)
 
-        qs = classes.filter(start_time__gt=timezone.now())
-        qs = qs.filter(end_time__gt=timezone.now())
 
         return qs

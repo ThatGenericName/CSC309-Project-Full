@@ -7,10 +7,12 @@ import {
     Stack,
     Typography
 } from "@mui/material";
+import {StudioPreview} from "./StudioPreview"
+
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import React, {useContext, useState} from "react";
-import {Link, Route, Routes} from 'react-router-dom'
+import {Link, Route, useNavigate} from 'react-router-dom'
 
 import {APIContext} from "../APIContextProvider";
 import UserLanding from "../user/UserLanding";
@@ -19,31 +21,22 @@ import axios from "axios";
 import {BASEURL} from "../constants";
 import Grid2 from "@mui/material/Unstable_Grid2";
 
+
 export function StudioCard(props){
 
     const ctx = useContext(APIContext)
 
     const data = props.data
 
-    const [open, setOpen] = useState(false)
-    const [openSub, setOpenSub] = useState(false)
-    // const []
+    const [change, setChange] = useState(false)
+    const [arg, setArg] = useState({studioData: props.data})
 
-    function handleClose(){
-        setOpen(false)
-    }
 
-    function handleOpen(){
-        setOpen(true)
-    }
+    const navigate = useNavigate();
+      const reload = () => {
+        navigate.go(0);
+      }
 
-    function handleAmenityOpen(){
-        setOpenSub(true)
-    }
-
-    function handleSubscriptionClose(){
-        setOpenSub(false)
-    }
 
     function DeleteStudio(){
         const id = props.data.id
@@ -60,20 +53,16 @@ export function StudioCard(props){
 
         axios(requestData).then(function (response) {}).catch(function (error) {})
         window.location.reload(false);
+        // reload()
     }
 
 
-    // var subButton = ctx.userLoggedIn ? (
-    //     <Button onClick={handleAmenityOpen} variant='contained'>
-    //     Subscribe
-    //     </Button>) : null
-
     return (
         <Card
-            key={props.key}
+            key={props.data.id}
             variant='outlined'
             sx={{p:2}}
-            style={{width:'50%'}}
+            style={{width:'60%'}}
         >
             <Grid2
                 container
@@ -83,19 +72,6 @@ export function StudioCard(props){
                 alignItems="center"
                 justifyContent='center'
             >
-                {/*<Grid2 xs={5}>*/}
-                {/*    <Box sx={{ fontWeight: 'bold', fontSize: 20}}>*/}
-                {/*        {props.data.name}*/}
-                {/*    </Box>*/}
-                {/*</Grid2>*/}
-
-                {/*<Grid2 xs={3}  >*/}
-                {/*    {props.data.address}*/}
-                {/*</Grid2>*/}
-
-                {/*<Grid2 xs={3}>*/}
-                {/*    {props.data.post_code}*/}
-                {/*</Grid2>*/}
 
                 <Grid2 xs={8}>
                     <Stack spacing={1}>
@@ -110,16 +86,6 @@ export function StudioCard(props){
                         </Typography>
                     </Stack>
                 </Grid2>
-
-                {/*<Stack spacing={2} sx={{m: 1}} >*/}
-                {/*    <Typography variant='h7'>*/}
-                {/*        {props.data.name}*/}
-                {/*    </Typography>*/}
-                {/*    <Typography variant='h7'>*/}
-                {/*        {props.data.address}*/}
-                {/*    </Typography>*/}
-                {/*</Stack>*/}
-                {/*<br/>*/}
                 <CardActions>
                     <Box>
                         <Button variant='contained' component={Link} to={{pathname:
@@ -136,6 +102,24 @@ export function StudioCard(props){
                         <Button variant='contained' component={Link} to={{pathname:
                             `/studios/${props.data.id}/amenities/`}}>
                           Amenities
+                        </Button>
+                    </Box>
+                    <Box>
+                        <Button variant='contained' component={Link} to={{pathname:
+                            `/studios/${props.data.id}/gymclasses/`}}>
+                          Gym Class
+                        </Button>
+                    </Box>
+                    <Box>
+                        <Button variant='contained' component={Link} to={{pathname:
+                            `/studios/${props.data.id}/schedules/`}}>
+                          Schedules
+                        </Button>
+                    </Box>
+                    <Box>
+                        <Button variant='contained' component={Link} to={{pathname:
+                            `/studios/${props.data.id}/view/`}}>
+                          View
                         </Button>
                     </Box>
 

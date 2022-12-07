@@ -1,5 +1,5 @@
 import {
-    Alert,
+    Alert, AlertTitle,
     Box,
     ButtonGroup, Checkbox,
     Divider, Input,
@@ -55,6 +55,9 @@ export default function EditGymClassSchedule(){
         start_time: GymClassData.start_time,
         end_time: GymClassData.end_time,
     })
+
+    const [reqSent, setReq] = useState(false)
+    const [reqSucess, setreqSucess] = useState(false)
 
 
     const formDataRef = useRef({})
@@ -113,6 +116,12 @@ export default function EditGymClassSchedule(){
             start_time: GymClassData.start_time,
             end_time: GymClassData.end_time,
         }
+
+        setError(errorsEmpty)
+        errorsRef.current = errors
+        setReq(false)
+        setreqSucess(false)
+
         setFormDat(origDat)
     }
 
@@ -129,7 +138,31 @@ export default function EditGymClassSchedule(){
             end_time: formDataRef.current.end_time,
         }
         origDat[key] = value
+
+        setError(errorsEmpty)
+        errorsRef.current = errors
+        setReq(false)
+        setreqSucess(false)
+
         setFormDat(origDat)
+    }
+
+    function ShowGeneralMessage(){
+        var flag =0
+
+        for (const [k, v] of Object.entries(errors)){
+            if(v){
+                flag = 1
+            }
+        }
+
+        if (reqSent && flag === 1 && !reqSucess){
+            return (
+                <Alert severity="error">
+                    <AlertTitle>Please resolve errors</AlertTitle>
+                </Alert>
+            )
+        }
     }
 
     const fieldVars = [
@@ -149,11 +182,11 @@ export default function EditGymClassSchedule(){
         'GymClass Name',
         'Description',
         'Keywords',
-        'Start Date',
-        'End Date',
+        'Start Date (dd/mm/YY)',
+        'Last Date (dd/mm/YY)',
         'Day',
-        'Start Time',
-        'End Time'
+        'Start Time (HH:MM)',
+        'End Time (HH:MM)'
     ]
 
     function form(){
@@ -163,6 +196,7 @@ export default function EditGymClassSchedule(){
                     var err = Boolean(errorsRef.current[fieldID].length);
                     const label = fieldNames[index]
                     var val = formDataRef.current[fieldID]
+
                     if(fieldID !== 'is_cancelled'){
                         return (
                         <Stack spacing={0} key={fieldID} >
@@ -188,10 +222,8 @@ export default function EditGymClassSchedule(){
                         return (
                         <Stack spacing={0} key={fieldID} >
                             <Box>
-                                {/*<div>*/}
                                     <label> Cancel: </label>
                                     <Checkbox
-                                    // error={err}
                                     id={fieldID}
                                     onChange={e => reset2(fieldID, e.target.checked)}
                                      />
@@ -221,38 +253,38 @@ export default function EditGymClassSchedule(){
         var flag = false
 
         if (formData.earliest_date && !d_reg.test(formData.earliest_date)){
-            console.log("error")
+            errors['earliest_date'] = 'Invalid format'
             flag = true
         }
 
         if (formData.last_date && !d_reg.test(formData.last_date)){
-            console.log("error")
+            errors['last_date'] = 'Invalid format'
             flag = true
         }
 
         if(formData.start_time && !time_reg.test(formData.start_time)){
-            console.log("error")
+            errors['start_time'] = 'Invalid format'
             flag = true
         }
         if(formData.end_time && !time_reg.test(formData.end_time)){
-            console.log("error")
+            errors['end_time'] = 'Invalid format'
             flag = true
         }
 
         if(formData.day && !['Monday', 'Tuesday', 'Wednesday', 'Thursday',
                                    'Friday', 'Saturday', 'Sunday'].includes(formData.day)){
-            console.log("error")
+            errors["day"] = "Wrong day name"
             flag = true
         }
+
+        setError(errors)
+        errorsRef.current = errors
 
         return flag
     }
 
     function submit() {
         setAxiosLoading(true)
-
-        // validate()
-        // // return
 
         if(validate()){
             console.log("error")
@@ -279,11 +311,15 @@ export default function EditGymClassSchedule(){
                     setAxiosLoading(false)
                     // Display thing saying changes saved
                     ctx.updateDataFlag()
+                    setReq(true)
+                    setreqSucess(true)
+                    setSnackbarOpen(true)
                     setSnackbarOpen(true)
                 })
                 .catch(function (error) {
                     var errDat = error.response.data
                     setError(errDat)
+                    setReq(true)
                     console.log("mission failed, we get em next time")
                 })
         }
@@ -309,8 +345,9 @@ export default function EditGymClassSchedule(){
             </Snackbar>
 
             <Box sx={{p:2}}>
-                <Typography variant="h3">Edit GymClassSchedule</Typography>
+                <Typography variant="h3">Edit Gym Class</Typography>
             </Box>
+            {reqSent && ShowGeneralMessage()}
             <Divider/>
 
             <Stack spacing={4} sx={{p:4}}>

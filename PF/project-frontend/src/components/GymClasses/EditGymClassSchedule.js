@@ -1,5 +1,5 @@
 import {
-    Alert,
+    Alert, AlertTitle,
     Box,
     ButtonGroup, Checkbox,
     Divider, Input,
@@ -51,6 +51,9 @@ export default function EditGymClassSchedule(){
         end_time: GymClassScheduleData.end_time,
         is_cancelled: GymClassScheduleData.is_cancelled,
     })
+
+    const [reqSent, setReq] = useState(false)
+    const [reqSucess, setreqSucess] = useState(false)
 
 
     const formDataRef = useRef({})
@@ -105,6 +108,11 @@ export default function EditGymClassSchedule(){
             end_time: GymClassScheduleData.end_time,
             is_cancelled: GymClassScheduleData.is_cancelled,
         }
+        setError(errorsEmpty)
+        errorsRef.current = errors
+        setReq(false)
+        setreqSucess(false)
+
         setFormDat(origDat)
     }
 
@@ -119,7 +127,31 @@ export default function EditGymClassSchedule(){
             is_cancelled: formDataRef.current.is_cancelled,
         }
         origDat[key] = value
+
+        setError(errorsEmpty)
+        errorsRef.current = errors
+        setReq(false)
+        setreqSucess(false)
+
         setFormDat(origDat)
+    }
+
+    function ShowGeneralMessage(){
+        var flag =0
+
+        for (const [k, v] of Object.entries(errors)){
+            if(v){
+                flag = 1
+            }
+        }
+
+        if (reqSent && flag === 1 && !reqSucess){
+            return (
+                <Alert severity="error">
+                    <AlertTitle>Please resolve errors</AlertTitle>
+                </Alert>
+            )
+        }
     }
 
     const fieldVars = [
@@ -133,12 +165,12 @@ export default function EditGymClassSchedule(){
     ]
 
     const fieldNames = [
-        'Date',
+        'Date (dd/mm/YY)',
         'Coach ID',
         'Enrollment Capacity',
         'Enrollment Count',
-        'Start Time',
-        'End Time',
+        'Start Time (HH:MM)',
+        'End Time (HH:MM)',
         'Cancel'
     ]
 
@@ -207,25 +239,25 @@ export default function EditGymClassSchedule(){
         var flag = false
 
         if (formData.date && !d_reg.test(formData.date)){
-            console.log("error")
+            errors["date"] = "Wrong Date Format"
             flag = true
         }
 
         if(formData.enrollment_capacity && !isNumeric(formData.enrollment_capacity)){
-            console.log("error")
+            errors["enrollment_capacity"] = "Integer Expected"
             flag = true
         }
         if(formData.enrollment_count && !isNumeric(formData.enrollment_count)){
-            console.log("error")
+            errors["enrollment_count"] = "Integer Expected"
             flag = true
         }
 
         if(formData.start_time && !time_reg.test(formData.start_time)){
-            console.log("error")
+                errors["start_time"] = "Wrong Start Time Format"
             flag = true
         }
         if(formData.end_time && !time_reg.test(formData.end_time)){
-            console.log("error")
+            errors["end_time"] = "Wrong End Time Format"
             flag = true
         }
         return flag
@@ -295,6 +327,7 @@ export default function EditGymClassSchedule(){
                 <Typography variant="h3">Edit GymClassSchedule</Typography>
             </Box>
             <Divider/>
+            {reqSent && ShowGeneralMessage()}
 
             <Stack spacing={4} sx={{p:4}}>
                 {form()}
