@@ -2,31 +2,19 @@ import react from "react";
 import Geocode from 'react-geocode'
 import {BASEURL, GOOGLEAPIKEY} from "../constants";
 import {APIContext} from "../APIContextProvider";
-import {Box, Paper, Stack, TextField} from "@mui/material";
+import {
+    Box,
+    Pagination,
+    Paper,
+    Stack,
+    TextField,
+    Typography
+} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {MapContainer} from "./MapContainer";
 import Button from "@mui/material/Button";
 import axios from "axios";
 
-
-
-const markers = [
-    {
-        id: 1,
-        name: "Marker 1",
-        position: { lat: 43.66875683889016, lng: -79.38825693508332 }
-    },
-    {
-        id: 2,
-        name: "Marker 2",
-        position: { lat: 43.66748375905699, lng: -79.39928645921668 }
-    },
-    {
-        id: 3,
-        name: "Marker 3",
-        position: { lat: 43.658170528434795, lng: -79.39533766262096 }
-    }
-];
 
 
 export class StudioLocator extends react.Component{
@@ -49,7 +37,8 @@ export class StudioLocator extends react.Component{
             responseList: [],
             pages: 0,
             initSearch: true,
-            cObjList: []
+            cObjList: [],
+            targetPage: 1
         }
     }
 
@@ -60,7 +49,8 @@ export class StudioLocator extends react.Component{
             n: searchParams.className,
             a: searchParams.amenity,
             cln: searchParams.className,
-            chn: searchParams.coachName
+            chn: searchParams.coachName,
+            page: comp.targetPage
         }
 
         const formData = new FormData()
@@ -285,7 +275,29 @@ export class StudioLocator extends react.Component{
                         </Stack>
                     </Paper>
                     <Paper sx={{p:3}}>
-                        Place List Here
+                        <Stack spacing={3}>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    textAlign: 'center',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}
+                            >
+                                <Pagination
+                                    count={this.state.pages}
+                                    onChange={(e, v) => {
+                                        this.setState({
+                                            targetPage: v,
+                                            initSearch: true
+                                        })
+                                    }}
+                                />
+                            </Box>
+                            <Typography>
+                                Place the list here
+                            </Typography>
+                        </Stack>
                     </Paper>
                 </Stack>
             </Box>
