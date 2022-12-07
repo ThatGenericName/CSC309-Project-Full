@@ -6,7 +6,18 @@ import {
 } from "@react-google-maps/api";
 
 
+const initLoadMarkers =[
+  {
+    id: -1,
+    name: "LoadMarker1",
+    position: {lat: 43.663512334791974, lng: -79.39285877084677}
+  }
+]
+
+
 export function MapComp(props) {
+
+  const [map, setMap] = useState(null)
 
   var markers = props.markers
   if (markers === undefined){
@@ -25,7 +36,11 @@ export function MapComp(props) {
   const handleOnLoad = (map) => {
     const bounds = new window.google.maps.LatLngBounds()
     markers.forEach(({ position }) => bounds.extend(position));
+    if (props.userMarker !== undefined && props.userMarker !== null){
+      bounds.extend(props.userMarker)
+    }
     map.fitBounds(bounds);
+    setMap(map)
   };
 
   function CreateMarker(id, name, position, icon){
@@ -46,6 +61,19 @@ export function MapComp(props) {
   }
 
   let um = props.userMarker
+
+  function remapBounds(){
+    const bounds = new window.google.maps.LatLngBounds()
+    markers.forEach(({ position }) => bounds.extend(position));
+    if (props.userMarker !== undefined && props.userMarker !== null){
+      bounds.extend(props.userMarker.position)
+    }
+    map.fitBounds(bounds);
+  }
+
+  if (map !== null){
+    remapBounds()
+  }
 
   return (
     <GoogleMap

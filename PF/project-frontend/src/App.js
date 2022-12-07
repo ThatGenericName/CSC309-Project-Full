@@ -14,7 +14,6 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {UserLanding} from "./components/user/UserLanding";
 import Subscription from "./components/subscriptions/Subscription";
 import TopAppBar from "./components/topbar/TopBar";
-import {AdminLandingPage} from "./components/Admin/AdminLandingPage";
 import Amenity from "./components/Amenity/Amenity"
 import Studio from "./components/studios/Studio"
 import AddStudio from "./components/studios/AddStudio"
@@ -24,8 +23,6 @@ import EditStudio from "./components/studios/EditStudio";
 import EditSchedule from "./components/GymClasses/EditGymClassSchedule";
 import EditGymClass from "./components/GymClasses/EditGymClass";
 
-
-const test_props = {"type" : "chair", "quantity": 10}
 import {MapComp} from "./components/studios/MapComp";
 import {MapContainer} from "./components/studios/MapContainer";
 import {StudiosLanding} from "./components/studios/StudioLanding";
@@ -35,6 +32,8 @@ import {
 } from "./components/ErrorPages/500InternalServerError";
 import Landing from "./components/landingPage/landing";
 import {TempTestPage} from "./components/GymClasses/UserEnroll/TempTestPage";
+
+const test_props = {"type" : "chair", "quantity": 10}
 
 const theme = createTheme({
     palette: {
@@ -97,7 +96,7 @@ class App extends React.Component{
 
                                     <Route path="admin/*" element={<AdminLandingPage />} />
                                     <Route path='studios/*' element={<StudiosLanding/>} />
-                                    <Route path='testbed/' element={<TempTestPage/>} />
+                                    <Route path='testbed/' element={<StudiosLanding/>} />
                                     <Route path='*' element={<NotFound404/>}/>
                                     <Route path='error/500' element={<InternalServerError500/>} />
                                 </Route>
