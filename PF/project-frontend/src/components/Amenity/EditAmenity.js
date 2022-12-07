@@ -1,5 +1,5 @@
 import {
-    Alert,
+    Alert, AlertTitle,
     Box,
     ButtonGroup,
     Divider,
@@ -24,13 +24,13 @@ import {useParams} from "react-router-dom";
 import * as Constants from "../constants";
 
 
-export default function EditProfile(){
+export default function EditAmenity(props){
 
     let ctx = useContext(APIContext)
 
-    const { id } = useParams()
+    const { id, id_2 } = useParams()
 
-    const url = Constants.BASEURL + "studios/" + id  + "/amenities/edit/"
+    const url = Constants.BASEURL + "studios/" + id_2  + "/amenities/edit/"
 
     let amenityData = {
         type: "",
@@ -41,6 +41,9 @@ export default function EditProfile(){
         type: amenityData.type,
         quantity: amenityData.quantity
     })
+
+    const [reqSent, setReq] = useState(false)
+    const [reqSucess, setreqSucess] = useState(false)
 
 
     const formDataRef = useRef({})
@@ -86,6 +89,11 @@ export default function EditProfile(){
             type: amenityData.type,
             quantity: amenityData.quantity
         }
+        setError(errorsEmpty)
+        errorsRef.current = errors
+        setReq(false)
+        setreqSucess(false)
+
         setFormDat(origDat)
     }
 
@@ -95,7 +103,31 @@ export default function EditProfile(){
             quantity: formDataRef.current.quantity
         }
         origDat[key] = value
+
+        setError(errorsEmpty)
+        errorsRef.current = errors
+        setReq(false)
+        setreqSucess(false)
+
         setFormDat(origDat)
+    }
+
+    function ShowGeneralMessage(){
+        var flag =0
+
+        for (const [k, v] of Object.entries(errors)){
+            if(v){
+                flag = 1
+            }
+        }
+
+        if (reqSent && flag === 1 && !reqSucess){
+            return (
+                <Alert severity="error">
+                    <AlertTitle>Please resolve errors</AlertTitle>
+                </Alert>
+            )
+        }
     }
 
     const fieldVars = [
@@ -169,6 +201,8 @@ export default function EditProfile(){
                 setAxiosLoading(false)
                 // Display thing saying changes saved
                 ctx.updateDataFlag()
+                setReq(true)
+                setreqSucess(true)
                 setSnackbarOpen(true)
             })
             .catch(function (error) {
@@ -201,6 +235,7 @@ export default function EditProfile(){
                 <Typography variant="h3">Edit Amenity</Typography>
             </Box>
             <Divider/>
+            {reqSent && ShowGeneralMessage()}
 
             <Stack spacing={4} sx={{p:4}}>
                 {form()}

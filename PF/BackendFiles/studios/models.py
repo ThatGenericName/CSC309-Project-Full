@@ -82,6 +82,7 @@ class ImageRepSerializer(serializers.ModelSerializer):
     class Meta:
         model = ImageRep
         fields = [
+            'id',
             'studio',
             'image',
         ]
@@ -93,6 +94,7 @@ class AmenitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Amenity
         fields = [
+            'id',
             'type',
             'quantity',
         ]

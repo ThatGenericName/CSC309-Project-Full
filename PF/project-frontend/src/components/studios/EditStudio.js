@@ -1,5 +1,5 @@
 import {
-    Alert,
+    Alert, AlertTitle,
     Box,
     ButtonGroup,
     Divider,
@@ -46,6 +46,9 @@ export default function EditStudio(){
         phone_num: studioData.phone_num,
         images: []
     })
+
+    const [reqSent, setReq] = useState(false)
+    const [reqSucess, setreqSucess] = useState(false)
 
 
     const formDataRef = useRef({})
@@ -95,6 +98,12 @@ export default function EditStudio(){
             phone_num: studioData.phone_num,
             images: []
         }
+
+        setError(errorsEmpty)
+        errorsRef.current = errors
+        setReq(false)
+        setreqSucess(false)
+
         setFormDat(origDat)
     }
 
@@ -113,7 +122,31 @@ export default function EditStudio(){
                 origDat['images'].push(img)
             }
         }
+
+        setError(errorsEmpty)
+        errorsRef.current = errors
+        setReq(false)
+        setreqSucess(false)
+
         setFormDat(origDat)
+    }
+
+    function ShowGeneralMessage(){
+        var flag =0
+
+        for (const [k, v] of Object.entries(errors)){
+            if(v){
+                flag = 1
+            }
+        }
+
+        if (reqSent && flag === 1 && !reqSucess){
+            return (
+                <Alert severity="error">
+                    <AlertTitle>Please resolve errors</AlertTitle>
+                </Alert>
+            )
+        }
     }
 
 
@@ -139,6 +172,7 @@ export default function EditStudio(){
             <React.Fragment>
                 {fieldVars.map((fieldID, index) => {
                     var err = Boolean(errorsRef.current[fieldID].length);
+                    console.log(errorsRef)
                     const label = fieldNames[index]
                     var val = formDataRef.current[fieldID]
 
@@ -167,16 +201,21 @@ export default function EditStudio(){
                         return (
                         <Stack spacing={0} key={fieldID} >
                             <Box>
-                                <ButtonGroup variant="contained">
                                 <input
                                     multiple
                                     type="file"
                                     name="studio_images"
                                     accept='image/png, image/jpeg'
                                     id='images'
+                                    style={{ display: 'none' }}
                                     onChange={e => reset2(fieldID, e)}
                                 />
-                            </ButtonGroup>
+                                <label htmlFor="images">
+                                    <Button variant="contained" color="primary" component="span">
+                                      Studio Images
+                                    </Button>
+                                </label>
+
                             </Box>
                             <Box>
                                 <i style={{ color: 'red'}}>{errorsRef.current[fieldID]}</i>
@@ -192,46 +231,77 @@ export default function EditStudio(){
 
     }
 
+    function validateData(){
+        let data = formData
+        let hasErrors = false
+
+        if(formData.phone_num && !(errors.phone_num.length)){
+            if(!(/^([0-9]{3})[-]([0-9]{3})[-]([0-9]{4})$/.test(data.phone_num))){
+                errors['phone_num'] = 'Phone Number is Invalid'
+                hasErrors = true
+            }
+        }
+
+        if(formData.post_code && !(errors.post_code.length)){
+            if(!(/^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$/.test(data.post_code))){
+                errors['post_code'] = 'Postal Code is Invalid'
+                hasErrors = true
+            }
+        }
+
+        setError(errors)
+        errorsRef.current = errors
+        return hasErrors
+    }
+
     function submit() {
-        setAxiosLoading(true)
-
-        var targetURL = url
-        var formdat = new FormData()
-        formdat.set("name", formData.name)
-        formdat.set("address", formData.address)
-        formdat.set("post_code", formData.post_code)
-        formdat.set("phone_num", formData.phone_num)
-        formdat.set("images", [])
-        for(var img of formData.images){
-            formdat.append("images", img)
+        if(validateData()){
         }
+        else{
+            setAxiosLoading(true)
 
+            var targetURL = url
+            var formdat = new FormData()
+            formdat.set("name", formData.name)
+            formdat.set("address", formData.address)
+            formdat.set("post_code", formData.post_code)
+            formdat.set("phone_num", formData.phone_num)
+            formdat.set("images", [])
 
+            // console.log(formData.images)
+            for (let i = 0; i < formData.images.length; i++) {
+               formdat.append('images', formData.images[i])
+            }
+            // console.log(formdat)
 
-        // var token = ctx.userToken
-        // token = token.replace("Token ")
-        var requestData = {
-            url: targetURL,
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                // Authorization: "Token " + token
-            },
-            data: formdat
+            // var token = ctx.userToken
+            // token = token.replace("Token ")
+            var requestData = {
+                url: targetURL,
+                method: "POST",
+                headers: {
+                    'content-type': 'multipart/form-data',
+                    // Authorization: "Token " + token
+                },
+                data: formdat
+            }
+
+            axios(requestData)
+                .then(function (response) {
+                    setAxiosLoading(false)
+                    // Display thing saying changes saved
+                    ctx.updateDataFlag()
+                    setReq(true)
+                    setreqSucess(true)
+                    setSnackbarOpen(true)
+                })
+                .catch(function (error) {
+                    var errDat = error.response.data
+                    setError(errDat)
+                    setReq(true)
+                    console.log("mission failed, we get em next time")
+                })
         }
-
-        axios(requestData)
-            .then(function (response) {
-                setAxiosLoading(false)
-                // Display thing saying changes saved
-                ctx.updateDataFlag()
-                setSnackbarOpen(true)
-            })
-            .catch(function (error) {
-                var errDat = error.response.data
-                setError(errDat)
-                console.log("mission failed, we get em next time")
-            })
     }
 
 
@@ -253,9 +323,11 @@ export default function EditStudio(){
                 </Alert>
             </Snackbar>
 
+
             <Box sx={{p:2}}>
                 <Typography variant="h3">Edit Studio</Typography>
             </Box>
+            {reqSent && ShowGeneralMessage()}
             <Divider/>
 
             <Stack spacing={4} sx={{p:4}}>

@@ -7,6 +7,9 @@ import TextField from "@mui/material/TextField";
 import * as Constants from "../constants";
 import axios from "axios";
 
+const REQUIRED_PARAMS = ["name", "coach", "description", "keywords", "earliest_date", "last_date",
+                "day", "start_time", "end_time", "enrollment_capacity"]
+
 export default class AddGymClasses extends Component{
 
     constructor(props){
@@ -78,22 +81,36 @@ export default class AddGymClasses extends Component{
     }
 
     ValidateData(){
-        // let data = this.state.data
-        // let errors = this.state.errors
-        // let hasErrors = false
-        // for (let [key, value] of Object.entries(data)){
-        //
-        //     if (!(value.length) && REQUIRED_PARAMS.includes(key)){
-        //         errors[key] = "This Field is required"
-        //         hasErrors = true
-        //     }
-        //     else{
-        //         errors[key] = ""
-        //     }
-        // }
-        //
-        // this.setState({errors: errors, hasErrors: hasErrors})
-        // return hasErrors
+        let data = this.state.data
+        let errors = this.state.errors
+        let hasErrors = false
+        for (let [key, value] of Object.entries(data)){
+
+            if (!(value.length) && REQUIRED_PARAMS.includes(key)){
+                errors[key] = "This Field is required"
+                hasErrors = true
+            }
+            else{
+                errors[key] = ""
+            }
+
+        }
+
+        if(errors["data"] === "" && !['Monday', 'Tuesday', 'Wednesday', 'Thursday',
+                                   'Friday', 'Saturday', 'Sunday'].includes(data["day"])){
+            errors["day"] = "Wrong day name"
+            hasErrors = true
+        }
+
+        if(errors["enrollment_capacity"] === "" &&
+            Number.isInteger(data["enrollment_capacity"])){
+            errors["enrollment_capacity"] = "Wrong input format integer expected"
+            hasErrors = true
+        }
+
+
+        this.setState({errors: errors, hasErrors: hasErrors})
+        return hasErrors
     }
 
     OnSignupSubmit(){

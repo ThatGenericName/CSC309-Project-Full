@@ -30,26 +30,30 @@ export default function EditGymClassSchedule(){
 
     const { id } = useParams()
 
-    const url = Constants.BASEURL + "classes/schedule/" + id + "/edit/"
+    const url = Constants.BASEURL + "classes/" + id + "/edit/"
 
-    let GymClassScheduleData = {
-        date: "",
-        coach: "",
-        enrollment_capacity: "",
-        enrollment_count: "",
+    let GymClassData = {
+        studio: "",
+        name: "",
+        description: "",
+        keywords: "",
+        earliest_date: "",
+        last_date: "",
+        day: "",
         start_time: "",
-        end_time: "",
-        is_cancelled: ""
+        end_time: ""
     }
 
     const [formData, setFormDat] = useState({
-        date: GymClassScheduleData.date,
-        coach: GymClassScheduleData.coach,
-        enrollment_capacity: GymClassScheduleData.enrollment_capacity,
-        enrollment_count: GymClassScheduleData.enrollment_count,
-        start_time: GymClassScheduleData.start_time,
-        end_time: GymClassScheduleData.end_time,
-        is_cancelled: GymClassScheduleData.is_cancelled,
+        studio: GymClassData.studio,
+        name: GymClassData.name,
+        description: GymClassData.description,
+        keywords: GymClassData.keywords,
+        earliest_date: GymClassData.earliest_date,
+        last_date: GymClassData.last_date,
+        day: GymClassData.day,
+        start_time: GymClassData.start_time,
+        end_time: GymClassData.end_time,
     })
 
 
@@ -65,13 +69,15 @@ export default function EditGymClassSchedule(){
     }
 
     const errorsEmpty = {
-        date: "",
-        coach: "",
-        enrollment_capacity: "",
-        enrollment_count: "",
+        studio: "",
+        name: "",
+        description: "",
+        keywords: "",
+        earliest_date: "",
+        last_date: "",
+        day: "",
         start_time: "",
-        end_time: "",
-        is_cancelled: ""
+        end_time: ""
     }
 
     const [errors, setErr] = useState(errorsEmpty)
@@ -97,49 +103,57 @@ export default function EditGymClassSchedule(){
 
     const reset = () => {
         var origDat = {
-            date: GymClassScheduleData.date,
-            coach: GymClassScheduleData.coach,
-            enrollment_capacity: GymClassScheduleData.enrollment_capacity,
-            enrollment_count: GymClassScheduleData.enrollment_count,
-            start_time: GymClassScheduleData.start_time,
-            end_time: GymClassScheduleData.end_time,
-            is_cancelled: GymClassScheduleData.is_cancelled,
+            studio: GymClassData.studio,
+            name: GymClassData.name,
+            description: GymClassData.description,
+            keywords: GymClassData.keywords,
+            earliest_date: GymClassData.earliest_date,
+            last_date: GymClassData.last_date,
+            day: GymClassData.day,
+            start_time: GymClassData.start_time,
+            end_time: GymClassData.end_time,
         }
         setFormDat(origDat)
     }
 
     const reset2 = (key, value) => {
         var origDat = {
-            date: formDataRef.current.date,
-            coach: formDataRef.current.coach,
-            enrollment_capacity: formDataRef.current.enrollment_capacity,
-            enrollment_count: formDataRef.current.enrollment_count,
+            studio: formDataRef.current.studio,
+            name: formDataRef.current.name,
+            description: formDataRef.current.description,
+            keywords: formDataRef.current.keywords,
+            earliest_date: formDataRef.current.earliest_date,
+            last_date: formDataRef.current.last_date,
+            day: formDataRef.current.day,
             start_time: formDataRef.current.start_time,
             end_time: formDataRef.current.end_time,
-            is_cancelled: formDataRef.current.is_cancelled,
         }
         origDat[key] = value
         setFormDat(origDat)
     }
 
     const fieldVars = [
-        'date',
-        'coach',
-        'enrollment_capacity',
-        'enrollment_count',
-        'start_time',
-        'end_time',
-        'is_cancelled'
+        "studio",
+        "name",
+        "description",
+        "keywords",
+        "earliest_date",
+        "last_date",
+        "day",
+        "start_time",
+        "end_time"
     ]
 
     const fieldNames = [
-        'Date',
-        'Coach ID',
-        'Enrollment Capacity',
-        'Enrollment Count',
+        'Studio Id',
+        'GymClass Name',
+        'Description',
+        'Keywords',
+        'Start Date',
+        'End Date',
+        'Day',
         'Start Time',
-        'End Time',
-        'Cancel'
+        'End Time'
     ]
 
     function form(){
@@ -206,16 +220,12 @@ export default function EditGymClassSchedule(){
         var time_reg = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
         var flag = false
 
-        if (formData.date && !d_reg.test(formData.date)){
+        if (formData.earliest_date && !d_reg.test(formData.earliest_date)){
             console.log("error")
             flag = true
         }
 
-        if(formData.enrollment_capacity && !isNumeric(formData.enrollment_capacity)){
-            console.log("error")
-            flag = true
-        }
-        if(formData.enrollment_count && !isNumeric(formData.enrollment_count)){
+        if (formData.last_date && !d_reg.test(formData.last_date)){
             console.log("error")
             flag = true
         }
@@ -228,6 +238,13 @@ export default function EditGymClassSchedule(){
             console.log("error")
             flag = true
         }
+
+        if(formData.day && !['Monday', 'Tuesday', 'Wednesday', 'Thursday',
+                                   'Friday', 'Saturday', 'Sunday'].includes(formData.day)){
+            console.log("error")
+            flag = true
+        }
+
         return flag
     }
 

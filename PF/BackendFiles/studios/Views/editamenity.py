@@ -40,8 +40,10 @@ class EditAmenity(APIView):
         amenity = Amenity.objects.get(pk=kwargs['pk'])
 
         data = request.data
-        amenity.quantity = data['quantity']
-        amenity.type = data['type']
+        if data['quantity']:
+            amenity.quantity = data['quantity']
+        if data['type']:
+            amenity.type = data['type']
         amenity.studio = amenity.studio
 
         amenity.save()
@@ -56,10 +58,9 @@ class EditAmenity(APIView):
         for key in self.keys:
             if key not in data:
                 errors[key] = "Missing Key"
-            elif not data[key] and data[key] != 0:
-                errors[key] = "This Field is required"
 
-        if "quantity" not in errors:
+
+        if "quantity" not in errors and data["quantity"]:
             try:
                 int(data["quantity"])
             except ValueError:

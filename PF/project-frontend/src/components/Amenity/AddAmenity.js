@@ -124,7 +124,7 @@ export default class AddAmenity extends Component{
                 comp.setState(newData)
 
                 comp.setState({
-                    generalMessage: "Studio Added Successfully"
+                    generalMessage: "Amenity Added Successfully"
                 })
             })
             .catch(function (error){
