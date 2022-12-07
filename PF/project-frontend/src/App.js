@@ -102,6 +102,8 @@ class App extends React.Component{
                                     <Route path="admin/*" element={<AdminLandingPage />} />
                                     {/*<Route path='studios/*' element={<StudiosLanding/>} />*/}
                                     <Route path='testbed/' element={<StudiosLanding/>} />
+                                    <Route path='studios/*' element={<StudiosLanding/>} />
+                                    <Route path='testbed/*' element={<StudiosLanding/>} />
                                     <Route path='*' element={<NotFound404/>}/>
                                     <Route path='error/500' element={<InternalServerError500/>} />
                                 </Route>

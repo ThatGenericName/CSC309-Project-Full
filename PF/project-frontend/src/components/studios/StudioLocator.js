@@ -14,10 +14,35 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import {MapContainer} from "./MapContainer";
 import Button from "@mui/material/Button";
 import axios from "axios";
+import {useSearchParams} from "react-router-dom";
+import {ObjectDeepClone} from "../Utility";
 
 
 
-export class StudioLocator extends react.Component{
+export function StudioLocator(){
+    let [searchParams, setSearchParams] = useSearchParams()
+
+    let params = {
+        studio_name: searchParams.get('studio_name'),
+        amenity: searchParams.get('amenity'),
+        class_name: searchParams.get('class_name'),
+        coach_name: searchParams.get('coach_name')
+    }
+
+    Object.keys(params).forEach(k => {
+        if (params[k] === null){
+            params[k] = ""
+        }
+    })
+
+    let a = 1
+
+    return (
+        <StudioLocatorClass searchParams={params} searchParamSetter={setSearchParams}/>
+    )
+}
+
+class StudioLocatorClass extends react.Component{
     static contextType = APIContext
 
     constructor(props, context) {
@@ -28,30 +53,36 @@ export class StudioLocator extends react.Component{
                 lat: null,
                 lng: null
             },
-            searchParams: {
-                studioName: "",
-                amenity: "",
-                className: "",
-                coachName: "",
-            },
+            searchParams: props.searchParams,
             responseList: [],
             pages: 0,
             initSearch: true,
             cObjList: [],
-            targetPage: 1
+            targetPage: 1,
+            urlParamSet: props.searchParamSetter
         }
     }
 
     getStudioList(comp){
+
+
         const targetURL = BASEURL + "/studios/"
         const searchParams = comp.state.searchParams
         const params = {
-            n: searchParams.className,
+            n: searchParams.class_name,
             a: searchParams.amenity,
-            cln: searchParams.className,
-            chn: searchParams.coachName,
+            cln: searchParams.class_name,
+            chn: searchParams.coach_name,
             page: comp.targetPage
         }
+
+        var paramClone = ObjectDeepClone(searchParams)
+        Object.entries(paramClone).forEach(([key, value]) => {
+            if (value === ""){
+                delete paramClone[key]
+            }
+        })
+        comp.state.urlParamSet(paramClone)
 
         const formData = new FormData()
         const loc = comp.state.userLocation
@@ -146,10 +177,10 @@ export class StudioLocator extends react.Component{
             <Grid2 container spacing={3}>
                 <Grid2 md={3} sm={6}>
                     <TextField
-                        value={this.state.searchParams.studioName}
+                        value={this.state.searchParams.studio_name}
                         label='Studio Name'
                         fullWidth
-                        onChange={(e) => this.setSearchParam({studioName: e.target.value})}
+                        onChange={(e) => this.setSearchParam({studio_name: e.target.value})}
                     />
                 </Grid2>
                 <Grid2 md={3} sm={6}>
@@ -162,18 +193,18 @@ export class StudioLocator extends react.Component{
                 </Grid2>
                 <Grid2 md={3} sm={6}>
                     <TextField
-                        value={this.state.searchParams.className}
+                        value={this.state.searchParams.class_name}
                         label='Class Name'
                         fullWidth
-                        onChange={(e) => this.setSearchParam({className: e.target.value})}
+                        onChange={(e) => this.setSearchParam({class_name: e.target.value})}
                     />
                 </Grid2>
                 <Grid2 md={3} sm={6}>
                     <TextField
-                        value={this.state.searchParams.coachName}
+                        value={this.state.searchParams.coach_name}
                         label='Coach Name'
                         fullWidth
-                        onChange={(e) => this.setSearchParam({coachName: e.target.value})}
+                        onChange={(e) => this.setSearchParam({coach_name: e.target.value})}
                     />
                 </Grid2>
                 <Grid2 md={5} sm={4}/>
