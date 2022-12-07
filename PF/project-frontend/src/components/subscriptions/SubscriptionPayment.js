@@ -160,7 +160,7 @@ export function SubscriptionPayment(props){
 
     function pay(){
         const targetURL = BASEURL + 'accounts/subscriptions/add/'
-        const token = ctx.userToken.replace("Token ")
+        var token = ctx.userToken.replace("Token ")
 
         var dat1 = {}
         Object.keys(data).forEach(k => {

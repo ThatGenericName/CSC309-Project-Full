@@ -10,13 +10,17 @@ import {
     APIContextProvider
 } from "./components/APIContextProvider";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import UserLanding from "./components/user/UserLanding";
+import {UserLanding} from "./components/user/UserLanding";
 import Subscription from "./components/subscriptions/Subscription";
 import TopAppBar from "./components/topbar/TopBar";
 import {AdminLandingPage} from "./components/Admin/AdminLandingPage";
-import {MapComp} from "./components/studios/MapComp";
-import {MapContainer} from "./components/studios/MapContainer";
 import {StudiosLanding} from "./components/studios/StudioLanding";
+import {NotFound404} from "./components/ErrorPages/404NotFound";
+import {
+    InternalServerError500
+} from "./components/ErrorPages/500InternalServerError";
+import Landing from "./components/landingPage/landing";
+import {TempTestPage} from "./components/GymClasses/UserEnroll/TempTestPage";
 
 const theme = createTheme({
     palette: {
@@ -52,12 +56,17 @@ class App extends React.Component{
                 <ThemeProvider theme={theme}>
                     <BrowserRouter>
                         <TopAppBar>
+
                             <Routes>
                                 <Route path="/">
+                                    <Route path='' element={<Landing/>}/>
                                     <Route path="account/*" element={<UserLanding />} />
                                     <Route path="subscriptions/*" element={<Subscription />} />
                                     <Route path="admin/*" element={<AdminLandingPage />} />
                                     <Route path='studios/*' element={<StudiosLanding/>} />
+                                    <Route path='testbed/' element={<TempTestPage/>} />
+                                    <Route path='*' element={<NotFound404/>}/>
+                                    <Route path='error/500' element={<InternalServerError500/>} />
                                 </Route>
                             </Routes>
                         </TopAppBar>

@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import Button from "@mui/material/Button";
 import {Box, LinearProgress, Paper, Stack, Typography} from "@mui/material";
+import axios from "axios";
 
 import SubscriptionsList from "./SubscriptionsList";
 import {SUBSCRIPTION_TEST_DATA} from "./SubscriptionTestData";
@@ -11,10 +12,14 @@ import {
 import SubscriptionBenefits
     from "./SubscriptionPromoCards/SubscriptionBenefits";
 import {TopHeader} from "./SubscriptionPromoCards/TopHeader";
-import axios from "axios";
+
 import {AllSubscriptions} from "./AllSubscriptions/AllSubscriptions";
+import {APIContext} from "../APIContextProvider";
+import {Link} from "react-router-dom";
 
 export default function Subscription(){
+
+    const ctx = useContext(APIContext)
 
     const [compState, setComp] = useState({
         axiosLoading: true,
@@ -90,11 +95,31 @@ export default function Subscription(){
         }
     }
 
+
+    function JoinButton(){
+        if (!ctx.userLoggedIn){
+            return (
+                <Button
+                    variant='contained'
+                    size='large'
+                    component={Link}
+                    to='/account'
+                >
+                    Join Today!
+                </Button>
+            )
+        }
+        return null
+    }
+
     return (
             <Box>
                 <TopHeader/>
                 <Paper sx={{p:2, mx:2}}>
-                    {SubBox()}
+                    <Stack>
+                        {JoinButton()}
+                        {SubBox()}
+                    </Stack>
                 </Paper>
                 <Box>
                     <SubscriptionPromoCards/>

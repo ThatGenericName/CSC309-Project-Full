@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 
 
+
 class CoachSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -13,10 +14,10 @@ class CoachSerializer(serializers.ModelSerializer):
         ]
 
     def to_representation(self, instance):
-        from accounts.models import GetUserExtension, UserExtendedSerializer
+        from accounts.models import GetUserExtension, ProfilePictureSerializer
         dat = super().to_representation(instance)
         uext = GetUserExtension(instance)
-        dat2 = UserExtendedSerializer(uext).data
+        dat2 = ProfilePictureSerializer(uext).data
         dat["profile_pic"] = dat2["profile_pic"]
 
         return dat

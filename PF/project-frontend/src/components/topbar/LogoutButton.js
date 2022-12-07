@@ -61,7 +61,7 @@ export default class LogoutButton extends React.Component{
             this.setState(dat)
             return
         }
-        token = token.split(' ')[1]
+        token = token.replace("Token ", "")
 
         let tokenStr = 'Token ' + token
         let requestData = {

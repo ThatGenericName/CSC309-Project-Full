@@ -245,3 +245,11 @@ class HasSubscription(BasePermission):
             if uext.active_subscription is not None:
                 return True
         return False
+
+class ProfilePictureSerializer(serializers.ModelSerializer):
+    class Meta:
+        from accounts.models import UserExtension
+        model = UserExtension
+        fields = [
+            'profile_pic',
+        ]

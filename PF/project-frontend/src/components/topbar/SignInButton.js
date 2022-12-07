@@ -234,7 +234,6 @@ export default class SignInButton extends React.Component{
                         />
                         <i style={{ color: 'red' }}>{this.state.errors.password}</i>
                     </Box>
-
                 </DialogContent>
                 <DialogActions>
                     <Button variant='outlined' onClick={() => this.HandleClose()}>Cancel</Button>

@@ -36,12 +36,12 @@ export default class RegisterButton extends React.Component{
                 phone_num: ''
             },
             data: {
-                username: 'Test1',
-                password1: 'Password1',
-                password2: 'Password1',
-                first_name: 'firstname',
-                last_name: 'lastname',
-                email: 'test@mail.com',
+                username: '',
+                password1: '',
+                password2: '',
+                first_name: '',
+                last_name: '',
+                email: '',
                 phone_num: ''
             },
             generalMessage: "",

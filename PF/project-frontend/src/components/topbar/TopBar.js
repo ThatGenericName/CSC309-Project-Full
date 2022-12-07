@@ -50,7 +50,6 @@ export default class TopAppBar extends React.Component{
 
                 >
                     <Toolbar>
-                        {/*Todo: Make this a clickable button, probably add an OnClick thing*/}
                         <ButtonBase
                             component={Link}
                             to={'/'}
