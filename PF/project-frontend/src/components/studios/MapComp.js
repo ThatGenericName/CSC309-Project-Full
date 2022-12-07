@@ -6,12 +6,21 @@ import {
 } from "@react-google-maps/api";
 
 
-const initLoadMarkers =[
-  {
-    id: -1,
-    name: "LoadMarker1",
-    position: {lat: 43.663512334791974, lng: -79.39285877084677}
-  }
+const CENTERING_MARKERS = [
+    {
+        id: -1,
+        name: 'CM1',
+        position: {
+            lat: 43.66667146506163, lng: -79.40372604585576
+        }
+    },
+    {
+        id: -2,
+        name: 'CM2',
+        position: {
+           lat: 43.6536563253411, lng: -79.37361534607086
+        }
+    }
 ]
 
 
@@ -35,7 +44,12 @@ export function MapComp(props) {
 
   const handleOnLoad = (map) => {
     const bounds = new window.google.maps.LatLngBounds()
-    markers.forEach(({ position }) => bounds.extend(position));
+    if (markers.length === 0){
+      CENTERING_MARKERS.forEach(({ position }) => bounds.extend(position));
+    }
+    else{
+      markers.forEach(({ position }) => bounds.extend(position));
+    }
     if (props.userMarker !== undefined && props.userMarker !== null){
       bounds.extend(props.userMarker)
     }
@@ -64,7 +78,12 @@ export function MapComp(props) {
 
   function remapBounds(){
     const bounds = new window.google.maps.LatLngBounds()
-    markers.forEach(({ position }) => bounds.extend(position));
+    if (markers.length === 0){
+      CENTERING_MARKERS.forEach(({ position }) => bounds.extend(position));
+    }
+    else{
+      markers.forEach(({ position }) => bounds.extend(position));
+    }
     if (props.userMarker !== undefined && props.userMarker !== null){
       bounds.extend(props.userMarker.position)
     }
