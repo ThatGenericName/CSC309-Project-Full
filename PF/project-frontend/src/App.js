@@ -5,8 +5,6 @@ import React from 'react';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {AdminLandingPage} from "./components/Admin/AdminLandingPage";
-import {MapComp} from "./components/studios/MapComp";
-import {MapContainer} from "./components/studios/MapContainer";
 import {StudiosLanding} from "./components/studios/StudioLanding";
 import ViewStudio from "./components/studios/StudioView";
 
@@ -23,7 +21,6 @@ import AddStudio from "./components/studios/AddStudio"
 import EditAmenity from "./components/Amenity/EditAmenity";
 import AddAmenity from "./components/Amenity/AddAmenity";
 import EditStudio from "./components/studios/EditStudio";
-import EditSchedule from "./components/GymClasses/EditGymClassSchedule";
 import GymClass from "./components/GymClasses/GymClass";
 import GymClassSchedule from "./components/GymClasses/GymClassSchedule";
 import EditGymClassSchedule from "./components/GymClasses/EditGymClassSchedule";
@@ -36,9 +33,7 @@ import {
     InternalServerError500
 } from "./components/ErrorPages/500InternalServerError";
 import Landing from "./components/landingPage/landing";
-import {TempTestPage} from "./components/GymClasses/UserEnroll/TempTestPage";
 
-const test_props = {"type" : "chair", "quantity": 10}
 
 const theme = createTheme({
     palette: {

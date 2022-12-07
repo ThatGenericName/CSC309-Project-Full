@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 export default function StudioPreview(props) {
 
     const [formData, setFormDat] = useState({
-        data: null
+        data: null,
         request_complete: false,
         request_complete_2: false
     })
