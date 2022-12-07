@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 export default function StudioPreview(props) {
 
     const [formData, setFormDat] = useState({
-        data: null
+        data: null,
         request_complete: false,
         request_complete_2: false
     })
@@ -39,23 +39,23 @@ export default function StudioPreview(props) {
             }).catch(function (error) {
             })
         }
-        if (!formData.request_complete_2) {
-            let requestData = {
-                url: url,
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            }
-
-            axios(requestData).then(function (response) {
-                setFormDat({
-                    data: response.data,
-                    request_complete_2: true
-                })
-            }).catch(function (error) {
-            })
-        }
+        // if (!formData.request_complete_2) {
+        //     let requestData = {
+        //         url: url,
+        //         method: "GET",
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //     }
+        //
+        //     axios(requestData).then(function (response) {
+        //         setFormDat({
+        //             data: response.data,
+        //             request_complete_2: true
+        //         })
+        //     }).catch(function (error) {
+        //     })
+        // }
     }
 
     if (!formData.request_complete || !formData.request_complete_2)

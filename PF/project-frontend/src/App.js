@@ -79,19 +79,9 @@ class App extends React.Component{
                                     <Route path='' element={<Landing/>}/>
                                     <Route path="account/*" element={<UserLanding />} />
                                     <Route path="subscriptions/*" element={<Subscription />} />
-                                    <Route path="studios/" element={<Studio/>} />
-                                    <Route path="studios/">
-                                        <Route path=":id/view" element={<ViewStudio />} />
-                                        <Route path=":id/edit/" element={<EditStudio />} />
-                                        <Route path="create/" element={<AddStudio />} />
-                                        <Route path=":id/amenities/" element={< Amenity/>} />
-                                        <Route path=":id/amenities/">
-                                            <Route path=":id_2/edit/" element={<EditAmenity />} />
-                                            <Route path="create/" element={<AddAmenity />} />
-                                        </Route>
-                                        <Route path=":id/gymclasses/" element={<GymClass/>} />
-                                        <Route path=":id/schedules/" element={<GymClassSchedule/>} />
-                                    </Route>
+                                    <Route path='studios/*' element={<StudiosLanding/>} />
+                                    <Route path="admin/*" element={<AdminLandingPage />} />
+
                                     <Route path="schedule/:id/edit" element={<EditGymClassSchedule/>} />
                                     <Route path="class/:id/edit" element={<EditGymClass/>} />
 

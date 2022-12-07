@@ -16,6 +16,7 @@ import Button from "@mui/material/Button";
 import axios from "axios";
 import {useSearchParams} from "react-router-dom";
 import {ObjectDeepClone} from "../Utility";
+import StudioList from "./StudioList";
 
 
 
@@ -325,9 +326,7 @@ class StudioLocatorClass extends react.Component{
                                     }}
                                 />
                             </Box>
-                            <Typography>
-                                Place the list here
-                            </Typography>
+                            <StudioList items={this.state.responseList}/>
                         </Stack>
                     </Paper>
                 </Stack>
