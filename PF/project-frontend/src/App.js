@@ -21,6 +21,7 @@ import {
 } from "./components/ErrorPages/500InternalServerError";
 import Landing from "./components/landingPage/landing";
 import {Footer} from "./components/Footer/Footer";
+import {Box} from "@mui/material";
 
 
 const theme = createTheme({
@@ -87,6 +88,7 @@ class App extends React.Component{
                                 </Route>
                             </Routes>
                         </TopAppBar>
+
                         <Footer/>
                     </BrowserRouter>
                 </ThemeProvider>

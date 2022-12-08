@@ -83,9 +83,14 @@ export default class TopAppBar extends React.Component{
                         {this.UserSection()}
                     </Toolbar>
                 </AppBar>
-                <Toolbar/>
-
-                {this.props.children}
+                <Box
+                    sx={{
+                        minHeight: 'calc(100vh - 152px)'
+                    }}
+                >
+                    <Toolbar/>
+                    {this.props.children}
+                </Box>
             </div>
         );
     }

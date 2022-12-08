@@ -11,7 +11,7 @@ export function Footer(props){
 
     return (
         <AppBar
-            position="sticky"
+            position="static"
             color="footer"
             sx={{ top: 'auto', bottom: 0 }}
             style={{
