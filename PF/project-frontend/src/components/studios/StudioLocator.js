@@ -26,7 +26,8 @@ export function StudioLocator(){
         studio_name: searchParams.get('studio_name'),
         amenity: searchParams.get('amenity'),
         class_name: searchParams.get('class_name'),
-        coach_name: searchParams.get('coach_name')
+        coach_name: searchParams.get('coach_name'),
+        zip: searchParams.get('zip')
     }
 
     Object.keys(params).forEach(k => {
@@ -47,8 +48,12 @@ class StudioLocatorClass extends react.Component{
 
     constructor(props, context) {
         super(props, context);
+        if (props.searchParams.zip !== undefined && props.searchParams.zip !== null){
+            this.setZipCode(props.searchParams.zip)
+        }
+
         this.state = {
-            userZipCode : "",
+            userZipCode : props.searchParams.zip,
             userLocation: {
                 lat: null,
                 lng: null
@@ -65,11 +70,10 @@ class StudioLocatorClass extends react.Component{
 
     getStudioList(comp){
 
-
         const targetURL = BASEURL + "/studios/"
         const searchParams = comp.state.searchParams
         const params = {
-            n: searchParams.class_name,
+            n: searchParams.studio_name,
             a: searchParams.amenity,
             cln: searchParams.class_name,
             chn: searchParams.coach_name,

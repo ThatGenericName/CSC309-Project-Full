@@ -130,7 +130,7 @@ class AddSubscription(APIView):
                 }
                 uSub = UserSubscription.objects.create(**dat)
                 uSub.save()
-                reactivateClasses(request.user)
+            reactivateClasses(request.user)
         else:
             # User already has an active subscription
             activeSub = uext.active_subscription

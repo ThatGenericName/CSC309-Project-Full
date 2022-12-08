@@ -74,16 +74,21 @@ export function UpcomingClassesDashboard(props){
         var list = ListData.slice(0, ct)
 
         return (
-            <Stack
-                spacing={2}
-                direction='row'
-                justifyContent="center"
+            <Box
+                sx={{width: "100%", p:2}}
                 style={{ overflow: 'auto'}}
+                textAlign='center'
             >
-                {list.map(item => {
-                    return <ClassCard classData={item}/>
-                })}
-            </Stack>
+                <Stack
+                    spacing={2}
+                    direction='row'
+                    justifyContent="center"
+                >
+                    {list.map(item => {
+                        return <ClassCard classData={item}/>
+                    })}
+                </Stack>
+            </Box>
         )
     }
 

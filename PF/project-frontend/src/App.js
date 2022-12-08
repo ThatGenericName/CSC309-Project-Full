@@ -33,16 +33,20 @@ import {
     InternalServerError500
 } from "./components/ErrorPages/500InternalServerError";
 import Landing from "./components/landingPage/landing";
+import {Footer} from "./components/Footer/Footer";
 
 
 const theme = createTheme({
     palette: {
-      primary: {
-        main: '#fd6114'
-      },
-      secondary: {
-        main: "#2f528f"
-      },
+        primary: {
+            main: '#fd6114'
+        },
+        secondary: {
+            main: "#2f528f"
+        },
+        footer: {
+            main: '#1A1A1A'
+        }
     },
     breakpoints: {
         values: {
@@ -104,6 +108,7 @@ class App extends React.Component{
                                 </Route>
                             </Routes>
                         </TopAppBar>
+                        <Footer/>
                     </BrowserRouter>
                 </ThemeProvider>
             </APIContextProvider>
