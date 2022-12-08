@@ -14,12 +14,11 @@ import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import isEmail from "validator/lib/isEmail";
-import isMobilePhone from "validator/lib/isMobilePhone";
 import {APIContext} from "../APIContextProvider";
 import axios from "axios";
 import FormData from 'form-data'
 
-import {LOCALE, BASEURL, BASEURLNOEND} from "../constants"
+import {BASEURL, BASEURLNOEND} from "../constants"
 
 
 export default function EditProfile(){

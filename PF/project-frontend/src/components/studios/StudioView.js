@@ -1,12 +1,9 @@
-import {Box, Card, Stack, Typography} from "@mui/material";
+import {Card, ImageList, ImageListItem, Stack, Typography} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import React, {useState} from "react";
 import {BASEURL, BASEURLNOEND} from "../constants";
 import axios from "axios";
 import {useParams} from "react-router-dom";
-import { ImageList, ImageListItem } from '@mui/material';
-
-import {Link, Route, useNavigate} from 'react-router-dom'
 
 import Button from "@mui/material/Button";
 

@@ -1,11 +1,12 @@
 import {
     Dialog,
-    DialogTitle,
+    DialogActions,
     DialogContent,
-    TextField,
-    Stack, Box, DialogActions
+    DialogTitle,
+    Stack,
+    TextField
 } from "@mui/material";
-import react, {useContext, useRef, useState} from "react";
+import react from "react";
 import {APIContext} from "../../APIContextProvider";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";

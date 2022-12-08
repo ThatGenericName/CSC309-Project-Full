@@ -1,22 +1,10 @@
-import {
-    Box,
-    Card,
-    CardActions, DialogContent,
-    DialogTitle,
-    Paper,
-    Stack,
-    Typography
-} from "@mui/material";
-import {StudioPreview} from "./StudioPreview"
+import {Box, CardActions, Paper, Stack, Typography} from "@mui/material";
 
 import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
 import React, {useContext, useState} from "react";
-import {Link, Route, useNavigate} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 
 import {APIContext} from "../APIContextProvider";
-import UserLanding from "../user/UserLanding";
-import Subscription from "../subscriptions/Subscription";
 import axios from "axios";
 import {BASEURL} from "../constants";
 import Grid2 from "@mui/material/Unstable_Grid2";
@@ -64,11 +52,11 @@ export function StudioCard(props){
 
 
     return (
-        <Card
+        <Paper
             key={props.data.id}
             variant='outlined'
             sx={{p:2}}
-            style={{width:'60%'}}
+            style={{width:'70%'}}
         >
             <Grid2
                 container
@@ -176,7 +164,7 @@ export function StudioCard(props){
                 </CardActions>
             </Grid2>
 
-        </Card>
+        </Paper>
 
     )
 }

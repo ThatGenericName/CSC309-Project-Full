@@ -1,4 +1,4 @@
-import React, {Component, createContext, useState} from "react";
+import React, {createContext} from "react";
 import * as Constants from "./constants";
 import axios from "axios";
 import isEqual from 'lodash.isequal';

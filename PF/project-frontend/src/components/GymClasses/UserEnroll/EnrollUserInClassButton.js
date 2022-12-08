@@ -12,7 +12,7 @@ import {
 import CircularProgress from "@mui/material/CircularProgress";
 import {BASEURL} from "../../constants";
 import axios from "axios";
-import {Link, redirect, useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 export function EnrollUserInClassButton(props){
     const ctx = useContext(APIContext)

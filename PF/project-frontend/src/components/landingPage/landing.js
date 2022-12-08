@@ -1,6 +1,4 @@
 import React from 'react';
-import InitElements from "../InitElements";
-import TempLandingPage from "../TempLandingPage";
 import {Box, Button, Paper, Stack, Typography} from "@mui/material";
 
 import Image from "./LandingBanner2.png"

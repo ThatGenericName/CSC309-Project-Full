@@ -1,16 +1,9 @@
 import React from "react";
-import InitElements from "../InitElements";
 import FormData from "form-data"
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import MenuItem from "@mui/material/MenuItem";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
 import {Alert, AlertTitle, Typography} from "@mui/material";
-import DialogContent from "@mui/material/DialogContent";
 import TextField from "@mui/material/TextField";
-import DialogActions from "@mui/material/DialogActions";
-import isEmail from "validator/lib/isEmail";
 import * as Constants from "../constants";
 import axios from "axios";
 import {APIContext} from "../APIContextProvider";

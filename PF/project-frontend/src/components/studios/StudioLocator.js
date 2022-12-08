@@ -1,15 +1,8 @@
-import react, {useState} from "react";
+import react from "react";
 import Geocode from 'react-geocode'
 import {BASEURL, GOOGLEAPIKEY} from "../constants";
 import {APIContext} from "../APIContextProvider";
-import {
-    Box,
-    Pagination,
-    Paper,
-    Stack,
-    TextField,
-    Typography
-} from "@mui/material";
+import {Box, Pagination, Paper, Stack, TextField} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {MapContainer} from "./MapContainer";
 import Button from "@mui/material/Button";
@@ -17,7 +10,6 @@ import axios from "axios";
 import {useSearchParams} from "react-router-dom";
 import {ObjectDeepClone} from "../Utility";
 import StudioList from "./StudioList";
-
 
 
 export function StudioLocator(props){
@@ -108,8 +100,8 @@ class StudioLocatorClass extends react.Component{
             data: formData
         }
 
-        axios(reqData).then(function(response){
-            let cObjList = comp.getCoordinateObjects(response.data['results'])
+        axios(reqData).then( async function(response){
+            let cObjList = await comp.getCoordinateObjects(response.data['results'])
             comp.setState({
                 pages: Math.ceil(response.data['count'] / 10),
                 responseList: response.data['results'],
@@ -233,24 +225,48 @@ class StudioLocatorClass extends react.Component{
         )
     }
 
-    getCoordinateObjects(list){
+    async getCoordiateFromAddress(address) {
+        Geocode.setApiKey(GOOGLEAPIKEY)
+        Geocode.setLanguage('en')
+        Geocode.setRegion('ca')
+
+        let comp = this
+
+        let geores = await Geocode.fromAddress(address)
+
+        const coord = geores.results[0].geometry.location
+        return coord
+    }
+
+    async getCoordinateObjects(list){
         const cobjList = []
 
-        list.forEach(studio => {
+        for (const studio of list) {
             var geoLocSplit = studio.geo_loc.split(',')
             var lat = parseFloat(geoLocSplit[0])
             var lng = parseFloat(geoLocSplit[1])
 
+            let coords
+            if (isNaN(lat) || isNaN(lng)){
+                try{
+                    coords = await this.getCoordiateFromAddress(studio.address)
+                }
+                catch (e) {
+                    coords = {lat, lng}
+                }
+
+            }
+            else{
+                coords = {lat, lng}
+            }
+
             let coordObj = {
                 id: studio.id,
                 name: studio.name,
-                position: {
-                    lat: lat,
-                    lng: lng
-                }
+                position: coords
             }
             cobjList.push(coordObj)
-        })
+        }
 
         return cobjList
     }

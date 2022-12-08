@@ -1,16 +1,13 @@
 import React from 'react';
-import Button from "@mui/material/Button";
-import Grid2 from "@mui/material/Unstable_Grid2";
-import Paper from "@mui/material/Paper";
 import {APIContext} from "../APIContextProvider";
 import {
     Box,
     Divider,
     List,
     ListItem,
-    ListItemButton, ListItemIcon, ListItemText,
-    Stack,
-    Typography
+    ListItemButton,
+    ListItemIcon,
+    ListItemText
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";

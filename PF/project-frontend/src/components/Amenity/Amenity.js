@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
 import Button from "@mui/material/Button";
-import {Box, LinearProgress, Pagination, Paper, Stack, Typography} from "@mui/material";
+import {Box, LinearProgress, Pagination, Paper} from "@mui/material";
 
 import AmenityList from "./GenerateAmenityList";
-import GetAmenity from "./GetAmenityData";
-import {BASEURL, LIPSUM} from "../constants";
+import {BASEURL} from "../constants";
 import axios from "axios";
-import {Link, Route, Routes, useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 
 export default function Amenity(props){
 

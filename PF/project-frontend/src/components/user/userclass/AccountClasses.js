@@ -1,28 +1,10 @@
-import React, {useContext, useState} from "react";
+import React from "react";
 import {APIContext} from "../../APIContextProvider";
-import {
-    Accordion,
-    AccordionSummary, Alert,
-    Box,
-    Card, Divider, LinearProgress, Pagination,
-    Paper,
-    Stack, ToggleButton, ToggleButtonGroup
-} from "@mui/material";
-import Grid2 from '@mui/material/Unstable_Grid2';
+import {Alert, Box, Divider, LinearProgress, Stack} from "@mui/material";
 import {BASEURL} from "../../constants";
 import axios from "axios";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import Avatar from "@mui/material/Avatar";
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
-import CoachPreview from "./CoachPreview";
-import SimpleTimeCard from "../SimpleTimeCard";
-import {StudioPreview} from "../../studios/StudioPreview";
 import {ClassSessionPreview} from "./ClassSessionPreview";
-import {TEST_DATA} from "./TestData";
 import FilterControls from "../FilterControls";
-import {
-    ActiveSubscriptionDashboard
-} from "../usersubscription/ActiveSubscriptionDashboard";
 import {UpcomingClassesDashboard} from "./UpcomingClassesDashboard";
 
 const PAGINATION_SIZE = 10

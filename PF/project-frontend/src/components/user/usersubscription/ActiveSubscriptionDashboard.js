@@ -1,4 +1,4 @@
-import {Box, LinearProgress, Paper, Stack, Typography} from "@mui/material";
+import {Box, LinearProgress, Paper, Typography} from "@mui/material";
 import React, {useContext, useState} from "react";
 import {APIContext} from "../../APIContextProvider";
 import {AccountSubscriptionPreview} from "./AccountSubscriptionPreview";

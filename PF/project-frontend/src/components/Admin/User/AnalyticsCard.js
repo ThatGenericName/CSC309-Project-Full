@@ -4,7 +4,6 @@ import {BASEURL} from "../../constants";
 import axios from "axios";
 import {DeepCloneStateSet} from "../../Utility";
 import {Box, LinearProgress, Paper, Stack, Typography} from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2";
 
 
 export function AnalyticsCard(props){

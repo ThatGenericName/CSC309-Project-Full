@@ -1,14 +1,11 @@
 import {APIContext} from "../../APIContextProvider";
 import React, {useContext, useState} from "react";
-import {Box, Card, Paper, Stack, Typography} from "@mui/material";
+import {Box, Paper, Stack, Typography} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import Button from "@mui/material/Button";
 import {Link} from "react-router-dom";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
-import {
-    AccountSubscriptionPreview
-} from "../usersubscription/AccountSubscriptionPreview";
 import ClassCard from "./ClassCard";
 import {BASEURL} from "../../constants";
 import axios from "axios";

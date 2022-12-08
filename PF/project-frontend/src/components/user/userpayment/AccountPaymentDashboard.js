@@ -1,12 +1,10 @@
-import {Box, LinearProgress, Paper, Stack, Typography} from "@mui/material";
+import {LinearProgress, Paper, Typography} from "@mui/material";
 import React, {useContext, useState} from "react";
 import {APIContext} from "../../APIContextProvider";
 import {BASEURL} from "../../constants";
 import axios from "axios";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import {Link} from "react-router-dom";
 import {AccountPaymentPreview} from "./AccountPaymentPreview";
 import {AddPaymentMethod} from "./AddPaymentMethod";

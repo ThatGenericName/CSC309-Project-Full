@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import Button from "@mui/material/Button";
-import {Box, Paper, Stack, Typography} from "@mui/material";
+import {Box, Paper} from "@mui/material";
 
-import {BASEURL, LIPSUM} from "../constants";
+import {BASEURL} from "../constants";
 import axios from "axios";
-import {Link, Route, Routes} from "react-router-dom";
+import {Link} from "react-router-dom";
 import StudioList from "./StudioList"
 
 export default function Studio(props){

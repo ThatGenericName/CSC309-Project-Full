@@ -1,8 +1,6 @@
-import {Box, Card, Paper, Stack, Typography} from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import {Box, Paper, Stack, Typography} from "@mui/material";
 import React from "react";
 import {Link} from "react-router-dom";
-
 
 
 export function StudioPreview(props){

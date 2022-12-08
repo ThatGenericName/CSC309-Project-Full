@@ -8,7 +8,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import MenuItem from '@mui/material/MenuItem';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Alert, AlertTitle, Box, Typography } from '@mui/material';
+import {Alert, AlertTitle, Box} from '@mui/material';
 
 import {APIContext} from "../APIContextProvider";
 import * as Constants from '../constants';
