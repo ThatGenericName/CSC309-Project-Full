@@ -78,7 +78,7 @@ export default class Studio extends React.Component{
         if (this.state.reqSucc){
             return (
                 <Alert severity="success">
-                    <AlertTitle>Registration successful! Please log in</AlertTitle>
+                    <AlertTitle>Studio Added Successfully</AlertTitle>
                 </Alert>
             )
         }
@@ -152,6 +152,9 @@ export default class Studio extends React.Component{
             }
 
             var token = this.context.userToken
+            if (token === null){
+              return
+            }
             token = token.replace("Token ","")
 
             let requestData = {
@@ -159,7 +162,7 @@ export default class Studio extends React.Component{
                 method: "POST",
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    'Authentication': "Token " + token
+                    "Authorization": "Token " + token
 
                 },
                 data: formdat
