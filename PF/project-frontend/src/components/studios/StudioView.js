@@ -1,4 +1,12 @@
-import {Card, ImageList, ImageListItem, Stack, Typography} from "@mui/material";
+import {
+    Box,
+    Card,
+    ImageList,
+    ImageListItem,
+    Paper,
+    Stack,
+    Typography
+} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import React, {useContext, useState} from "react";
 import {BASEURL, BASEURLNOEND} from "../constants";
@@ -58,60 +66,72 @@ export default function StudioPreview(props) {
 
     if (formData.request_complete) {
         return (
-            <Card
-                // style={{height: '80em'}}
-                variant="outlined"
-                sx={{p: 1}}
-
-                component={Stack}
-                direction="column"
-                // justifyContent="center"
+            <Box
+                sx={{
+                    p: 4,
+                    textAlign: 'center'
+                }}
             >
-                <br/>
+                <Paper
+                    sx={{
+                        p:3,
+                        alignContent:'center'
+                    }}
+                >
+                    <Stack
+                        spacing={2}
+                        alignItems="center"
+                        justifyContent="center"
+                    >
+                        <Grid2 xs={10}>
+                            <Stack spacing={3}>
+                                <Typography variant='h5'>
+                                    {"Name : " + formData.data.name}
+                                </Typography>
+                                <Typography>
+                                    {"Address : " + formData.data.address}
+                                </Typography>
+                                <Typography>
+                                    {"Postal Code : " + formData.data.post_code}
+                                </Typography>
+                                <Typography>
+                                    {"Phone Number : " + formData.data.phone_num}
+                                </Typography>
+                                <Typography>
+                                    {"Postal Code : " + formData.data.post_code}
+                                </Typography>
 
-                <Grid2 xs={10}>
-                    <Stack spacing={3}>
-                        <Typography variant='h5'>
-                            {"Name : " + formData.data.name}
-                        </Typography>
-                        <Typography>
-                            {"Address : " + formData.data.address}
-                        </Typography>
-                        <Typography>
-                            {"Postal Code : " + formData.data.post_code}
-                        </Typography>
-                        <Typography>
-                            {"Phone Number : " + formData.data.phone_num}
-                        </Typography>
-                        <Typography>
-                            {"Postal Code : " + formData.data.post_code}
-                        </Typography>
+                                <a href={formData.data.direction} style={{textDecoration: 'none'}}>
+                                    <Button variant="outlined">Click here for Directions</Button>
+                                </a>
 
-                        <a href={formData.data.direction} style={{textDecoration: 'none'}}>
-                            <Button variant="outlined">Click here for Directions</Button>
-                        </a>
+                            </Stack>
+                        </Grid2>
+                        <Paper
+                            sx={{
+                                p:3,
+                                width:500
+                            }}
+                        >
+                            <Box
+                                sx={{width:500}}
+                            >
+                                <Grid2 container columns={3}>
+                                    {formData.data.images.map((file, index) => {
+                                        let link = BASEURLNOEND + file
+                                        return (
+                                            <Grid2 xs>
+                                                <img src={`${link}?w=164&h=164&fit=crop&auto=format`} height="164" color="white"/>
+                                            </Grid2>
+                                        )
+                                    })}
+                                </Grid2>
+                            </Box>
+                        </Paper>
 
                     </Stack>
-                </Grid2>
-
-
-                <ImageList sx={{width: 500, height: 450}} cols={3} rowHeight={164}>
-                    {formData.data.images.map((file, index) => {
-                        let link = BASEURLNOEND + file
-                        return (
-                            <ImageListItem key={file}>
-                                <img
-                                    src={`${link}?w=164&h=164&fit=crop&auto=format`}
-                                    srcSet={`${link}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-
-                                    loading="lazy"
-                                />
-                            </ImageListItem>
-                        )
-                    })}
-                </ImageList>
-
-            </Card>
+                </Paper>
+            </Box>
         )
     }
 }
