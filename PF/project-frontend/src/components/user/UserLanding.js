@@ -11,7 +11,13 @@ export function UserLanding(props) {
         return (
             <UserLoggedIn/>
         )
-    } else {
+    } else if (!ctx.appBarLoaded){
+        return (
+            null
+        )
+    }
+
+    else {
         return (
             <UserNotLoggedIn/>
         )

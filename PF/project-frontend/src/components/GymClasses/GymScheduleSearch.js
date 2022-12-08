@@ -7,6 +7,9 @@ import Button from "@mui/material/Button";
 import axios from "axios";
 import {useSearchParams} from "react-router-dom";
 import GymClassScheduleList from "./GymClassScheduleList";
+import {
+    PromoCardItem
+} from "../subscriptions/SubscriptionPromoCards/PromoCardItem";
 
 
 export function ScheduleSearch() {
@@ -65,15 +68,12 @@ class ScheduleClass extends react.Component {
             }
         })
 
-        var token = this.context.userToken
-        token = token.replace("Token ", "")
 
         const reqData = {
             url: targetURL,
             method: 'GET',
             headers: {
                 'Content-Type': 'multipart/form-data',
-                "Authorization": "Token " + token
             },
             params: params
         }
@@ -154,6 +154,10 @@ class ScheduleClass extends react.Component {
                 }}
             >
                 <Stack spacing={3}>
+                    <PromoCardItem
+                        data={PROMOCONTENT}
+                        left='false'
+                    />
                     <Paper
                         sx={{
                             p: 3,
@@ -207,4 +211,11 @@ class ScheduleClass extends react.Component {
             </Box>
         )
     }
+}
+
+
+const PROMOCONTENT = {
+    img: '/classcard/side-classes1.jpg',
+    header: "Group Classes",
+    text: "Get all the group fitness you want, for less, with Unlimited Classes included in our Memberships!."
 }

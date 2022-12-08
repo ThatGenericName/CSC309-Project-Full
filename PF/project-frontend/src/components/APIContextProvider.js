@@ -77,6 +77,8 @@ export class APIContextProvider extends React.Component {
         if (token === null) {
             //not logged in
             if (init) {
+                this.state.appBarLoaded = true
+
                 return null
             } else {
                 this.clearUserData()
@@ -132,7 +134,8 @@ export class APIContextProvider extends React.Component {
             })
             .catch(function (error) {
                 comp.setState({
-                    userLoggedIn: false
+                    userLoggedIn: false,
+                    appBarLoaded: false
                 })
                 localStorage.removeItem('Auth')
             })

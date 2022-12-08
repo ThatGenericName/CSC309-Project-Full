@@ -75,7 +75,11 @@ export default function Subscription() {
         } else {
             return (
                 <React.Fragment>
-                    {<SubscriptionsList items={listItems}/>}
+                    <Box
+                        alignContent={'center'}
+                    >
+                        {<SubscriptionsList items={listItems}/>}
+                    </Box>
                     <Box style={{textAlign: 'center'}}>
                         <Button onClick={e => setAllSubsOpen(true)}>
                             View All Subscriptions
