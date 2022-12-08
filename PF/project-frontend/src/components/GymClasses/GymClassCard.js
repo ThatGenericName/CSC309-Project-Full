@@ -114,12 +114,20 @@ export function GymClassCard(props) {
             sx={{p: 2}}
             style={{width: '90%'}}
         >
+            <Grid2 container spacing={3}>
+                <Grid2 xs/>
+                <Grid2 xs={2}>
+                    <Typography>
+                        {props.admin && ("ID : " + props.data.id)}
+                    </Typography>
+                </Grid2>
+            </Grid2>
             <Grid2
                 container
                 alignItems='center'
                 spacing={3}
             >
-                <Grid2 xs={3}>
+                <Grid2 xs={4}>
                     <Stack spacing={1}>
                         <Typography variant='h5'>
                             {"Name : " + props.data.name}
@@ -133,7 +141,7 @@ export function GymClassCard(props) {
                     </Stack>
                 </Grid2>
 
-                <Grid2 xs={3}>
+                <Grid2 xs={4}>
                     <Stack spacing={1}>
                         <Typography>
                             {
@@ -146,6 +154,12 @@ export function GymClassCard(props) {
                         <Typography>
                             {"Day : " + props.data.day}
                         </Typography>
+
+                    </Stack>
+                </Grid2>
+                <Grid2 xs={4}>
+                    <Stack spacing={1}>
+
                         <Typography>
                             {"Start Time : " + props.data.start_time}
                         </Typography>

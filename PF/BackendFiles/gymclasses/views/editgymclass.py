@@ -104,14 +104,9 @@ class EditGymClass(APIView):
         if data["description"]:
             setattr(gym_class, "description", data["description"])
         if data["keywords"]:
-            keywords = data.getlist('keywords')
+            model_keywords = data['keywords']
+            gym_class.keywords = model_keywords
 
-            model_keywords = ""
-
-            for item in keywords:
-                model_keywords += item + ","
-            model_keywords = model_keywords[:-1]
-            setattr(gym_class, "keywords", model_keywords)
 
         setattr(gym_class, "earliest_date", earliest_date)
         setattr(gym_class, "last_date", last_date)

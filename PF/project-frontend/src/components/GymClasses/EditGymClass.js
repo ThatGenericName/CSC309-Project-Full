@@ -24,9 +24,9 @@ export default function EditGymClassSchedule() {
 
     let ctx = useContext(APIContext)
 
-    const {id} = useParams()
+    const {id, id_2} = useParams()
 
-    const url = Constants.BASEURL + "classes/" + id + "/edit/"
+    const url = Constants.BASEURL + "classes/" + id_2 + "/edit/"
 
     let GymClassData = {
         studio: "",

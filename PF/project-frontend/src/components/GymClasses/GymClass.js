@@ -21,7 +21,7 @@ export default function GymClass(props) {
         onSendFlag: false
     })
 
-    const {id} = useParams()
+    const {id, id_2} = useParams()
 
     function setCompState(obj) {
         var d = {}
