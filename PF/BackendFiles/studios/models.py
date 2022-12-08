@@ -1,3 +1,4 @@
+import os
 import uuid
 
 import rest_framework.fields
@@ -19,9 +20,15 @@ class Studio(models.Model):
     def __str__(self):
         return self.name
 
+PATH = "studios/studioimages/"
+def RandomNameGen(instance, filename):
+    ext = "." + filename.split('.')[-1]
+    name = str(uuid.uuid4())
+    fn = name + ext
+    return os.path.join(PATH, fn)
 
 class ImageRep(models.Model):
-    image = models.ImageField(upload_to="studios/studioimages/", null=False)
+    image = models.ImageField(upload_to=RandomNameGen, null=False)
     studio = models.ForeignKey(Studio, on_delete=models.CASCADE, null=False)
 
 
