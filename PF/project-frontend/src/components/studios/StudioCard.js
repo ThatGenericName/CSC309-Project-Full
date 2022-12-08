@@ -68,6 +68,7 @@ export function StudioCard(props) {
             style={{width: '80%'}}
         >
             <Grid2
+                sx={{width:"100%"}}
                 container
                 columns={24}
                 rowSpacing={1}
@@ -75,8 +76,10 @@ export function StudioCard(props) {
                 alignItems="center"
                 justifyContent='center'
             >
+                <Grid2 xs={1}/>
 
                 <Grid2 xs={8}>
+
                     <Stack spacing={1}>
                         <Typography variant='h5'>
                             {props.data.name}
@@ -88,6 +91,11 @@ export function StudioCard(props) {
                             {props.data.post_code}
                         </Typography>
                     </Stack>
+                </Grid2>
+                <Grid2 xs={1}>
+                    <Typography>
+                        {props.admin && ("ID : " + props.data.id)}
+                    </Typography>
                 </Grid2>
                 <CardActions>
                     {props.admin && <React.Fragment>

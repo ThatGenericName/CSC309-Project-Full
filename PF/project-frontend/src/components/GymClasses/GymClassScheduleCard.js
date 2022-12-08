@@ -1,4 +1,4 @@
-import {Card, CardActions, Stack, Typography} from "@mui/material";
+import {Card, CardActions, Stack, Typography, Box} from "@mui/material";
 import Button from "@mui/material/Button";
 import React, {useContext, useState} from "react";
 import {Link} from 'react-router-dom'
@@ -131,18 +131,29 @@ export function GymClassScheduleCard(props) {
             sx={{p: 2}}
             style={{width: '95%'}}
         >
+            <Grid2 container spacing={3}>
+                <Grid2 xs={3}>
+                    <Typography variant='h5'>
+                        {props.data.parent_class.name}
+                    </Typography>
+                </Grid2>
+                <Grid2 xs/>
+                <Grid2 xs={2}>
+                    <Typography variant='h5'>
+                        {props.admin && ("ID : " + props.data.id)}
+                    </Typography>
+                </Grid2>
+            </Grid2>
+
             <Grid2
                 container
                 alignItems='center'
                 spacing={2}
             >
+
                 <Grid2 xs={3}>
                     <Stack spacing={1}>
-                        {props.admin && <React.Fragment>
-                            <Typography variant='h5'>
-                                {"ID : " + props.data.id}
-                            </Typography>
-                        </React.Fragment>}
+
                         <Typography variant='h7'>
                             {"Date : " + props.data.date}
                         </Typography>
@@ -153,10 +164,20 @@ export function GymClassScheduleCard(props) {
                             {"Enrollment Count : " + props.data.enrollment_count}
                         </Typography>
                         {props.admin && <React.Fragment>
-                            <Typography >
+
+                        </React.Fragment>}
+                    </Stack>
+                </Grid2>
+                <Grid2 xs={3}>
+                    <Stack spacing={1}>
+
+                        <Typography>
+                            {"Class Description : " + props.data.parent_class.description
+                            }
+                        </Typography>
+                        <Typography >
                                 {"IsCancelled : " + props.data.is_cancelled}
                             </Typography>
-                        </React.Fragment>}
                     </Stack>
                 </Grid2>
 
