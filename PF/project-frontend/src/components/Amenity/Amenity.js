@@ -82,13 +82,17 @@ export default function Amenity(props){
             <Box>
                 {/*<TopHeader/>*/}
                 <br/>
+
                 <div>
-                    <Box textAlign='center'>
-                        <Button variant='contained' component={Link} to={{pathname:
-                            `/studios/${id}/amenities/create/`}}>
-                          Add Amenity
-                        </Button>
-                    </Box>
+                    {props.admin && <React.Fragment>
+                        <Box textAlign='center'>
+                            <Button variant='contained' component={Link} to={{pathname:
+                                `/studio/${id}/amenities/create/`}}>
+                              Add Amenity
+                            </Button>
+                        </Box>
+                    </React.Fragment>}
+
                 </div>
                 <br/>
                 <Box
@@ -112,8 +116,11 @@ export default function Amenity(props){
                     />
                 </Box>
                 <Paper sx={{p:2, mx:2}}>
-                    {compState.axiosLoading ? <LinearProgress/> : <AmenityList items={compState.list} onSend={forceReload}/>}
-                    {/*<AmenityList items={compState.list} onSend={forceReload}/>*/}
+                    {compState.axiosLoading ? <LinearProgress/> : <AmenityList
+                        admin={props.admin}
+                        items={compState.list}
+                        onSend={forceReload}
+                    />}
                 </Paper>
             </Box>
         )

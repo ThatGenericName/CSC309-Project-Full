@@ -79,12 +79,10 @@ class App extends React.Component{
                                     <Route path='' element={<Landing/>}/>
                                     <Route path="account/*" element={<UserLanding />} />
                                     <Route path="subscriptions/*" element={<Subscription />} />
-                                    <Route path='studios/*' element={<StudiosLanding/>} />
+                                    <Route path='studio/*' element={<StudiosLanding/>} />
                                     <Route path="admin/*" element={<AdminLandingPage />} />
                                     <Route path="test/*" element={<ScheduleSearch />} />
 
-                                    <Route path="schedule/:id/edit" element={<EditGymClassSchedule/>} />
-                                    <Route path="class/:id/edit" element={<EditGymClass/>} />
 
 
                                     <Route path="class/:id/create" element={<AddGymClass/>} />

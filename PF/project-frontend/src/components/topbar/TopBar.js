@@ -68,7 +68,7 @@ export default class TopAppBar extends React.Component{
                             <Button
                                 sx={{color:'#ffffff'}}
                                 component={Link}
-                                to={'/studios'}
+                                to={'/studio'}
                             >
                                 Studios
                             </Button>

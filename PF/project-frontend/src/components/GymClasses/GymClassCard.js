@@ -129,24 +129,32 @@ export function GymClassCard(props) {
                 </Grid2>
 
 
-                <CardActions sx={{gap: 1}}>
-                    <Button variant='contained' component={Link} to={{
-                        pathname:
-                            `/class/${props.data.id}/edit/`
-                    }}>
-                        Edit
-                    </Button>
-                    <Button variant='contained' onClick={DeleteClass}>
-                        Delete
-                    </Button>
-                    <Button variant='contained' onClick={CancelClass}>
-                        Cancel
-                    </Button>
-                    <EnrollUserInClassButton
-                        classID={data.id}
-                        className={data.name}
-                    />
-                </CardActions>
+                {props.admin && <React.Fragment>
+                        <CardActions sx={{gap: 1}}>
+                        <Button variant='contained' component={Link} to={{
+                            pathname:
+                                `${props.data.id}/edit/`
+                        }}>
+                            Edit
+                        </Button>
+                        <Button variant='contained' onClick={DeleteClass}>
+                            Delete
+                        </Button>
+                        <Button variant='contained' onClick={CancelClass}>
+                            Cancel
+                        </Button>
+
+                    </CardActions>
+                </React.Fragment>}
+                {ctx.userLoggedIn && <React.Fragment>
+                    <CardActions sx={{gap: 1}}>
+                        <EnrollUserInClassButton
+                            classID={data.id}
+                            className={data.name}
+                        />
+                    </CardActions>
+                </React.Fragment>}
+
             </Grid2>
         </Card>
     )

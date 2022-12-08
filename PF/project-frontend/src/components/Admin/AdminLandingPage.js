@@ -7,6 +7,7 @@ import {
     SubscriptionControlPanel
 } from "./Subscription/SubscriptionControlPanel";
 import {UserControlPanel} from "./User/UserControlPanel";
+import {StudiosLanding} from "../studios/StudioLanding";
 import {APIContext} from "../APIContextProvider";
 import {Unauthorized401} from "../ErrorPages/401Unauthorized";
 import {NotFound404} from "../ErrorPages/404NotFound";
@@ -40,7 +41,7 @@ export function AdminLandingPage(){
                     justifyContent: 'center'
                 }}
             >
-                <Button>
+                <Button component={Link} to={'/admin/studio'}>
                     Studio Management
                 </Button>
                 <Button>
@@ -57,6 +58,7 @@ export function AdminLandingPage(){
                 <Route path="" element={<AdminMain/>}/>
                 <Route path="/subscription" element={<SubscriptionControlPanel/>}/>
                 <Route path='/users' element={<UserControlPanel/>}/>
+                <Route path='/studio/*' element={<StudiosLanding admin={true}/>}/>
                 <Route path='/*' element={<NotFound404 suggestions={ADMIN404SUGGESTIONS}/>}/>
             </Routes>
         </Stack>

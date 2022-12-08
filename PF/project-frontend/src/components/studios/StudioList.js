@@ -10,7 +10,8 @@ export default function StudioList(props){
     function generateStudioList(items){
         return (
             <Stack direction='column' spacing={2} alignItems='center'>
-                {items.map(item => <StudioCard data={item} key={item.id} onSend={props.onSend}/>)}
+                {items.map(item => <StudioCard data={item} admin={props.admin}
+                                               key={item.id} onSend={props.onSend}/>)}
             </Stack>
 
         )

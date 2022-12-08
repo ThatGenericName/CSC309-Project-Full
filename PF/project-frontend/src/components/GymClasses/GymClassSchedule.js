@@ -104,7 +104,7 @@ export default function GymClassSchedule(props){
                 </Box>
                 <br/>
 
-                <GymClassScheduleList items={compState.list} onSend={forceReload}/>
+                <GymClassScheduleList admin={props.admin} items={compState.list} onSend={forceReload}/>
         </Paper>
 
         )

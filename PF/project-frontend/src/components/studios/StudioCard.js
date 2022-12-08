@@ -97,7 +97,7 @@ export function StudioCard(props){
                     {/*{ <React.Fragment>*/}
                         <Box>
                             <Button variant='contained' component={Link} to={{pathname:
-                                `/studios/${props.data.id}/edit/`}}>
+                                `${props.data.id}/edit/`}}>
                               Edit
                             </Button>
                     </Box>
@@ -108,26 +108,64 @@ export function StudioCard(props){
                         </Box>
                     </React.Fragment>
                     }
+                    {props.admin && <React.Fragment>
+                        <Box>
+                            <Button variant='contained' component={Link} to={{pathname:
+                                `/admin/studio/${props.data.id}/amenities/`}}>
+                              Amenities
+                            </Button>
+                        </Box>
+                    </React.Fragment>
+                    }
+                    {!props.admin && <React.Fragment>
+                        <Box>
+                            <Button variant='contained' component={Link} to={{pathname:
+                                `/studio/${props.data.id}/amenities/`}}>
+                              Amenities
+                            </Button>
+                        </Box>
+                    </React.Fragment>
+                    }
 
 
-                    <Box>
-                        <Button variant='contained' component={Link} to={{pathname:
-                            `/studios/${props.data.id}/amenities/`}}>
-                          Amenities
-                        </Button>
-                    </Box>
-                    <Box>
-                        <Button variant='contained' component={Link} to={{pathname:
-                            `/studios/${props.data.id}/gymclasses/`}}>
-                          Gym Class
-                        </Button>
-                    </Box>
-                    <Box>
-                        <Button variant='contained' component={Link} to={{pathname:
-                            `/studios/${props.data.id}/schedules/`}}>
-                          Schedules
-                        </Button>
-                    </Box>
+
+                    {!props.admin && <React.Fragment>
+                        <Box>
+                            <Button variant='contained' component={Link} to={{pathname:
+                                `/studio/${props.data.id}/gymclasses/`}}>
+                              Gym Class
+                            </Button>
+                        </Box>
+                    </React.Fragment>
+                    }
+                    {props.admin && <React.Fragment>
+                        <Box>
+                            <Button variant='contained' component={Link} to={{pathname:
+                                `/admin/studio/${props.data.id}/gymclasses/`}}>
+                              Gym Class
+                            </Button>
+                        </Box>
+                    </React.Fragment>
+                    }
+                    {props.admin && <React.Fragment>
+                        <Box>
+                            <Button variant='contained' component={Link} to={{pathname:
+                                `/admin/studio/${props.data.id}/schedules/`}}>
+                              Schedules
+                            </Button>
+                        </Box>
+                    </React.Fragment>
+                    }
+                    {!props.admin && <React.Fragment>
+                        <Box>
+                            <Button variant='contained' component={Link} to={{pathname:
+                                `/studio/${props.data.id}/schedules/`}}>
+                              Schedules
+                            </Button>
+                        </Box>
+                    </React.Fragment>
+                    }
+
                     <Box>
                         <Button variant='contained' component={Link} to={{pathname:
                             `/studios/${props.data.id}/view/`}}>

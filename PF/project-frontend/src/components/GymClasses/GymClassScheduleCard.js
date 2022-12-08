@@ -21,6 +21,7 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 
 import FormData from "form-data";
 import {SubscriptionPayment} from "../subscriptions/SubscriptionPayment";
+import {EnrollUserInClassButton} from "./UserEnroll/EnrollUserInClassButton";
 
 export function GymClassScheduleCard(props){
 
@@ -152,23 +153,30 @@ export function GymClassScheduleCard(props){
                     </Stack>
                 </Grid2>
 
+                {props.admin && <React.Fragment>
+                    <CardActions sx={{gap: 1}}>
+                        <Button variant='contained' component={Link} to={{pathname:
+                                `${props.data.id}/edit/`}}>
+                            Edit
+                        </Button>
+                        <Button variant='contained' onClick={DeleteSchedule}>
+                            Delete
+                        </Button>
+                        <Button variant='contained' onClick={CancelSchedule}>
+                            Cancel
+                        </Button>
 
-                <CardActions sx={{gap: 1}}>
-                    <Button variant='contained' component={Link} to={{pathname:
-                            `/schedule/${props.data.id}/edit/`}}>
-                        Edit
-                    </Button>
-                    <Button variant='contained' onClick={DeleteSchedule}>
-                        Delete
-                    </Button>
-                    <Button variant='contained' onClick={CancelSchedule}>
-                        Cancel
-                    </Button>
-                    <EnrollUserInSession
-                        sessionID={data.id}
-                        className={data.parent_class.name}
-                    />
-                </CardActions>
+                    </CardActions>
+                </React.Fragment>}
+
+                {ctx.userLoggedIn && <React.Fragment>
+                    <CardActions sx={{gap: 1}}>
+                        <EnrollUserInSession
+                            sessionID={data.id}
+                            className={data.parent_class.name}
+                        />
+                    </CardActions>
+                </React.Fragment>}
             </Grid2>
         </Card>
     )

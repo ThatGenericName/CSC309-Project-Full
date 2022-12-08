@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import Button from "@mui/material/Button";
-import {Box, Paper, Stack, Typography} from "@mui/material";
+import {Box, Pagination, Paper, Stack, Typography} from "@mui/material";
 
 import {BASEURL, LIPSUM} from "../constants";
 import axios from "axios";
 import {Link, Route, Routes, useParams} from "react-router-dom";
 import GymClassList from "./GymClassList"
+import GymClassScheduleList from "./GymClassScheduleList";
 
 export default function GymClass(props){
 
@@ -83,16 +84,41 @@ export default function GymClass(props){
                 {/*<TopHeader/>*/}
                 <br/>
                 <div>
-                    <Box textAlign='center'>
-                        <Button variant='contained' component={Link} to={{pathname:
-                            `/class/${id}/create/`}}>
-                          Add Gym Class
-                        </Button>
-                    </Box>
+                    {props.admin && <React.Fragment>
+                        <Box textAlign='center'>
+                            <Button variant='contained' component={Link} to={{pathname:
+                                `/class/${id}/create/`}}>
+                              Add Gym Class
+                            </Button>
+                        </Box>
+                    </React.Fragment>}
+
                 </div>
                 <br/>
-                <Paper sx={{p:2, mx:2}}>
-                    <GymClassList items={compState.list} onSend={forceReload}/>
+                 <Paper sx={{p:2, mx:2}}>
+                     <br/>
+                    <Box
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}
+                        >
+                        <Pagination
+                            count={compState.pages}
+                            onChange={(e, v) => {
+                                if (v !== compState.targetPage){
+                                    setCompState({
+                                        targetPage: v,
+                                        respReceived: false,
+                                        axiosLoading: true
+                                    })
+                                }
+                            }}
+                        />
+                    </Box>
+                    <br/>
+                    <GymClassList admin={props.admin} items={compState.list} onSend={forceReload}/>
                 </Paper>
             </Box>
         )

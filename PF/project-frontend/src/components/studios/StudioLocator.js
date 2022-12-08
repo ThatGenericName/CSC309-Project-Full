@@ -20,7 +20,7 @@ import StudioList from "./StudioList";
 
 
 
-export function StudioLocator(){
+export function StudioLocator(props){
     let [searchParams, setSearchParams] = useSearchParams()
 
 
@@ -41,7 +41,7 @@ export function StudioLocator(){
     let a = 1
 
     return (
-        <StudioLocatorClass searchParams={params} searchParamSetter={setSearchParams}/>
+        <StudioLocatorClass admin={props.admin} searchParams={params} searchParamSetter={setSearchParams}/>
     )
 }
 
@@ -63,6 +63,7 @@ class StudioLocatorClass extends react.Component{
             searchParams: props.searchParams,
             responseList: [],
             pages: 0,
+            admin: props.admin,
             initSearch: true,
             cObjList: [],
             targetPage: 1,
@@ -336,7 +337,8 @@ class StudioLocatorClass extends react.Component{
                                     }}
                                 />
                             </Box>
-                            <StudioList items={this.state.responseList} onSend={() => this.reload()}/>
+                            <StudioList admin={this.state.admin} items={this.state.responseList}
+                                        onSend={() => this.reload()}/>
                         </Stack>
                     </Paper>
                 </Stack>

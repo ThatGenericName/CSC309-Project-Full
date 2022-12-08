@@ -151,15 +151,15 @@ export default class Studio extends React.Component{
                 formdat.append("images", img)
             }
 
-            // var token = this.context.userToken
-            // token = token.replace("Token ")
+            var token = this.context.userToken
+            token = token.replace("Token ","")
 
             let requestData = {
                 url: targetURL,
                 method: "POST",
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    // 'Authentication': "Token " + token
+                    'Authentication': "Token " + token
 
                 },
                 data: formdat

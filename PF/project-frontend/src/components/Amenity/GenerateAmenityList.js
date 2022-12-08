@@ -11,7 +11,9 @@ export default function AmenityList(props){
         return (
 
             <Stack direction='column' spacing={2} alignItems='center'>
-                {items.map(item => <AmenityCardDisplay data={item} key={item.id}
+                {items.map(item => <AmenityCardDisplay data={item}
+                                                       key={item.id}
+                                                       admin = {props.admin}
                                                        onSend={props.onSend}/>)}
             </Stack>
             // <Stack direction='column-reverse' spacing={2} alignItems='center'>
@@ -30,16 +32,6 @@ export default function AmenityList(props){
             alignItems='center'
         >
             {generateAmenityList(props.items)}
-            {/*<Snackbar*/}
-            {/*    anchorOrigin={{ vertical, horizontal }}*/}
-            {/*    autoHideDuration={8000}*/}
-            {/*    open={snackbarOpen}*/}
-            {/*    onClose={() => setSnackbarOpen(false)}*/}
-            {/*>*/}
-            {/*    <Alert onClose={() => setSnackbarOpen(false)} severity="success" sx={{ width: '100%' }}>*/}
-            {/*        Success!*/}
-            {/*    </Alert>*/}
-            {/*</Snackbar>*/}
         </Box>
     )
 }

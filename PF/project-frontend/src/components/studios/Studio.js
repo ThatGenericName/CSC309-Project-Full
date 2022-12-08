@@ -95,7 +95,7 @@ export default function Studio(props){
                 <div>
                     <Box textAlign='center'>
                         <Button variant='contained' component={Link} to={{pathname:
-                            `/studios/create/`}}>
+                            `/studio/create/`}}>
                           Add Studio
                         </Button>
                     </Box>

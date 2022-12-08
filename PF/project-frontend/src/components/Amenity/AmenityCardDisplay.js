@@ -99,20 +99,24 @@ export function AmenityCardDisplay(props){
                     </Stack>
                 </Grid2>
 
-                <CardActions>
-                    <Box>
-                        <Button variant='contained' component={Link} to={{pathname:
-                        `${props.data.id}/edit/`}}>
-                          Edit
-                        </Button>
-                    </Box>
-                    <Box>
-                        <Button variant='contained' onClick={DeleteAmenity}>
-                          Delete
-                        </Button>
-                    </Box>
+                {props.admin && <React.Fragment>
+                    <CardActions>
+                        <Box>
+                            <Button variant='contained' component={Link} to={{pathname:
+                            `${props.data.id}/edit/`}}>
+                              Edit
+                            </Button>
+                        </Box>
+                        <Box>
+                            <Button variant='contained' onClick={DeleteAmenity}>
+                              Delete
+                            </Button>
+                        </Box>
 
-                </CardActions>
+                    </CardActions>
+                </React.Fragment>}
+
+
             </Grid2>
         </Card>
 
