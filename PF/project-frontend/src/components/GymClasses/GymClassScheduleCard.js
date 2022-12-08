@@ -13,7 +13,7 @@ import React, {useContext, useState} from "react";
 import {Link, Route, Routes} from 'react-router-dom'
 
 import {APIContext} from "../APIContextProvider";
-import UserLanding from "../user/UserLanding";
+import {EnrollUserInSession} from "./UserEnroll/EnrollUserInSessionButton";
 import Subscription from "../subscriptions/Subscription";
 import axios from "axios";
 import {BASEURL} from "../constants";

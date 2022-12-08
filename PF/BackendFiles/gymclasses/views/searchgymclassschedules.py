@@ -161,7 +161,8 @@ class ViewGymClassSchedule(ListAPIView):
                 except ValueError:
                     errors["time_range"] = {"Wrong start date Format"}
 
-                self.start_time = datetime.datetime.strptime(lst[0], '%H:%M')
+                if not errors:
+                    self.start_time = datetime.datetime.strptime(lst[0], '%H:%M')
                 # self.start_time = self.start_time.astimezone(pytz.UTC)
 
             if lst[1]:
@@ -171,7 +172,8 @@ class ViewGymClassSchedule(ListAPIView):
                 except ValueError:
                     errors["time_range"] = {"Wrong end date Format"}
 
-                self.end_time = datetime.datetime.strptime(lst[1], '%H:%M')
+                if not errors:
+                    self.end_time = datetime.datetime.strptime(lst[1], '%H:%M')
                 # self.end_time = self.end_time.astimezone(pytz.UTC)
 
             if self.start_time and self.end_time:

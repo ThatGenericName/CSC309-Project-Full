@@ -70,7 +70,7 @@ class StudioLocatorClass extends react.Component{
         const targetURL = BASEURL + "/studios/"
         const searchParams = comp.state.searchParams
         const params = {
-            n: searchParams.class_name,
+            n: searchParams.studio_name,
             a: searchParams.amenity,
             cln: searchParams.class_name,
             chn: searchParams.coach_name,

@@ -1,7 +1,7 @@
 import {Box, Card, Stack, Typography} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import React, {useState} from "react";
-import {BASEURL} from "../constants";
+import {BASEURL, BASEURLNOEND} from "../constants";
 import axios from "axios";
 import {useParams} from "react-router-dom";
 
@@ -13,8 +13,8 @@ export default function StudioPreview(props) {
 
     const [formData, setFormDat] = useState({
         data: null,
-        request_complete: false,
-        request_complete_2: false
+        images: [],
+        request_complete: false
     })
 
     const {id} = useParams()
@@ -39,26 +39,9 @@ export default function StudioPreview(props) {
             }).catch(function (error) {
             })
         }
-        // if (!formData.request_complete_2) {
-        //     let requestData = {
-        //         url: url,
-        //         method: "GET",
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //     }
-        //
-        //     axios(requestData).then(function (response) {
-        //         setFormDat({
-        //             data: response.data,
-        //             request_complete_2: true
-        //         })
-        //     }).catch(function (error) {
-        //     })
-        // }
     }
 
-    if (!formData.request_complete || !formData.request_complete_2)
+    if (!formData.request_complete)
         getdata(props)
 
 
@@ -102,11 +85,10 @@ export default function StudioPreview(props) {
 
                 {/*<React.Fragment>*/}
                     {formData.data.images.map((file, index) => {
-                        var file_src = "CSC309-PF/PF/BackendFiles" + file
-                        var img = require(file_src)
+                        let link = BASEURLNOEND + file
                         return (
                             <div>
-                                <img src={img}  height={200} width={200}/>
+                                <img src={link}  height={200} width={200}/>
 
                             </div>
                         )

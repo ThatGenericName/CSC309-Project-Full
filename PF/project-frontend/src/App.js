@@ -27,6 +27,7 @@ import EditSchedule from "./components/GymClasses/EditGymClassSchedule";
 import GymClass from "./components/GymClasses/GymClass";
 import GymClassSchedule from "./components/GymClasses/GymClassSchedule";
 import EditGymClassSchedule from "./components/GymClasses/EditGymClassSchedule";
+import {ScheduleSearch} from "./components/GymClasses/GymScheduleSearch";
 import EditGymClass from "./components/GymClasses/EditGymClass";
 import AddGymClass from "./components/GymClasses/AddGymClasses";
 
@@ -81,6 +82,7 @@ class App extends React.Component{
                                     <Route path="subscriptions/*" element={<Subscription />} />
                                     <Route path='studios/*' element={<StudiosLanding/>} />
                                     <Route path="admin/*" element={<AdminLandingPage />} />
+                                    <Route path="test/*" element={<ScheduleSearch />} />
 
                                     <Route path="schedule/:id/edit" element={<EditGymClassSchedule/>} />
                                     <Route path="class/:id/edit" element={<EditGymClass/>} />
