@@ -204,14 +204,17 @@ export default function EditAmenity(props){
         var dat = formData
 
 
-        // var token = ctx.userToken
-        // token = token.replace("Token ")
+        var token = ctx.userToken
+        if(token === null){
+            return
+        }
+        token = token.replace("Token ")
         var requestData = {
             url: targetURL,
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
-                // Authorization: "Token " + token
+                Authorization: "Token " + token
             },
             data: dat
         }
