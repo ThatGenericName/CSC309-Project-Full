@@ -93,7 +93,7 @@ export default function Amenity(props) {
                         <Box textAlign='center'>
                             <Button variant='contained' component={Link} to={{
                                 pathname:
-                                    `/studio/${id}/amenities/create/`
+                                    `/studios/${id}/amenities/create/`
                             }}>
                                 Add Amenity
                             </Button>

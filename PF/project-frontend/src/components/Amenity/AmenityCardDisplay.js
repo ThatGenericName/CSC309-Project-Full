@@ -40,11 +40,17 @@ export function AmenityCardDisplay(props) {
 
         const url = BASEURL + "studios/" + id + "/amenities/delete/"
 
+        var token = ctx.userToken
+        if(token ===null){
+            return
+        }
+        token = token.replace("Token ","")
         let requestData = {
             url: url,
             method: "DELETE",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": "Token "+ token
             },
         }
 
@@ -54,6 +60,7 @@ export function AmenityCardDisplay(props) {
                 }
             }
         ).catch(function (error) {
+            let a = 1
         })
     }
 

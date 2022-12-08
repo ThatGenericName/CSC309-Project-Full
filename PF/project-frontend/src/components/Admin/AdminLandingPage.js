@@ -41,7 +41,7 @@ export function AdminLandingPage() {
                     justifyContent: 'center'
                 }}
             >
-                <Button component={Link} to={'/admin/studio'}>
+                <Button component={Link} to={'/admin/studios'}>
                     Studio Management
                 </Button>
                 <Button component={Link} to={'/admin/subscription'}>
@@ -55,7 +55,7 @@ export function AdminLandingPage() {
                 <Route path="" element={<AdminMain/>}/>
                 <Route path="/subscription" element={<SubscriptionControlPanel/>}/>
                 <Route path='/users' element={<UserControlPanel/>}/>
-                <Route path='/studio/*' element={<StudiosLanding admin={true}/>}/>
+                <Route path='/studios/*' element={<StudiosLanding admin={true}/>}/>
                 <Route path='/*' element={<NotFound404 suggestions={ADMIN404SUGGESTIONS}/>}/>
             </Routes>
         </Stack>
@@ -70,7 +70,7 @@ const ADMIN404SUGGESTIONS = [
     },
     {
         name: "Studio Management",
-        url: '/admin/studio/'
+        url: '/admin/studios/'
     },
     {
         name: "Membership Management",

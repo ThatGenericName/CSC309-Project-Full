@@ -125,7 +125,7 @@ export function StudioCard(props) {
                     <Box>
                         <Button variant='contained' component={Link} to={{
                             pathname:
-                                `/admin/studio/${props.data.id}/amenities/`
+                                `/admin/studios/${props.data.id}/amenities/`
                         }}>
                             Amenities
                         </Button>
@@ -136,7 +136,7 @@ export function StudioCard(props) {
                     <Box>
                         <Button variant='contained' component={Link} to={{
                             pathname:
-                                `/studio/${props.data.id}/amenities/`
+                                `/studios/${props.data.id}/amenities/`
                         }}>
                             Amenities
                         </Button>
@@ -149,7 +149,7 @@ export function StudioCard(props) {
                     <Box>
                         <Button variant='contained' component={Link} to={{
                             pathname:
-                                `/studio/${props.data.id}/gymclasses/`
+                                `/studios/${props.data.id}/gymclasses/`
                         }}>
                             Gym Class
                         </Button>
@@ -160,7 +160,7 @@ export function StudioCard(props) {
                     <Box>
                         <Button variant='contained' component={Link} to={{
                             pathname:
-                                `/admin/studio/${props.data.id}/gymclasses/`
+                                `/admin/studios/${props.data.id}/gymclasses/`
                         }}>
                             Gym Class
                         </Button>
@@ -171,7 +171,7 @@ export function StudioCard(props) {
                     <Box>
                         <Button variant='contained' component={Link} to={{
                             pathname:
-                                `/admin/studio/${props.data.id}/schedules/`
+                                `/admin/studios/${props.data.id}/schedules/`
                         }}>
                             Schedules
                         </Button>
@@ -182,7 +182,7 @@ export function StudioCard(props) {
                     <Box>
                         <Button variant='contained' component={Link} to={{
                             pathname:
-                                `/studio/${props.data.id}/schedules/`
+                                `/studios/${props.data.id}/schedules/`
                         }}>
                             Schedules
                         </Button>
