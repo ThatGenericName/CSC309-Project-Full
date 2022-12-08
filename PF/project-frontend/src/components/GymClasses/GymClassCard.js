@@ -1,20 +1,10 @@
-import {
-    Box,
-    Card,
-    CardActions, DialogContent,
-    DialogTitle,
-    Paper,
-    Stack,
-    Typography
-} from "@mui/material";
+import {Card, CardActions, Stack, Typography} from "@mui/material";
 import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import React, {useContext, useState} from "react";
-import {Link, Route, Routes} from 'react-router-dom'
+import React, {useContext} from "react";
+import {Link} from 'react-router-dom'
 
 import {APIContext} from "../APIContextProvider";
 import {EnrollUserInClassButton} from "./UserEnroll/EnrollUserInClassButton";
-import Subscription from "../subscriptions/Subscription";
 import axios from "axios";
 import {BASEURL} from "../constants";
 import Grid2 from "@mui/material/Unstable_Grid2";

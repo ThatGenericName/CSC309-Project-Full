@@ -1,12 +1,4 @@
-import {
-    Box,
-    Card,
-    CardContent,
-    Chip,
-    Paper,
-    Stack,
-    Typography
-} from "@mui/material";
+import {Box, Chip, Paper, Stack} from "@mui/material";
 
 import {getTimeObj} from "../TimeObject";
 import SimpleTimeCard from "../SimpleTimeCard";

@@ -1,9 +1,8 @@
 import {
-    Box,
     Card,
-    CardActions, DialogContent,
+    CardActions,
+    DialogContent,
     DialogTitle,
-    Paper,
     Stack,
     Typography
 } from "@mui/material";

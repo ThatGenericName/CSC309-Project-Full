@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import isEmail from 'validator/lib/isEmail';
-import { Alert, AlertTitle, Box, Typography } from '@mui/material';
+import {Alert, AlertTitle, Box, Typography} from '@mui/material';
 
 const REQUIRED_PARAMS = ['username', 'password1', 'password2', 'first_name', 'last_name', 'email']
 

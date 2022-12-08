@@ -1,5 +1,6 @@
 import {
-    Alert, AlertTitle,
+    Alert,
+    AlertTitle,
     Box,
     ButtonGroup,
     Divider,
@@ -9,19 +10,13 @@ import {
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import React, {useContext, useRef, useState} from "react";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import isEmail from "validator/lib/isEmail";
-import isMobilePhone from "validator/lib/isMobilePhone";
 import {APIContext} from "../APIContextProvider";
 import axios from "axios";
-import FormData from 'form-data'
 
-import {LOCALE, BASEURL, BASEURLNOEND} from "../constants"
+import * as Constants from "../constants"
 import {useParams} from "react-router-dom";
-import * as Constants from "../constants";
 
 
 export default function EditAmenity(props){

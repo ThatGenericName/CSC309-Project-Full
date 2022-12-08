@@ -1,4 +1,4 @@
-import {LOCALE, BASEURL, BASEURLNOEND} from "../constants"
+import {BASEURL} from "../constants"
 import axios from "axios";
 import {useState} from "react";
 

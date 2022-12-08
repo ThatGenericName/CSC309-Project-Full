@@ -1,7 +1,5 @@
-import {Paper, Stack, Typography} from "@mui/material";
+import {Stack} from "@mui/material";
 import {SUBSCRIPTIONPROMOCONTENT} from "./PromoCardTexts";
-import Grid2 from "@mui/material/Unstable_Grid2";
-import {SubscriptionCard} from "../SubscriptionCard";
 import React from "react";
 import {PromoCardItem} from "./PromoCardItem";
 

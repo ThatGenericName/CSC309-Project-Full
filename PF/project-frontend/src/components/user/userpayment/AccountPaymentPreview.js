@@ -1,4 +1,3 @@
-import Grid2 from "@mui/material/Unstable_Grid2";
 import {PaymentPreview} from "../PaymentPreview";
 import {Box, Card, Stack} from "@mui/material";
 

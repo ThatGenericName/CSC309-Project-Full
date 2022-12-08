@@ -3,8 +3,6 @@ import {MapComp} from "./MapComp";
 import {Paper} from "@mui/material";
 
 
-
-
 export function MapContainer(props){
     let markers = props.markers
     let userMarker = props.userMarker

@@ -1,22 +1,12 @@
 import react from "react";
-import Geocode from 'react-geocode'
-import {BASEURL, GOOGLEAPIKEY} from "../constants";
+import {BASEURL} from "../constants";
 import {APIContext} from "../APIContextProvider";
-import {
-    Box,
-    Pagination,
-    Paper,
-    Stack,
-    TextField,
-    Typography
-} from "@mui/material";
+import {Box, Pagination, Paper, Stack, TextField} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import {useSearchParams} from "react-router-dom";
-import {ObjectDeepClone} from "../Utility";
 import GymClassScheduleList from "./GymClassScheduleList";
-
 
 
 export function ScheduleSearch(){

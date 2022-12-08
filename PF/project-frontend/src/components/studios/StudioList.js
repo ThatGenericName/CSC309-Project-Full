@@ -1,7 +1,6 @@
-import {Alert, Box, Snackbar, Stack} from "@mui/material";
+import {Box, Stack} from "@mui/material";
 import {StudioCard} from "./StudioCard";
 import React, {useState} from "react";
-import Grid2 from "@mui/material/Unstable_Grid2";
 
 export default function StudioList(props){
 

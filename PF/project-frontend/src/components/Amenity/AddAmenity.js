@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import InitElements from "../InitElements";
+import React, {Component} from 'react';
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import {Alert, AlertTitle, Typography} from "@mui/material";

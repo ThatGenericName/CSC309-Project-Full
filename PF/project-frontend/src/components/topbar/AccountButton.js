@@ -1,18 +1,12 @@
 import React from 'react';
-import * as Constants from '../constants';
-
-import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import SignInButton from './SignInButton';
-import RegisterButton from './RegisterButton';
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import {APIContext} from "../APIContextProvider";
-import {Divider, Link} from "@mui/material";
+import {Divider} from "@mui/material";
 import LogoutButton from "./LogoutButton";
-import {redirect} from "react-router-dom";
 
 
 export default class AccountButton extends React.Component{

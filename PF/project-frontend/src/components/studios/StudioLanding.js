@@ -1,9 +1,5 @@
-import {Box, Paper} from "@mui/material";
-import {MapComp} from "./MapComp";
-import {MapContainer} from "./MapContainer";
-import Grid2 from "@mui/material/Unstable_Grid2";
 import {StudioLocator} from "./StudioLocator";
-import {Route, useSearchParams, Routes} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import ViewStudio from "./StudioView";
 import EditStudio from "./EditStudio";
 import AddStudio from "./AddStudio";
@@ -15,8 +11,6 @@ import GymClassSchedule from "../GymClasses/GymClassSchedule";
 import EditGymClassSchedule from "../GymClasses/EditGymClassSchedule";
 import EditGymClass from "../GymClasses/EditGymClass";
 import React from "react";
-
-
 
 
 export function StudiosLanding(props){

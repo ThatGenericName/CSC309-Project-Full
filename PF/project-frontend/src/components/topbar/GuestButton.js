@@ -1,9 +1,7 @@
 import React from 'react';
-import * as Constants from '../constants';
 
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import SignInButton from './SignInButton';
 import RegisterButton from './RegisterButton';
 

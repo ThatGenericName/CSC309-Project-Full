@@ -1,13 +1,6 @@
 import React from 'react';
 import InitElements from "../InitElements";
-import {
-    Box,
-    Divider,
-    List,
-    ListItem,
-    styled,
-    Typography
-} from "@mui/material";
+import {Box, Divider, styled} from "@mui/material";
 import DashboardMenu from "./DashboardMenu";
 import {APIContext} from "../APIContextProvider";
 import {BASEURL} from "../constants";

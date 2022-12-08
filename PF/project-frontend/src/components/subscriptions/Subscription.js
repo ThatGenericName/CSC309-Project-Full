@@ -1,11 +1,10 @@
 import React, {useContext, useState} from 'react';
 import Button from "@mui/material/Button";
-import {Box, LinearProgress, Paper, Stack, Typography} from "@mui/material";
+import {Box, LinearProgress, Paper, Stack} from "@mui/material";
 import axios from "axios";
 
 import SubscriptionsList from "./SubscriptionsList";
-import {SUBSCRIPTION_TEST_DATA} from "./SubscriptionTestData";
-import {BASEURL, LIPSUM} from "../constants";
+import {BASEURL} from "../constants";
 import {
     SubscriptionPromoCards
 } from "./SubscriptionPromoCards/SubscriptionPromoCards";

@@ -1,31 +1,17 @@
-import logo from './logo.svg';
 import './App.css';
 
 import React from 'react';
 
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {AdminLandingPage} from "./components/Admin/AdminLandingPage";
 import {StudiosLanding} from "./components/studios/StudioLanding";
-import ViewStudio from "./components/studios/StudioView";
 
-import {
-    APIContextProvider
-} from "./components/APIContextProvider";
+import {APIContextProvider} from "./components/APIContextProvider";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {UserLanding} from "./components/user/UserLanding";
 import Subscription from "./components/subscriptions/Subscription";
 import TopAppBar from "./components/topbar/TopBar";
-import Amenity from "./components/Amenity/Amenity"
-import Studio from "./components/studios/Studio"
-import AddStudio from "./components/studios/AddStudio"
-import EditAmenity from "./components/Amenity/EditAmenity";
-import AddAmenity from "./components/Amenity/AddAmenity";
-import EditStudio from "./components/studios/EditStudio";
-import GymClass from "./components/GymClasses/GymClass";
-import GymClassSchedule from "./components/GymClasses/GymClassSchedule";
-import EditGymClassSchedule from "./components/GymClasses/EditGymClassSchedule";
 import {ScheduleSearch} from "./components/GymClasses/GymScheduleSearch";
-import EditGymClass from "./components/GymClasses/EditGymClass";
 import AddGymClass from "./components/GymClasses/AddGymClasses";
 
 
@@ -38,6 +24,9 @@ import {Footer} from "./components/Footer/Footer";
 
 
 const theme = createTheme({
+    typography: {
+        fontFamily: 'Varela Round'
+    },
     palette: {
         primary: {
             main: '#fd6114'

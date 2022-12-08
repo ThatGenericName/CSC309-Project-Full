@@ -1,9 +1,5 @@
-import React, { useState } from "react";
-import {
-  GoogleMap,
-  InfoWindowF,
-  MarkerF
-} from "@react-google-maps/api";
+import React, {useState} from "react";
+import {GoogleMap, InfoWindowF, MarkerF} from "@react-google-maps/api";
 
 
 const CENTERING_MARKERS = [

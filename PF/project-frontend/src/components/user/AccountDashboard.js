@@ -1,4 +1,4 @@
-import {Box, Stack} from "@mui/material";
+import {Stack} from "@mui/material";
 import Paper from "@mui/material/Paper";
 import React from "react";
 import {UpcomingClassesDashboard} from "./userclass/UpcomingClassesDashboard";

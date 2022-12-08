@@ -1,22 +1,9 @@
-import {
-    Box,
-    Card,
-    CardActions, DialogContent,
-    DialogTitle,
-    Paper,
-    Stack,
-    Typography
-} from "@mui/material";
+import {Box, Card, CardActions, Stack, Typography} from "@mui/material";
 import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
 import React, {useContext, useState} from "react";
-import {Link, Route, Routes} from 'react-router-dom'
-import EditAmenity from "./EditAmenity"
+import {Link} from 'react-router-dom'
 
 import {APIContext} from "../APIContextProvider";
-import UserLanding from "../user/UserLanding";
-import Subscription from "../subscriptions/Subscription";
-import Amenity from "./Amenity";
 import axios from "axios";
 import {BASEURL} from "../constants";
 import Grid2 from "@mui/material/Unstable_Grid2";

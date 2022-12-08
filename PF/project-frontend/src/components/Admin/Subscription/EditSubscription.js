@@ -1,11 +1,16 @@
 import react from "react";
 import {APIContext} from "../../APIContextProvider";
 import {
-    Box, Button,
-    Dialog, DialogActions,
+    Box,
+    Button,
+    Dialog,
+    DialogActions,
     DialogContent,
-    DialogTitle, Stack, Switch,
-    TextField, Typography
+    DialogTitle,
+    Stack,
+    Switch,
+    TextField,
+    Typography
 } from "@mui/material";
 import {BASEURL} from "../../constants";
 import axios from "axios";

@@ -1,7 +1,7 @@
 import Toolbar from "@mui/material/Toolbar";
 import AppBar from "@mui/material/AppBar";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import {Box, Stack, Typography} from "@mui/material";
+import {Box, Stack} from "@mui/material";
 import {Link} from "react-router-dom";
 
 
@@ -11,7 +11,7 @@ export function Footer(props){
 
     return (
         <AppBar
-            position="static"
+            position="sticky"
             color="footer"
             sx={{ top: 'auto', bottom: 0 }}
             style={{

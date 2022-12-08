@@ -1,4 +1,4 @@
-import {Box, ButtonGroup, Card, Chip} from "@mui/material";
+import {Box, Card, Chip} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import SimpleTimeCard from "../SimpleTimeCard";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
@@ -6,7 +6,6 @@ import {StudioPreview} from "../../studios/StudioPreview";
 import CoachPreview from "./CoachPreview";
 import React from "react";
 import {getTimeObj} from "../TimeObject";
-import Button from "@mui/material/Button";
 import DropClassButton from "./DropClassButton";
 
 

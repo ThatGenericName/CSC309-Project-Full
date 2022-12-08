@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
-import Button from "@mui/material/Button";
-import {Box, Pagination, Paper, Stack, Typography} from "@mui/material";
+import {Box, Pagination, Paper} from "@mui/material";
 
-import {BASEURL, LIPSUM} from "../constants";
+import {BASEURL} from "../constants";
 import axios from "axios";
-import {Link, Route, Routes, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import GymClassScheduleList from "./GymClassScheduleList"
 
 export default function GymClassSchedule(props){
