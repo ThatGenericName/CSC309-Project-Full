@@ -336,7 +336,7 @@ class StudioLocatorClass extends react.Component{
                                     }}
                                 />
                             </Box>
-                            <StudioList items={this.state.responseList} onSend={this.reload}/>
+                            <StudioList items={this.state.responseList} onSend={() => this.reload()}/>
                         </Stack>
                     </Paper>
                 </Stack>

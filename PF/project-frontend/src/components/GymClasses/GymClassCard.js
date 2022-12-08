@@ -77,6 +77,8 @@ export function GymClassCard(props) {
         // window.location.reload(false);
     }
 
+    let a = 1
+
     return (
 
         <Card

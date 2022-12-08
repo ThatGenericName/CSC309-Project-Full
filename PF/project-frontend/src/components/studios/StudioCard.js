@@ -55,7 +55,9 @@ export function StudioCard(props){
             if (props.onSend !== undefined){
                 props.onSend()
             }
-        }).catch(function (error) {})
+        }).catch(function (error) {
+            let a = 1
+        })
 
 
     }

@@ -111,8 +111,9 @@ export function GymClassScheduleCard(props){
         var end_index = getPosition(date, ":", 2)
         return date.substring(start_index, end_index)
     }
+    let a = 1
 
-return (
+    return (
         <Card
             key={props.data.id}
             variant='outlined'

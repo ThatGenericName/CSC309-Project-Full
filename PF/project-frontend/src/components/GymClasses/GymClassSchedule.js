@@ -31,7 +31,7 @@ export default function GymClassSchedule(props){
         setComp(d)
     }
 
-     const  getdata =  (props) => {
+     const getdata =  (props) => {
          const url = BASEURL + "classes/studio/" + id + "/list/"
 
          var params = {
@@ -60,6 +60,7 @@ export default function GymClassSchedule(props){
 
               props.onUpdate()
          }).catch(function (error) {
+             let a = 1
          })
 
      }
@@ -103,7 +104,7 @@ export default function GymClassSchedule(props){
                 </Box>
                 <br/>
 
-                    <GymClassScheduleList items={compState.list} onSend={forceReload}/>
+                <GymClassScheduleList items={compState.list} onSend={forceReload}/>
         </Paper>
 
         )
