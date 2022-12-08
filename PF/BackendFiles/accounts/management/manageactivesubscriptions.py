@@ -68,8 +68,7 @@ def reactivateClasses(user):
     ucis = UserClassInterface.objects.filter(
         user=user,
         class_session__start_time__gt=now,
-        financial_hold=True,
-        dropped=False,
+        financial_hold=True
     )
 
     fullClasses = []
