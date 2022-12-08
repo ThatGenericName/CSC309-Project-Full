@@ -57,7 +57,7 @@ export function StudioCard(props){
             }
         }).catch(function (error) {})
 
-        // reload()
+
     }
 
 
@@ -91,8 +91,8 @@ export function StudioCard(props){
                     </Stack>
                 </Grid2>
                 <CardActions>
-                    {/*{props.admin && <React.Fragment>*/}
-                    { <React.Fragment>
+                    {props.admin && <React.Fragment>
+                    {/*{ <React.Fragment>*/}
                         <Box>
                             <Button variant='contained' component={Link} to={{pathname:
                                 `/studios/${props.data.id}/edit/`}}>
