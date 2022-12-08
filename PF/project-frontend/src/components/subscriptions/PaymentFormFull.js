@@ -1,4 +1,3 @@
-
-export function PaymentFormFull(props){
+export function PaymentFormFull(props) {
 
 }

@@ -5,7 +5,7 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import React from "react";
 
 
-export default function CoachPreview(props){
+export default function CoachPreview(props) {
     let coachData = props.coachData
 
     let cn = coachData['first_name'] + " " + coachData['last_name']
@@ -14,14 +14,13 @@ export default function CoachPreview(props){
     let icon
     if (coachData.profile_pic === null || coachData.profile_pic === "") {
         icon = <AccountCircleIcon
-            sx={{ width: 48, height: 48 }}
+            sx={{width: 48, height: 48}}
         />
-    }
-    else{
+    } else {
         icon = <Avatar
             alt={coachData.username}
             src={coachData.profile_pic}
-            sx={{ width: 48, height: 48 }}
+            sx={{width: 48, height: 48}}
         />
     }
 
@@ -29,7 +28,7 @@ export default function CoachPreview(props){
         <Card
             style={{height: '5em'}}
             variant="outlined"
-            sx={{ p: 1 }}
+            sx={{p: 1}}
             component={Stack}
             direction="column"
             justifyContent="center"
@@ -39,7 +38,7 @@ export default function CoachPreview(props){
                     {icon}
                 </Grid2>
                 <Grid2 xs={8}>
-                    <Box sx={{ fontWeight: 'bold'}}>
+                    <Box sx={{fontWeight: 'bold'}}>
                         {cn}
                     </Box>
                     <Box>

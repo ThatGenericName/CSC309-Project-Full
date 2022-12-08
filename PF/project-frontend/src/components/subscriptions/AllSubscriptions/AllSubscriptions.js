@@ -13,7 +13,7 @@ import {BASEURL} from "../../constants";
 import axios from "axios";
 import {SubscriptionsDetailed} from "./SubscriptionsDetailed";
 
-export function AllSubscriptions(props){
+export function AllSubscriptions(props) {
 
     let [compState, setComp] = useState({
         data: [],
@@ -23,7 +23,7 @@ export function AllSubscriptions(props){
         targetPage: 1
     })
 
-    function setCompState(data){
+    function setCompState(data) {
         var dat = {}
         Object.keys(compState).forEach(k => {
             dat[k] = compState[k]
@@ -34,7 +34,7 @@ export function AllSubscriptions(props){
         setComp(dat)
     }
 
-    function getSubscriptionOptions(){
+    function getSubscriptionOptions() {
         const targetURL = BASEURL + 'subscriptions/'
         const params = {
             page: compState.targetPage
@@ -49,7 +49,7 @@ export function AllSubscriptions(props){
             params: params
         }
 
-        axios(requestData).then(function(response){
+        axios(requestData).then(function (response) {
 
 
             setCompState({
@@ -58,7 +58,7 @@ export function AllSubscriptions(props){
                 data: response.data['results'],
                 pages: Math.ceil(response.data['count'] / 10)
             })
-        }).catch(function(error){
+        }).catch(function (error) {
             let a = 1
 
         })
@@ -66,10 +66,10 @@ export function AllSubscriptions(props){
 
     const [snackbarOpen, setSnackbarOpen] = useState(false)
 
-    function generateSubscriptionsList(items){
+    function generateSubscriptionsList(items) {
         return (
             <Box
-                sx={{p:1}}
+                sx={{p: 1}}
                 style={{maxHeight: "30%", overflow: 'auto'}}
             >
                 <Stack spacing={2} alignItems='center'>
@@ -85,7 +85,7 @@ export function AllSubscriptions(props){
         )
     }
 
-    if (!compState.responseReceived){
+    if (!compState.responseReceived) {
         getSubscriptionOptions()
     }
 
@@ -98,7 +98,7 @@ export function AllSubscriptions(props){
             onClose={props.onClose}
             fullWidth={true}
             PaperProps={{
-                style:{
+                style: {
                     maxHeight: "80%"
                 }
             }}
@@ -109,7 +109,7 @@ export function AllSubscriptions(props){
                 <Box justifyItems='center'>
                     <Pagination
                         count={compState.pages}
-                        onChange={(e, v) =>{
+                        onChange={(e, v) => {
                             setCompState({
                                 targetPage: v,
                                 responseReceived: false
@@ -118,16 +118,17 @@ export function AllSubscriptions(props){
                     />
                 </Box>
             </DialogTitle>
-            <DialogContent >
+            <DialogContent>
                 <Box width="100%">
                     {generateSubscriptionsList(compState.data)}
                     <Snackbar
-                        anchorOrigin={{ vertical, horizontal }}
+                        anchorOrigin={{vertical, horizontal}}
                         autoHideDuration={8000}
                         open={snackbarOpen}
                         onClose={() => setSnackbarOpen(false)}
                     >
-                        <Alert onClose={() => setSnackbarOpen(false)} severity="success" sx={{ width: '100%' }}>
+                        <Alert onClose={() => setSnackbarOpen(false)} severity="success"
+                               sx={{width: '100%'}}>
                             Success!
                         </Alert>
                     </Snackbar>

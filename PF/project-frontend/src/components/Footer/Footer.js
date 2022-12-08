@@ -7,19 +7,19 @@ import {Link} from "react-router-dom";
 
 const textColor = '#bfbfbf'
 
-export function Footer(props){
+export function Footer(props) {
 
     return (
         <AppBar
             position="static"
             color="footer"
-            sx={{ top: 'auto', bottom: 0 }}
+            sx={{top: 'auto', bottom: 0}}
             style={{
                 zIndex: 1400
             }}
         >
             <Toolbar
-                sx={{p:3}}
+                sx={{p: 3}}
             >
                 <Grid2
                     container
@@ -27,12 +27,12 @@ export function Footer(props){
                         fontSize: 15,
                         color: textColor,
                         width: "100%"
-                }}
+                    }}
 
                 >
                     <Grid2 xs={3}>
                         <Stack spacing={1}>
-                            <Box sx={{ fontWeight: 'bold' }}>
+                            <Box sx={{fontWeight: 'bold'}}>
                                 Home
                             </Box>
                             <Box>
@@ -50,7 +50,7 @@ export function Footer(props){
                     </Grid2>
                     <Grid2 xs={3}>
                         <Stack spacing={1}>
-                            <Box sx={{ fontWeight: 'bold' }}>
+                            <Box sx={{fontWeight: 'bold'}}>
                                 Get Started
                             </Box>
                             <Box>
@@ -90,7 +90,7 @@ export function Footer(props){
                     </Grid2>
                     <Grid2 xs={3}>
                         <Stack spacing={1}>
-                            <Box sx={{ fontWeight: 'bold' }}>
+                            <Box sx={{fontWeight: 'bold'}}>
                                 Company
                             </Box>
                             <Box>
@@ -103,7 +103,7 @@ export function Footer(props){
                     </Grid2>
                     <Grid2 xs={3}>
                         <Stack spacing={1}>
-                            <Box sx={{ fontWeight: 'bold' }}>
+                            <Box sx={{fontWeight: 'bold'}}>
                                 Policy
                             </Box>
                             <Box>

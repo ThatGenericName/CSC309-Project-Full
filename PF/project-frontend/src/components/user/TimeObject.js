@@ -1,14 +1,14 @@
 const DAYS = ['Sun', 'Mon', 'Tues', 'Wed', 'Thu', 'Fri', 'Sat']
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
-export function getTimeObj(datetime){
+export function getTimeObj(datetime) {
     var dt = new Date(datetime)
     let day = DAYS[dt.getDay()]
     let month = MONTHS[dt.getMonth()]
     let date = dt.getDate()
     let hr = dt.getHours()
     let hr12 = (hr) % 12
-    if (hr12 === 0){
+    if (hr12 === 0) {
         hr12 = 12
     }
     let mni = dt.getMinutes()

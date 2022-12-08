@@ -4,13 +4,13 @@ import {CreateSubscription} from "./CreateSubscription";
 import {useState} from "react";
 
 
-export function SubscriptionControlPanel(props){
+export function SubscriptionControlPanel(props) {
 
     const [createSubOpen, setCreateSubOpen] = useState(false)
     const [reloadFlag, setReloadFlag] = useState(false)
 
     return (
-        <Paper sx={{p:2}}>
+        <Paper sx={{p: 2}}>
             <Stack spacing={3}>
                 <Box
                     style={{
@@ -34,7 +34,8 @@ export function SubscriptionControlPanel(props){
                         }}
                     />
                 </Box>
-                <AdminSubscriptionList reloadFlag={reloadFlag} onUpdate={() => setReloadFlag(false)}/>
+                <AdminSubscriptionList reloadFlag={reloadFlag}
+                                       onUpdate={() => setReloadFlag(false)}/>
             </Stack>
         </Paper>
     )

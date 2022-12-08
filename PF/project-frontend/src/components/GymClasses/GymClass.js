@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import Button from "@mui/material/Button";
 import {Box, Pagination, Paper} from "@mui/material";
 
@@ -6,8 +6,11 @@ import {BASEURL} from "../constants";
 import axios from "axios";
 import {Link, useParams} from "react-router-dom";
 import GymClassList from "./GymClassList"
+import {APIContext} from "../APIContextProvider";
 
-export default function GymClass(props){
+export default function GymClass(props) {
+
+    let ctx = useContext(APIContext)
 
     const [compState, setComp] = useState({
         list: [],
@@ -18,9 +21,9 @@ export default function GymClass(props){
         onSendFlag: false
     })
 
-    const {id}  = useParams()
+    const {id} = useParams()
 
-    function setCompState(obj){
+    function setCompState(obj) {
         var d = {}
         Object.keys(compState).forEach(k => {
             d[k] = compState[k]
@@ -31,25 +34,28 @@ export default function GymClass(props){
         setComp(d)
     }
 
-     const  getdata =  (props) => {
-         const url = BASEURL + "classes/" + id + "/list/"
+    const getdata = (props) => {
+        const url = BASEURL + "classes/" + id + "/list/"
 
-         var params = {
+        var params = {
             page: compState.targetPage
-         }
+        }
 
+        var token = ctx.userToken
+        token = token.replace("Token ", "")
 
-         let requestData = {
-             url: url,
-             method: "GET",
-             headers: {
-                 'Content-Type': 'application/json'
-             },
-             params: params
-         }
+        let requestData = {
+            url: url,
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": "Token " + token
+            },
+            params: params
+        }
 
-          axios(requestData).then(function (response) {
-             let pages = Math.ceil(response.data['count'] / 10)
+        axios(requestData).then(function (response) {
+            let pages = Math.ceil(response.data['count'] / 10)
 
             setCompState({
                 list: response.data['results'],
@@ -59,12 +65,12 @@ export default function GymClass(props){
                 onSendFlag: false
             })
             props.onUpdate()
-         }).catch(function (error) {
-         })
+        }).catch(function (error) {
+        })
 
-     }
+    }
 
-     function forceReload(){
+    function forceReload() {
         setCompState({
             respReceived: false,
             axiosLoading: true,
@@ -72,12 +78,11 @@ export default function GymClass(props){
         })
     }
 
-    if(!compState.respReceived)
+    if (!compState.respReceived)
         getdata(props)
 
 
-
-    if(compState.respReceived){
+    if (compState.respReceived) {
         return (
             <Box>
                 {/*<TopHeader/>*/}
@@ -85,28 +90,30 @@ export default function GymClass(props){
                 <div>
                     {props.admin && <React.Fragment>
                         <Box textAlign='center'>
-                            <Button variant='contained' component={Link} to={{pathname:
-                                `/class/${id}/create/`}}>
-                              Add Gym Class
+                            <Button variant='contained' component={Link} to={{
+                                pathname:
+                                    `/class/${id}/create/`
+                            }}>
+                                Add Gym Class
                             </Button>
                         </Box>
                     </React.Fragment>}
 
                 </div>
                 <br/>
-                 <Paper sx={{p:2, mx:2}}>
-                     <br/>
+                <Paper sx={{p: 2, mx: 2}}>
+                    <br/>
                     <Box
                         style={{
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        >
+                    >
                         <Pagination
                             count={compState.pages}
                             onChange={(e, v) => {
-                                if (v !== compState.targetPage){
+                                if (v !== compState.targetPage) {
                                     setCompState({
                                         targetPage: v,
                                         respReceived: false,

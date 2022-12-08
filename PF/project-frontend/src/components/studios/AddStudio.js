@@ -10,9 +10,10 @@ import {APIContext} from "../APIContextProvider";
 
 const REQUIRED_PARAMS = ['name', 'address', 'post_code', 'phone_num']
 
-export default class Studio extends React.Component{
+export default class Studio extends React.Component {
     static contextType = APIContext
-    constructor(props, context){
+
+    constructor(props, context) {
         super(props, context)
         this.state = {
             reqSent: false,
@@ -31,7 +32,7 @@ export default class Studio extends React.Component{
                 address: '',
                 post_code: '',
                 phone_num: '',
-                images:[]
+                images: []
 
             },
             generalMessage: "",
@@ -40,42 +41,42 @@ export default class Studio extends React.Component{
         }
     }
 
-    setFormData(change){
+    setFormData(change) {
         let dat = this.state.data
-        for (let [key, value] of Object.entries(change)){
+        for (let [key, value] of Object.entries(change)) {
             dat[key] = value
         }
         var errors = {
-                name: '',
-                address: '',
-                post_code: '',
-                phone_num: '',
-                images: ''
-            }
+            name: '',
+            address: '',
+            post_code: '',
+            phone_num: '',
+            images: ''
+        }
 
 
         this.setState({data: dat, errors: errors})
     }
-    setImage(change){
+
+    setImage(change) {
         let dat = this.state.data
         let a = change.target.files
 
-        for(var img of change.target.files){
+        for (var img of change.target.files) {
             dat['images'].push(img)
         }
 
         this.setState({data: dat})
     }
 
-    ShowGeneralMessage(){
-        if (this.state.reqSucc){
+    ShowGeneralMessage() {
+        if (this.state.reqSucc) {
             return (
                 <Alert severity="success">
                     <AlertTitle>Studio Added Successfully</AlertTitle>
                 </Alert>
             )
-        }
-        else{
+        } else {
             return (
                 <Alert severity="error">
                     <AlertTitle>Please resolve errors</AlertTitle>
@@ -84,30 +85,29 @@ export default class Studio extends React.Component{
         }
     }
 
-    ValidateData(){
+    ValidateData() {
         let data = this.state.data
         let errors = this.state.errors
         let hasErrors = false
-        for (let [key, value] of Object.entries(data)){
+        for (let [key, value] of Object.entries(data)) {
 
-            if (!(value.length) && REQUIRED_PARAMS.includes(key)){
+            if (!(value.length) && REQUIRED_PARAMS.includes(key)) {
                 errors[key] = "This Field is required"
                 hasErrors = true
-            }
-            else{
+            } else {
                 errors[key] = ""
             }
         }
 
-        if(!(errors.phone_num.length)){
-            if(!(/^([0-9]{3})[-]([0-9]{3})[-]([0-9]{4})$/.test(data.phone_num))){
+        if (!(errors.phone_num.length)) {
+            if (!(/^([0-9]{3})[-]([0-9]{3})[-]([0-9]{4})$/.test(data.phone_num))) {
                 errors['phone_num'] = 'Phone Number is Invalid'
                 hasErrors = true
             }
         }
 
-        if(!(errors.post_code.length)){
-            if(!(/^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$/.test(data.post_code))){
+        if (!(errors.post_code.length)) {
+            if (!(/^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$/.test(data.post_code))) {
                 errors['post_code'] = 'Postal Code is Invalid'
                 hasErrors = true
             }
@@ -117,7 +117,7 @@ export default class Studio extends React.Component{
         return hasErrors
     }
 
-    OnSignupSubmit(){
+    OnSignupSubmit() {
 
         const formData = new FormData();
 
@@ -126,12 +126,11 @@ export default class Studio extends React.Component{
         })
         let e = this.ValidateData()
 
-        if (e){
+        if (e) {
             this.setState({
                 axiosLoading: false
             })
-        }
-        else{
+        } else {
             let targetURL = Constants.BASEURL + 'studios/create/'
             let dat = this.state.data
             var formdat = new FormData()
@@ -140,15 +139,15 @@ export default class Studio extends React.Component{
             formdat.set("post_code", this.state.data.post_code)
             formdat.set("phone_num", this.state.data.phone_num)
             formdat.set("images", [])
-            for(var img of this.state.data.images){
+            for (var img of this.state.data.images) {
                 formdat.append("images", img)
             }
 
             var token = this.context.userToken
-            if (token === null){
-              return
+            if (token === null) {
+                return
             }
-            token = token.replace("Token ","")
+            token = token.replace("Token ", "")
 
             let requestData = {
                 url: targetURL,
@@ -164,60 +163,61 @@ export default class Studio extends React.Component{
             var comp = this
 
             axios(requestData)
-            .then(function (response){
-                comp.setState({
-                    axiosLoading: false
-                })
-                let newData = {
-                    reqSent: true,
-                    reqSucc: true,
-                    reqResp: response.data
-                }
-                comp.setState(newData)
+                .then(function (response) {
+                    comp.setState({
+                        axiosLoading: false
+                    })
+                    let newData = {
+                        reqSent: true,
+                        reqSucc: true,
+                        reqResp: response.data
+                    }
+                    comp.setState(newData)
 
-                comp.setState({
-                    generalMessage: "Studio Added Successfully"
+                    comp.setState({
+                        generalMessage: "Studio Added Successfully"
+                    })
                 })
-            })
-            .catch(function (error){
-                comp.setState({
-                    axiosLoading: false
+                .catch(function (error) {
+                    comp.setState({
+                        axiosLoading: false
+                    })
+                    let a = error.response.data
+
+                    let errors = comp.state.errors
+                    for (let [key, value] of Object.entries(a)) {
+                        errors[key] = value
+                    }
+
+                    let newData = {
+                        reqSent: true,
+                        reqSucc: false,
+                        reqResp: a
+                    }
+                    comp.setState(newData)
                 })
-                let a = error.response.data
-
-                let errors = comp.state.errors
-                for (let [key, value] of Object.entries(a)){
-                    errors[key] = value
-                }
-
-                let newData = {
-                    reqSent: true,
-                    reqSucc: false,
-                    reqResp: a
-                }
-                comp.setState(newData)
-            })
 
 
         }
     }
+
     render() {
         return (
             <div>
                 <br/>
                 <Typography variant="h3" align="center">Register Studio</Typography>
-              <Box
-                  noValidate
-                  sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      m: 'auto',
-                      width: 'fit-content',
-                  }}
-              >
-                  {this.state.reqSent && this.ShowGeneralMessage()}
-                  <br/>
-              </Box>
+                <Box
+                    noValidate
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        m: 'auto',
+                        width: 'fit-content',
+                    }}
+                >
+                    {this.state.reqSent && this.ShowGeneralMessage()}
+                    <br/>
+                </Box>
                 <Box
                     noValidate
                     sx={{
@@ -237,7 +237,7 @@ export default class Studio extends React.Component{
                         onChange={e => this.setFormData({name: e.target.value})}
                     />
 
-                    <i style={{ color: 'red' }}>{this.state.errors.name}</i>
+                    <i style={{color: 'red'}}>{this.state.errors.name}</i>
                     <br/>
                     <TextField
                         error={!!(this.state.errors.address.length)}
@@ -247,7 +247,7 @@ export default class Studio extends React.Component{
                         label='Address'
                         onChange={e => this.setFormData({address: e.target.value})}
                     />
-                    <i style={{ color: 'red' }}>{this.state.errors.address}</i>
+                    <i style={{color: 'red'}}>{this.state.errors.address}</i>
                     <br/>
 
                     <TextField
@@ -260,7 +260,7 @@ export default class Studio extends React.Component{
                         onChange={e => this.setFormData({post_code: e.target.value})}
                     />
 
-                    <i style={{ color: 'red' }}>{this.state.errors.post_code}</i>
+                    <i style={{color: 'red'}}>{this.state.errors.post_code}</i>
                     <br/>
                     <TextField
                         error={!!(this.state.errors.phone_num.length)}
@@ -271,30 +271,31 @@ export default class Studio extends React.Component{
                         label='Phone Number'
                         onChange={e => this.setFormData({phone_num: e.target.value.toString()})}
                     />
-                    <i style={{ color: 'red' }}>{this.state.errors.phone_num}</i>
+                    <i style={{color: 'red'}}>{this.state.errors.phone_num}</i>
                     <br/>
 
                     <div style={{
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                  }}>
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}>
                         <input
-                        multiple
-                        type="file"
-                        name="studio_images"
-                        accept='image/png, image/jpeg'
-                        id='images'
-                        style={{ display: 'none' }}
-                        onChange={e => {this.setImage(e)
-                              let a = e.target.images
-                          console.log("")
-                          }}
-                    />
-                    <label htmlFor="images">
-                        <Button variant="contained" color="primary" component="span">
-                            Studio Images
-                        </Button>
-                    </label>
+                            multiple
+                            type="file"
+                            name="studio_images"
+                            accept='image/png, image/jpeg'
+                            id='images'
+                            style={{display: 'none'}}
+                            onChange={e => {
+                                this.setImage(e)
+                                let a = e.target.images
+                                console.log("")
+                            }}
+                        />
+                        <label htmlFor="images">
+                            <Button variant="contained" color="primary" component="span">
+                                Studio Images
+                            </Button>
+                        </label>
                     </div>
 
                     <br/>
@@ -302,7 +303,7 @@ export default class Studio extends React.Component{
                     <Button type="submit" variant='contained'
                             onClick={() => this.OnSignupSubmit()}>Submit</Button>
 
-                    </Box>
+                </Box>
 
             </div>
         )

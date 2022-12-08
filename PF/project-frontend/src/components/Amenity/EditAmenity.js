@@ -19,13 +19,13 @@ import * as Constants from "../constants"
 import {useParams} from "react-router-dom";
 
 
-export default function EditAmenity(props){
+export default function EditAmenity(props) {
 
     let ctx = useContext(APIContext)
 
-    const { id, id_2 } = useParams()
+    const {id, id_2} = useParams()
 
-    const url = Constants.BASEURL + "studios/" + id_2  + "/amenities/edit/"
+    const url = Constants.BASEURL + "studios/" + id_2 + "/amenities/edit/"
 
     let amenityData = {
         type: "",
@@ -71,9 +71,9 @@ export default function EditAmenity(props){
     // Loading Thingy
     const [axiosLoading, setAxiosLoading] = useState(false)
 
-    function setError(obj){
+    function setError(obj) {
         var errorDict = errorsEmpty
-        for (const [k, v] of Object.entries(obj)){
+        for (const [k, v] of Object.entries(obj)) {
             errorDict[k] = v
         }
         setErr(errorDict)
@@ -107,16 +107,16 @@ export default function EditAmenity(props){
         setFormDat(origDat)
     }
 
-    function ShowGeneralMessage(){
-        var flag =0
+    function ShowGeneralMessage() {
+        var flag = 0
 
-        for (const [k, v] of Object.entries(errors)){
-            if(v){
+        for (const [k, v] of Object.entries(errors)) {
+            if (v) {
                 flag = 1
             }
         }
 
-        if (reqSent && flag === 1 && !reqSucess){
+        if (reqSent && flag === 1 && !reqSucess) {
             return (
                 <Alert severity="error">
                     <AlertTitle>Please resolve errors</AlertTitle>
@@ -135,65 +135,64 @@ export default function EditAmenity(props){
         'Quantity'
     ]
 
-    function form(){
+    function form() {
         return (
             <React.Fragment>
                 <Box>
-                    <i style={{ color: 'red'}}>{errorsRef.current["error"]}</i>
+                    <i style={{color: 'red'}}>{errorsRef.current["error"]}</i>
                 </Box>
                 {fieldVars.map((fieldID, index) => {
                     var err = Boolean(errorsRef.current[fieldID].length);
                     const label = fieldNames[index]
                     var val = formDataRef.current[fieldID]
 
-                    if(fieldID === 'type'){
+                    if (fieldID === 'type') {
                         return (
-                        <Stack spacing={0} key={fieldID} >
-                            <Box>
-                                <TextField
-                                    error={err}
-                                    label={label}
-                                    id={fieldID}
-                                    value={val}
-                                    onChange={e => reset2(fieldID, e.target.value)}
-                                    InputLabelProps={{
-                                      shrink: true,
-                                    }}
-                                />
-                            </Box>
-                            <Box>
-                                <i style={{ color: 'red'}}>{errorsRef.current[fieldID]}</i>
-                            </Box>
-                        </Stack>
+                            <Stack spacing={0} key={fieldID}>
+                                <Box>
+                                    <TextField
+                                        error={err}
+                                        label={label}
+                                        id={fieldID}
+                                        value={val}
+                                        onChange={e => reset2(fieldID, e.target.value)}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    />
+                                </Box>
+                                <Box>
+                                    <i style={{color: 'red'}}>{errorsRef.current[fieldID]}</i>
+                                </Box>
+                            </Stack>
+                        )
+                    } else {
+                        return (
+                            <Stack spacing={0} key={fieldID}>
+                                <Box>
+                                    <TextField
+                                        type='number'
+                                        error={err}
+                                        label={label}
+                                        id={fieldID}
+                                        value={val}
+                                        onChange={e => reset2(fieldID, e.target.value)}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    />
+                                </Box>
+                                <Box>
+                                    <i style={{color: 'red'}}>{errorsRef.current[fieldID]}</i>
+                                </Box>
+                            </Stack>
                         )
                     }
-                    else{
-                        return (
-                        <Stack spacing={0} key={fieldID} >
-                            <Box>
-                                <TextField
-                                    type='number'
-                                    error={err}
-                                    label={label}
-                                    id={fieldID}
-                                    value={val}
-                                    onChange={e => reset2(fieldID, e.target.value)}
-                                    InputLabelProps={{
-                                      shrink: true,
-                                    }}
-                                />
-                            </Box>
-                            <Box>
-                                <i style={{ color: 'red'}}>{errorsRef.current[fieldID]}</i>
-                            </Box>
-                        </Stack>
-                        )
-                    }
-                    })
+                })
                 }
 
             </React.Fragment>
-            )
+        )
 
     }
 
@@ -205,7 +204,7 @@ export default function EditAmenity(props){
 
 
         var token = ctx.userToken
-        if(token === null){
+        if (token === null) {
             return
         }
         token = token.replace("Token ")
@@ -236,31 +235,31 @@ export default function EditAmenity(props){
     }
 
 
-
     const vertical = 'bottom'
     const horizontal = 'center';
 
 
     return (
-        <Paper elevation={3} sx={{textAlign:'center'}}>
+        <Paper elevation={3} sx={{textAlign: 'center'}}>
             <Snackbar
-                anchorOrigin={{ vertical, horizontal }}
+                anchorOrigin={{vertical, horizontal}}
                 autoHideDuration={8000}
                 open={snackbarOpen}
                 onClose={() => setSnackbarOpen(false)}
             >
-                <Alert onClose={() => setSnackbarOpen(false)} severity="success" sx={{ width: '100%' }}>
+                <Alert onClose={() => setSnackbarOpen(false)} severity="success"
+                       sx={{width: '100%'}}>
                     Success!
                 </Alert>
             </Snackbar>
 
-            <Box sx={{p:2}}>
+            <Box sx={{p: 2}}>
                 <Typography variant="h3">Edit Amenity</Typography>
             </Box>
             <Divider/>
             {reqSent && ShowGeneralMessage()}
 
-            <Stack spacing={4} sx={{p:4}}>
+            <Stack spacing={4} sx={{p: 4}}>
                 {form()}
                 <Box sx={{textAlign: 'center'}}>
                     <ButtonGroup variant="contained">

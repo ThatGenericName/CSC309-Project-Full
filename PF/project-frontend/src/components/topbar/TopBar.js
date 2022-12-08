@@ -12,29 +12,29 @@ import AccountButton from "./AccountButton";
 import {ButtonBase} from "@mui/material";
 
 
-export default class TopAppBar extends React.Component{
+export default class TopAppBar extends React.Component {
     static contextType = APIContext
-    constructor(props, context){
+
+    constructor(props, context) {
         super(props, context)
         this.state = {
             anchorEl: null
         }
     }
 
-    UserSection(){
-        if (this.context.userLoggedIn){
+    UserSection() {
+        if (this.context.userLoggedIn) {
             return (
                 <AccountButton/>
             )
-        }
-        else{
+        } else {
             return (
                 <GuestButton/>
             )
         }
     }
 
-    render(){
+    render() {
         let a = 1
         return (
             <div>
@@ -53,26 +53,30 @@ export default class TopAppBar extends React.Component{
                             <Box
                                 component="img"
                                 sx={{
-                                height: 64,
+                                    height: 64,
                                 }}
                                 alt="logo."
                                 src="/tfc_notext.png"
                             />
                         </ButtonBase>
 
-                        <Box sx={{ flexGrow: 1, fontStyle:'bold'}}>
+                        <Box sx={{flexGrow: 1, fontStyle: 'bold'}}>
                             <Button
-                                sx={{color:'#ffffff'}}
+                                sx={{color: '#ffffff'}}
                                 component={Link}
                                 to={'/studio'}
                             >
                                 Studios
                             </Button>
-                            <Button sx={{color:'#ffffff'}}>
+                            <Button
+                                sx={{color: '#ffffff'}}
+                                component={Link}
+                                to={'/schedules'}
+                            >
                                 Classes
                             </Button>
                             <Button
-                                sx={{color:'#ffffff'}}
+                                sx={{color: '#ffffff'}}
                                 component={Link}
                                 to={'/subscriptions'}
                             >

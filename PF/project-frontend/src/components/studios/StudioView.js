@@ -1,11 +1,12 @@
 import {Card, ImageList, ImageListItem, Stack, Typography} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {BASEURL, BASEURLNOEND} from "../constants";
 import axios from "axios";
 import {useParams} from "react-router-dom";
 
 import Button from "@mui/material/Button";
+import {APIContext} from "../APIContextProvider";
 
 export default function StudioPreview(props) {
 
@@ -17,15 +18,27 @@ export default function StudioPreview(props) {
 
     const {id} = useParams()
 
+    const ctx = useContext(APIContext)
+
     const getdata = (props) => {
         const url = BASEURL + "studios/" + id + "/"
+
+
+        var token = ctx.userToken
+
+        if (token === null) {
+            return
+        }
+
+        token = token.replace("Token ", "")
 
         if (!formData.request_complete) {
             let requestData = {
                 url: url,
                 method: "GET",
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    "Authorization": "Token " + token
                 },
             }
 
@@ -74,7 +87,7 @@ export default function StudioPreview(props) {
                             {"Postal Code : " + formData.data.post_code}
                         </Typography>
 
-                        <a href={formData.data.direction} style={{textDecoration: 'none'}} >
+                        <a href={formData.data.direction} style={{textDecoration: 'none'}}>
                             <Button variant="outlined">Click here for Directions</Button>
                         </a>
 
@@ -82,37 +95,21 @@ export default function StudioPreview(props) {
                 </Grid2>
 
 
-                <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
-                  {formData.data.images.map((file, index) => {
-                      let link = BASEURLNOEND + file
-                      return (
-                        <ImageListItem key={file}>
-                          <img
-                            src={`${link}?w=164&h=164&fit=crop&auto=format`}
-                            srcSet={`${link}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                <ImageList sx={{width: 500, height: 450}} cols={3} rowHeight={164}>
+                    {formData.data.images.map((file, index) => {
+                        let link = BASEURLNOEND + file
+                        return (
+                            <ImageListItem key={file}>
+                                <img
+                                    src={`${link}?w=164&h=164&fit=crop&auto=format`}
+                                    srcSet={`${link}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
 
-                            loading="lazy"
-                          />
-                        </ImageListItem>
-                      )
-                  })}
+                                    loading="lazy"
+                                />
+                            </ImageListItem>
+                        )
+                    })}
                 </ImageList>
-
-                {/*<React.Fragment>*/}
-                {/*    {formData.data.images.map((file, index) => {*/}
-                {/*        let link = BASEURLNOEND + file*/}
-                {/*        return (*/}
-                {/*            <div>*/}
-                {/*                <img src={link}  height={200} width={200}/>*/}
-
-                {/*            </div>*/}
-                {/*        )*/}
-
-
-                {/*        }*/}
-                {/*    )*/}
-                {/*    }*/}
-                    {/*<React.Fragment>*/}
 
             </Card>
         )

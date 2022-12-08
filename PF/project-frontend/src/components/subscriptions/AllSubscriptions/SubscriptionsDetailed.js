@@ -5,7 +5,7 @@ import {SubscriptionPayment} from "../SubscriptionPayment";
 import {useState} from "react";
 import {GetTimeStringComp} from "../GetTimeStringComp";
 
-export function SubscriptionsDetailed(props){
+export function SubscriptionsDetailed(props) {
     const data = props.data
     const [openSub, setOpenSub] = useState(false)
 
@@ -15,8 +15,8 @@ export function SubscriptionsDetailed(props){
         <Card
             key={props.key}
             variant='outlined'
-            sx={{p:2}}
-            style={{width:'90%'}}
+            sx={{p: 2}}
+            style={{width: '90%'}}
         >
             <Grid2
                 container

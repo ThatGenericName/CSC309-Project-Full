@@ -16,10 +16,10 @@ import {BASEURL} from "../../constants";
 import axios from "axios";
 
 
-export class CreateSubscription extends react.Component{
+export class CreateSubscription extends react.Component {
     static contextType = APIContext
 
-    constructor(props, context){
+    constructor(props, context) {
         super(props, context)
 
         this.state = {
@@ -54,7 +54,7 @@ export class CreateSubscription extends react.Component{
         let a = 1
     }
 
-    setErrorState(obj){
+    setErrorState(obj) {
         var clone = {}
         Object.keys(this.state.errors).forEach(k => {
             clone[k] = this.state.errors[k]
@@ -65,7 +65,7 @@ export class CreateSubscription extends react.Component{
         this.setState({errors: clone})
     }
 
-    setInputState(obj){
+    setInputState(obj) {
         var clone = {}
         Object.keys(this.state.inputData).forEach(k => {
             clone[k] = this.state.inputData[k]
@@ -76,7 +76,7 @@ export class CreateSubscription extends react.Component{
         this.setState({inputData: clone})
     }
 
-    generateForm(){
+    generateForm() {
         const comp = this
         return (
             <Stack spacing={2}>
@@ -92,7 +92,9 @@ export class CreateSubscription extends react.Component{
                     </Typography>
                     <Switch
                         checked={comp.state.inputData.available}
-                        onChange={(e, v) => {comp.setInputState({available: v})}}
+                        onChange={(e, v) => {
+                            comp.setInputState({available: v})
+                        }}
                     />
                 </Box>
 
@@ -123,7 +125,7 @@ export class CreateSubscription extends react.Component{
                     error={Boolean(comp.state.errors.hours.length)}
                     value={comp.state.inputData.hours}
                     step={1.00}
-                    InputProps={{ inputProps: { min: 0, max: 24 } }}
+                    InputProps={{inputProps: {min: 0, max: 24}}}
                     onChange={e => comp.setInputState({hours: e.target.value})}
                 />
                 <TextField
@@ -132,18 +134,18 @@ export class CreateSubscription extends react.Component{
                     error={Boolean(comp.state.errors.days.length)}
                     value={comp.state.inputData.days}
                     step={1.00}
-                    InputProps={{ inputProps: { min: 0 } }}
+                    InputProps={{inputProps: {min: 0}}}
                     onChange={e => comp.setInputState({days: e.target.value})}
                 />
             </Stack>
         )
     }
 
-    resetData(){
+    resetData() {
         this.setInputState(this.state.originalData)
     }
 
-    sendChanges(){
+    sendChanges() {
         let data = this.state.inputData
 
         const targetURL = BASEURL + "subscriptions/create/"
@@ -165,22 +167,22 @@ export class CreateSubscription extends react.Component{
             data: formDat
         }
         const comp = this
-        axios(requestData).then(function(response){
+        axios(requestData).then(function (response) {
             comp.setState({
                 axiosLoading: false,
                 respReceived: false,
                 successPrompt: true
             })
-            if (comp.props.onSend !== undefined){
+            if (comp.props.onSend !== undefined) {
                 comp.props.onSend()
             }
-        }).catch(function(errors){
+        }).catch(function (errors) {
             let a = 1
         })
     }
 
 
-    render(){
+    render() {
         let comp = this
         return (
             <Dialog open={this.props.open} onClose={this.props.onClose}>
@@ -193,7 +195,7 @@ export class CreateSubscription extends react.Component{
                 <DialogActions>
                     <Button
                         variant='outlined'
-                        onClick={function(){
+                        onClick={function () {
                             comp.resetData()
                         }}
                     >
@@ -207,7 +209,7 @@ export class CreateSubscription extends react.Component{
                     </Button>
                     <Button
                         variant='contained'
-                        onClick={function(){
+                        onClick={function () {
                             comp.sendChanges()
                         }}
                     >

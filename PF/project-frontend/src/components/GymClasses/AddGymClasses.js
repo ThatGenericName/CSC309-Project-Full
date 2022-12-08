@@ -5,13 +5,15 @@ import {Alert, AlertTitle, Typography} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import * as Constants from "../constants";
 import axios from "axios";
+import {APIContext} from "../APIContextProvider";
 
 const REQUIRED_PARAMS = ["name", "coach", "description", "keywords", "earliest_date", "last_date",
-                "day", "start_time", "end_time", "enrollment_capacity"]
+    "day", "start_time", "end_time", "enrollment_capacity"]
 
-export default class AddGymClasses extends Component{
+export default class AddGymClasses extends Component {
+    static contextType = APIContext
 
-    constructor(props){
+    constructor(props) {
 
         super(props)
 
@@ -20,7 +22,7 @@ export default class AddGymClasses extends Component{
             reqSucc: false,
             reqResp: null,
             hasErrors: false,
-            studioId : window.location.href.split('/')[4],
+            studioId: window.location.href.split('/')[4],
             errors: {
                 name: '',
                 coach: '',
@@ -53,9 +55,9 @@ export default class AddGymClasses extends Component{
     }
 
 
-    setFormData(change){
+    setFormData(change) {
         let dat = this.state.data
-        for (let [key, value] of Object.entries(change)){
+        for (let [key, value] of Object.entries(change)) {
             dat[key] = value
         }
         let emptyErrors = {
@@ -76,15 +78,14 @@ export default class AddGymClasses extends Component{
     }
 
 
-    ShowGeneralMessage(){
-        if (this.state.reqSucc){
+    ShowGeneralMessage() {
+        if (this.state.reqSucc) {
             return (
                 <Alert severity="success">
                     <AlertTitle>Gym Class Added successfully to studio</AlertTitle>
                 </Alert>
             )
-        }
-        else{
+        } else {
             return (
                 <Alert severity="error">
                     <AlertTitle>Please resolve errors</AlertTitle>
@@ -93,29 +94,28 @@ export default class AddGymClasses extends Component{
         }
     }
 
-    ValidateData(){
+    ValidateData() {
         let data = this.state.data
         let errors = this.state.errors
         let hasErrors = false
-        for (let [key, value] of Object.entries(data)){
+        for (let [key, value] of Object.entries(data)) {
 
-            if (!((value.length)) && REQUIRED_PARAMS.includes(key)){
+            if (!((value.length)) && REQUIRED_PARAMS.includes(key)) {
                 errors[key] = "This Field is required"
                 hasErrors = true
-            }
-            else{
+            } else {
                 errors[key] = ""
             }
 
         }
 
-        if(errors["enrollment_capacity"] === "" && data["enrollment_capacity"] < 1){
+        if (errors["enrollment_capacity"] === "" && data["enrollment_capacity"] < 1) {
             errors["enrollment_capacity"] = "Enrollment Capacity should be >= 1"
             hasErrors = true
         }
 
-        if(errors["data"] === "" && !['Monday', 'Tuesday', 'Wednesday', 'Thursday',
-                                   'Friday', 'Saturday', 'Sunday'].includes(data["day"])){
+        if (errors["data"] === "" && !['Monday', 'Tuesday', 'Wednesday', 'Thursday',
+            'Friday', 'Saturday', 'Sunday'].includes(data["day"])) {
             errors["day"] = "Wrong day name"
             hasErrors = true
         }
@@ -124,28 +124,32 @@ export default class AddGymClasses extends Component{
         return hasErrors
     }
 
-    OnSignupSubmit(){
+    OnSignupSubmit() {
         this.setState({
             axiosLoading: true
         })
         let e = this.ValidateData()
 
-        if (e){
+        if (e) {
             this.setState({
                 axiosLoading: false
             })
-        }
-        else{
+        } else {
             let dat = this.state.data
-            let targetURL = Constants.BASEURL + 'classes/' + this.state.studioId +'/create/'
+            let targetURL = Constants.BASEURL + 'classes/' + this.state.studioId + '/create/'
 
-
+            var token = this.context.userToken
+            if (token == null) {
+                return
+            }
+            token = token.replace("Token ", "")
 
             let requestData = {
                 url: targetURL,
                 method: "POST",
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    "Authorization": "Token " + token
                 },
                 data: dat
             }
@@ -153,61 +157,62 @@ export default class AddGymClasses extends Component{
             var comp = this
 
             axios(requestData)
-            .then(function (response){
-                comp.setState({
-                    axiosLoading: false
+                .then(function (response) {
+                    comp.setState({
+                        axiosLoading: false
+                    })
+                    let newData = {
+                        reqSent: true,
+                        reqSucc: true,
+                        reqResp: response.data
+                    }
+                    comp.setState(newData)
+
+                    comp.setState({
+                        generalMessage: "Gym Class Added Successfully"
+                    })
                 })
-                let newData = {
-                    reqSent: true,
-                    reqSucc: true,
-                    reqResp: response.data
-                }
-                comp.setState(newData)
+                .catch(function (error) {
+                    comp.setState({
+                        axiosLoading: false
+                    })
+                    let a = error.response.data
 
-                comp.setState({
-                    generalMessage: "Gym Class Added Successfully"
+                    let errors = comp.state.errors
+                    for (let [key, value] of Object.entries(a)) {
+                        errors[key] = value
+                    }
+
+                    let newData = {
+                        reqSent: true,
+                        reqSucc: false,
+                        reqResp: a
+                    }
+
+                    comp.setState(newData)
                 })
-            })
-            .catch(function (error){
-                comp.setState({
-                    axiosLoading: false
-                })
-                let a = error.response.data
-
-                let errors = comp.state.errors
-                for (let [key, value] of Object.entries(a)){
-                    errors[key] = value
-                }
-
-                let newData = {
-                    reqSent: true,
-                    reqSucc: false,
-                    reqResp: a
-                }
-
-                comp.setState(newData)
-            })
 
 
         }
     }
+
     render() {
         return (
             <div>
                 <br/>
                 <Typography variant="h3" align="center">Add GymClasses</Typography>
-              <Box
-                  noValidate
-                  sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      m: 'auto',
-                      width: 'fit-content',
-                  }}
-              >
-                  {this.state.reqSent && this.ShowGeneralMessage()}
-                  <br/>
-              </Box>
+                <Box
+                    noValidate
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        m: 'auto',
+                        width: 'fit-content',
+                    }}
+                >
+                    {this.state.reqSent && this.ShowGeneralMessage()}
+                    <br/>
+                </Box>
                 <Box
                     noValidate
                     sx={{
@@ -226,7 +231,7 @@ export default class AddGymClasses extends Component{
                         onChange={e => this.setFormData({name: e.target.value})}
                     />
 
-                    <i style={{ color: 'red' }}>{this.state.errors.name}</i>
+                    <i style={{color: 'red'}}>{this.state.errors.name}</i>
                     <br/>
 
                     <TextField
@@ -237,7 +242,7 @@ export default class AddGymClasses extends Component{
                         label='Coach Id'
                         onChange={e => this.setFormData({coach: e.target.value})}
                     />
-                    <i style={{ color: 'red' }}>{this.state.errors.coach}</i>
+                    <i style={{color: 'red'}}>{this.state.errors.coach}</i>
                     <br/>
 
                     <TextField
@@ -248,7 +253,7 @@ export default class AddGymClasses extends Component{
                         label='GymClass Description'
                         onChange={e => this.setFormData({description: e.target.value})}
                     />
-                    <i style={{ color: 'red' }}>{this.state.errors.description}</i>
+                    <i style={{color: 'red'}}>{this.state.errors.description}</i>
                     <br/>
 
                     <TextField
@@ -259,7 +264,7 @@ export default class AddGymClasses extends Component{
                         label='Keywords'
                         onChange={e => this.setFormData({keywords: e.target.value})}
                     />
-                    <i style={{ color: 'red' }}>{this.state.errors.keywords}</i>
+                    <i style={{color: 'red'}}>{this.state.errors.keywords}</i>
                     <br/>
 
                     <TextField
@@ -270,7 +275,7 @@ export default class AddGymClasses extends Component{
                         label='Start Date (dd/mm/YY)'
                         onChange={e => this.setFormData({earliest_date: e.target.value})}
                     />
-                    <i style={{ color: 'red' }}>{this.state.errors.earliest_date}</i>
+                    <i style={{color: 'red'}}>{this.state.errors.earliest_date}</i>
                     <br/>
 
                     <TextField
@@ -281,7 +286,7 @@ export default class AddGymClasses extends Component{
                         label='Last Date (dd/mm/YY)'
                         onChange={e => this.setFormData({last_date: e.target.value})}
                     />
-                    <i style={{ color: 'red' }}>{this.state.errors.last_date}</i>
+                    <i style={{color: 'red'}}>{this.state.errors.last_date}</i>
                     <br/>
 
                     <TextField
@@ -292,7 +297,7 @@ export default class AddGymClasses extends Component{
                         label='Day'
                         onChange={e => this.setFormData({day: e.target.value})}
                     />
-                    <i style={{ color: 'red' }}>{this.state.errors.day}</i>
+                    <i style={{color: 'red'}}>{this.state.errors.day}</i>
                     <br/>
 
                     <TextField
@@ -303,7 +308,7 @@ export default class AddGymClasses extends Component{
                         label='Start Time (HH:MM)'
                         onChange={e => this.setFormData({start_time: e.target.value})}
                     />
-                    <i style={{ color: 'red' }}>{this.state.errors.start_time}</i>
+                    <i style={{color: 'red'}}>{this.state.errors.start_time}</i>
                     <br/>
 
                     <TextField
@@ -314,7 +319,7 @@ export default class AddGymClasses extends Component{
                         label='End Time (HH:MM)'
                         onChange={e => this.setFormData({end_time: e.target.value})}
                     />
-                    <i style={{ color: 'red' }}>{this.state.errors.end_time}</i>
+                    <i style={{color: 'red'}}>{this.state.errors.end_time}</i>
                     <br/>
 
                     <TextField
@@ -325,13 +330,14 @@ export default class AddGymClasses extends Component{
                         label='Enrollment Capacity'
                         onChange={e => this.setFormData({enrollment_capacity: e.target.value})}
                     />
-                    <i style={{ color: 'red' }}>{this.state.errors.enrollment_capacity}</i>
+                    <i style={{color: 'red'}}>{this.state.errors.enrollment_capacity}</i>
                     <br/>
 
 
-                    <Button variant='contained' onClick={() => this.OnSignupSubmit()}>Submit</Button>
+                    <Button variant='contained'
+                            onClick={() => this.OnSignupSubmit()}>Submit</Button>
 
-                    </Box>
+                </Box>
 
             </div>
         )

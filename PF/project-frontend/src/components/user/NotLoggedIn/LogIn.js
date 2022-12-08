@@ -1,15 +1,7 @@
 import react from "react";
 import React from "react";
 import {APIContext} from "../../APIContextProvider";
-import {
-    Alert,
-    AlertTitle,
-    Box,
-    Button,
-    Paper,
-    Stack,
-    Typography
-} from "@mui/material";
+import {Alert, AlertTitle, Box, Button, Paper, Stack, Typography} from "@mui/material";
 import TextField from "@mui/material/TextField";
 
 
@@ -20,8 +12,9 @@ import axios from "axios";
 
 const REQUIRED_PARAMS = ['username', 'password']
 
-export class LogIn extends react.Component{
+export class LogIn extends react.Component {
     static contextType = APIContext
+
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -37,7 +30,7 @@ export class LogIn extends react.Component{
         }
     }
 
-    setFormData(obj){
+    setFormData(obj) {
         var clone = ObjectDeepClone(this.state.inputData)
         Object.keys(obj).forEach(k => {
             clone[k] = obj[k]
@@ -45,7 +38,7 @@ export class LogIn extends react.Component{
         this.setState({inputData: clone})
     }
 
-    setErrorData(obj){
+    setErrorData(obj) {
         var clone = ObjectDeepClone(this.state.errors)
         Object.keys(obj).forEach(k => {
             clone[k] = obj[k]
@@ -53,13 +46,13 @@ export class LogIn extends react.Component{
         this.setState({errors: clone})
     }
 
-    ValidateData(){
+    ValidateData() {
         let data = this.state.inputData
         let errors = this.state.errors
         let hasErrors = false
 
         Object.entries(data).forEach((kvp) => {
-            if (!Boolean(kvp[1].length) && REQUIRED_PARAMS.includes(kvp[0])){
+            if (!Boolean(kvp[1].length) && REQUIRED_PARAMS.includes(kvp[0])) {
                 errors[kvp[0]] = 'This Field Is Required'
                 hasErrors = true
             }
@@ -69,9 +62,9 @@ export class LogIn extends react.Component{
         return hasErrors
     }
 
-    sendData(comp){
+    sendData(comp) {
         const e = comp.ValidateData()
-        if (e){
+        if (e) {
             // make it show errors
             return
         }
@@ -89,36 +82,35 @@ export class LogIn extends react.Component{
             headers: {
                 'Content-Type': 'multipart/form-data'
             },
-            data:formDat
+            data: formDat
         }
-        axios(requestData).then(function (response){
+        axios(requestData).then(function (response) {
             var token = response.data.detail
             token = token.replace('Token ', '')
             localStorage.setItem('Auth', token)
-            if (localStorage.getItem('Auth') !== token){
+            if (localStorage.getItem('Auth') !== token) {
                 throw "Auth Token not saved!"
             }
             comp.context.setUserToken(token)
             comp.context.updateDataFlag()
-            if (comp.props.onSend !== undefined){
+            if (comp.props.onSend !== undefined) {
                 comp.props.onSend()
             }
-        }).catch(function (error){
+        }).catch(function (error) {
             let a = 1
         })
     }
 
-    ShowGeneralMessage(){
-        if (this.state.reqSent){
-            if (!this.state.reqSucc){
+    ShowGeneralMessage() {
+        if (this.state.reqSent) {
+            if (!this.state.reqSucc) {
                 return (
                     <Alert severity="error">
                         <AlertTitle>Account or Password does not match</AlertTitle>
                     </Alert>
                 )
             }
-        }
-        else if (this.state.hasErrors) {
+        } else if (this.state.hasErrors) {
             return (
                 <Alert severity="error">
                     <AlertTitle>Please resolve errors</AlertTitle>
@@ -131,7 +123,7 @@ export class LogIn extends react.Component{
         return (
             <Paper
                 variant='outlined'
-                sx={{p:2}}
+                sx={{p: 2}}
             >
                 <Stack spacing={2}>
                     <Typography variant='h3'>
@@ -150,7 +142,7 @@ export class LogIn extends react.Component{
                             value={this.state.inputData.username}
                             onChange={e => this.setFormData({username: e.target.value})}
                         />
-                        <i style={{ color: 'red' }}>{this.state.errors.username}</i>
+                        <i style={{color: 'red'}}>{this.state.errors.username}</i>
                     </Stack>
                     <Stack>
                         <TextField
@@ -162,7 +154,7 @@ export class LogIn extends react.Component{
                             value={this.state.inputData.password}
                             onChange={e => this.setFormData({password: e.target.value})}
                         />
-                        <i style={{ color: 'red' }}>{this.state.errors.password}</i>
+                        <i style={{color: 'red'}}>{this.state.errors.password}</i>
                     </Stack>
                     <Box>
                         <Button

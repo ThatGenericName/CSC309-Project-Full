@@ -2,13 +2,13 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import {Paper, Stack, Typography} from "@mui/material";
 import React from "react";
 
-export function PromoCardItem(props){
+export function PromoCardItem(props) {
 
     const data = props.data
 
     var imgGrid = (
         <Grid2 xs={4}>
-            <img src={data.img}  alt={data.header} width='100%'/>
+            <img src={data.img} alt={data.header} width='100%'/>
         </Grid2>
     )
 
@@ -22,7 +22,7 @@ export function PromoCardItem(props){
     )
 
     return (
-        <Paper sx={{px:3, py:0}} style={{textAlign:'center'}}>
+        <Paper sx={{px: 3, py: 0}} style={{textAlign: 'center'}}>
             <Grid2 container alignItems="center">
                 {props.left ? imgGrid : textGrid}
                 <Grid2 xs={1}/>

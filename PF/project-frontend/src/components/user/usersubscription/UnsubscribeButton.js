@@ -10,7 +10,7 @@ import {BASEURL} from "../../constants";
 import axios from "axios";
 
 
-export default function UnsubscribeButton(props){
+export default function UnsubscribeButton(props) {
     const ctx = useContext(APIContext)
 
     const [dialogueState, setDialogueState] = useState(false)
@@ -18,16 +18,16 @@ export default function UnsubscribeButton(props){
     const [axiosLoading, setAxiosLoading] = useState(false)
 
 
-    function dropSubscription(){
+    function dropSubscription() {
         setDialogueState(true)
     }
 
-    function handleClose(){
+    function handleClose() {
         setDialogueState(false)
     }
 
 
-    function send(){
+    function send() {
         setAxiosLoading(true)
 
         const token = ctx.userToken.replace("Token ")
@@ -63,7 +63,7 @@ export default function UnsubscribeButton(props){
                 Unsubscribe
             </Button>
             <Dialog open={dialogueState} onClose={handleClose}>
-                <Box sx={{p:3}}>
+                <Box sx={{p: 3}}>
                     <Stack>
                         <Box>
                             Are you sure you want to unsubscribe?

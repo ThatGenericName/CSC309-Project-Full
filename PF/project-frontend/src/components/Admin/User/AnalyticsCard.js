@@ -6,7 +6,7 @@ import {DeepCloneStateSet} from "../../Utility";
 import {Box, LinearProgress, Paper, Stack, Typography} from "@mui/material";
 
 
-export function AnalyticsCard(props){
+export function AnalyticsCard(props) {
     const ctx = useContext(APIContext)
     const [compState, compSetter] = useState({
         data: null,
@@ -14,14 +14,14 @@ export function AnalyticsCard(props){
         respReceived: false,
     })
 
-    function setCompState(obj){
+    function setCompState(obj) {
         DeepCloneStateSet(compState, obj, compSetter)
     }
 
-    function getAnalytics(){
+    function getAnalytics() {
         const targetURL = BASEURL + "accounts/admin/analytics/"
 
-        if (ctx.userToken === null){
+        if (ctx.userToken === null) {
             return
         }
         const token = "Token " + ctx.userToken.replace('Token ')
@@ -35,46 +35,45 @@ export function AnalyticsCard(props){
             }
         }
 
-        axios(requestData).then(function(response){
+        axios(requestData).then(function (response) {
             setCompState({
                 data: response.data,
                 respReceived: true,
                 axiosLoading: false
             })
-            if (props.onSend !== undefined || props.rerender){
+            if (props.onSend !== undefined || props.rerender) {
                 props.onSend()
             }
-        }).catch(function(error){
+        }).catch(function (error) {
             let a = 1
         })
     }
 
-    function forceRerender(){
+    function forceRerender() {
         setCompState({
             respReceived: false,
             axiosLoading: true
         })
     }
 
-    if (props.rerender !== undefined && props.rerender){
+    if (props.rerender !== undefined && props.rerender) {
         setCompState({
             respReceived: false,
             axiosLoading: true
         })
     }
 
-    if (!compState.respReceived){
+    if (!compState.respReceived) {
         getAnalytics()
     }
 
-    if (compState.axiosLoading){
+    if (compState.axiosLoading) {
         return (
             <Paper p={2}>
                 <LinearProgress/>
             </Paper>
         )
-    }
-    else{
+    } else {
         return (
             <Box
                 style={{

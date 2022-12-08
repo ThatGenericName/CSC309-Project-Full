@@ -18,7 +18,7 @@ import AccountSubscriptions from "./usersubscription/AccountSubscriptions";
 import AccountPayment from "./userpayment/AccountPayment";
 
 function withParams(Component) {
-  return props => <Component {...props} params={useParams()} location={useLocation()}/>;
+    return props => <Component {...props} params={useParams()} location={useLocation()}/>;
 }
 
 // large sections of the code below is taken from the documentation for
@@ -28,42 +28,42 @@ function withParams(Component) {
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
-  width: drawerWidth,
-  transition: theme.transitions.create("width", {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen
-  }),
-  overflowX: "hidden"
+    width: drawerWidth,
+    transition: theme.transitions.create("width", {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen
+    }),
+    overflowX: "hidden"
 });
 
 const closedMixin = (theme) => ({
-  transition: theme.transitions.create("width", {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen
-  }),
-  overflowX: "hidden",
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(8)} + 1px)`
-  }
+    transition: theme.transitions.create("width", {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen
+    }),
+    overflowX: "hidden",
+    width: `calc(${theme.spacing(7)} + 1px)`,
+    [theme.breakpoints.up("sm")]: {
+        width: `calc(${theme.spacing(8)} + 1px)`
+    }
 });
 
 
 const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open"
-})(({ theme, open }) => ({
-  width: drawerWidth,
-  flexShrink: 0,
-  whiteSpace: "nowrap",
-  boxSizing: "border-box",
-  ...(open && {
-    ...openedMixin(theme),
-    "& .MuiDrawer-paper": openedMixin(theme)
-  }),
-  ...(!open && {
-    ...closedMixin(theme),
-    "& .MuiDrawer-paper": closedMixin(theme)
-  })
+    shouldForwardProp: (prop) => prop !== "open"
+})(({theme, open}) => ({
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: "nowrap",
+    boxSizing: "border-box",
+    ...(open && {
+        ...openedMixin(theme),
+        "& .MuiDrawer-paper": openedMixin(theme)
+    }),
+    ...(!open && {
+        ...closedMixin(theme),
+        "& .MuiDrawer-paper": closedMixin(theme)
+    })
 }));
 
 const tgtPage = {
@@ -73,7 +73,7 @@ const tgtPage = {
     'payment': 4
 }
 
-class UserLoggedIn extends React.Component{
+class UserLoggedIn extends React.Component {
     static contextType = APIContext
 
     constructor(props, context) {
@@ -87,14 +87,13 @@ class UserLoggedIn extends React.Component{
         }
     }
 
-    componentDidMount(){
-        if (this.context.userLoggedIn){
+    componentDidMount() {
+        if (this.context.userLoggedIn) {
             // skip the below
-        }
-        else{
+        } else {
             let token = localStorage.getItem('Auth')
 
-            if (token === null){
+            if (token === null) {
                 this.setState({tokenChecked: true})
                 return
             }
@@ -112,21 +111,21 @@ class UserLoggedIn extends React.Component{
             let comp = this
             this.setState({reqSent: true})
             axios(requestData)
-                .then(function (response){
+                .then(function (response) {
                     comp.setState({userData: response.data, reqRec: true})
                 })
-                .catch(function (error){
+                .catch(function (error) {
                     comp.setState({userData: null, reqReq: true})
                 })
         }
     }
 
 
-    setMenuOpened(val){
+    setMenuOpened(val) {
         this.setState({menuOpen: val})
     }
 
-    showUnauthorized(){
+    showUnauthorized() {
         return (
             <InitElements>
                 <div>Please Log In</div>
@@ -135,22 +134,22 @@ class UserLoggedIn extends React.Component{
     }
 
 
-    loggedInDisplay2(){
+    loggedInDisplay2() {
         let userData = this.context.userData.fullUserData
         return (
-            <Box sx={{ display: "flex" }}>
+            <Box sx={{display: "flex"}}>
                 <Drawer variant="permanent" open={this.state.menuOpen}>
-                <Toolbar/>
-                <IconButton onClick={() => this.setMenuOpened(!this.state.menuOpen)}>
-                    {this.state.menuOpen ? <ChevronLeftIcon /> : <MenuIcon />}
-                </IconButton>
-                <Divider/>
+                    <Toolbar/>
+                    <IconButton onClick={() => this.setMenuOpened(!this.state.menuOpen)}>
+                        {this.state.menuOpen ? <ChevronLeftIcon/> : <MenuIcon/>}
+                    </IconButton>
+                    <Divider/>
                     <DashboardMenu
                         userData={userData}
                         open={this.state.menuOpen}
                     />
                 </Drawer>
-                <Box component="main" sx={{ flexGrow: 1, p: 2 }}>
+                <Box component="main" sx={{flexGrow: 1, p: 2}}>
                     <Routes>
                         <Route path="" element={<AccountDashboard/>}/>
                         <Route path="edit" element={<EditProfile/>}/>
@@ -163,19 +162,18 @@ class UserLoggedIn extends React.Component{
         )
     }
 
-    render(){
+    render() {
 
         let display
-        if (this.context.userLoggedIn && this.context.userData.fullUserData != null){
+        if (this.context.userLoggedIn && this.context.userData.fullUserData != null) {
             display = this.loggedInDisplay2()
-        }
-        else{
+        } else {
             display = this.showUnauthorized()
         }
 
 
         return (
-            <Box sx={{ flexGrow: 1 }}>
+            <Box sx={{flexGrow: 1}}>
 
                 {display}
             </Box>

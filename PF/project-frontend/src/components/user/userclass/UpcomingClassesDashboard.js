@@ -10,7 +10,7 @@ import ClassCard from "./ClassCard";
 import {BASEURL} from "../../constants";
 import axios from "axios";
 
-export function UpcomingClassesDashboard(props){
+export function UpcomingClassesDashboard(props) {
     const ctx = useContext(APIContext)
 
     const [compState, setCompState] = useState({
@@ -18,7 +18,7 @@ export function UpcomingClassesDashboard(props){
         itemsList: null
     })
 
-    function getData(){
+    function getData() {
 
         var targetURL = BASEURL + 'accounts/enrolledclasses/'
 
@@ -43,20 +43,19 @@ export function UpcomingClassesDashboard(props){
         }
 
         axios(requestData)
-            .then( function (response) {
+            .then(function (response) {
                 setCompState({
                     axiosLoading: false,
                     itemsList: response.data['results'],
                 })
             })
-            .catch(function(error){
-                if (error.response.status === 404){
+            .catch(function (error) {
+                if (error.response.status === 404) {
                     setCompState({
                         axiosLoading: false,
                         itemsList: []
                     })
-                }
-                else{
+                } else {
                     setCompState({
                         axiosLoading: false,
                         itemsList: null
@@ -66,14 +65,14 @@ export function UpcomingClassesDashboard(props){
     }
 
 
-    function generateList(ListData){
+    function generateList(ListData) {
         var ct = 4
         var list = ListData.slice(0, ct)
 
         return (
             <Box
-                sx={{width: "100%", p:2}}
-                style={{ overflow: 'auto'}}
+                sx={{width: "100%", p: 2}}
+                style={{overflow: 'auto'}}
                 textAlign='center'
             >
                 <Stack
@@ -89,10 +88,9 @@ export function UpcomingClassesDashboard(props){
         )
     }
 
-    if (compState.itemsList == null){
+    if (compState.itemsList == null) {
         getData()
-    }
-    else{
+    } else {
         return (
             <Paper sx={{p: 3}}>
                 <Grid2
@@ -108,16 +106,20 @@ export function UpcomingClassesDashboard(props){
                     </Grid2>
                     <Grid2 xs={2}/>
                     <Grid2 xs={4}>
-                        <Button variant='outlined' onClick={() => {}}>
+                        <Button variant='outlined' onClick={() => {
+                        }}>
                             Drop Future Classes
                         </Button>
-                        <Dialog open={false} onClose={() => {}}>
-                            <Box sx={{p:3}}>
+                        <Dialog open={false} onClose={() => {
+                        }}>
+                            <Box sx={{p: 3}}>
                                 Are you sure you want to drop all future classes?
                             </Box>
                             <DialogActions>
-                                <Button onClick={() => {}}>Cancel</Button>
-                                <Button onClick={() => {}}>Confirm</Button>
+                                <Button onClick={() => {
+                                }}>Cancel</Button>
+                                <Button onClick={() => {
+                                }}>Confirm</Button>
                             </DialogActions>
                         </Dialog>
                     </Grid2>

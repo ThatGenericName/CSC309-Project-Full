@@ -1,12 +1,4 @@
-import {
-    Alert,
-    Box,
-    ButtonGroup,
-    Divider,
-    Snackbar,
-    Stack,
-    Typography
-} from "@mui/material";
+import {Alert, Box, ButtonGroup, Divider, Snackbar, Stack, Typography} from "@mui/material";
 import Paper from "@mui/material/Paper";
 import React, {useContext, useRef, useState} from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -21,7 +13,7 @@ import FormData from 'form-data'
 import {BASEURL, BASEURLNOEND} from "../constants"
 
 
-export default function EditProfile(){
+export default function EditProfile() {
 
     let ctx = useContext(APIContext)
     let userData = ctx.userData.fullUserData
@@ -74,9 +66,9 @@ export default function EditProfile(){
     // Loading Thingy
     const [axiosLoading, setAxiosLoading] = useState(false)
 
-    function setError(obj){
+    function setError(obj) {
         var errorDict = errorsEmpty
-        for (const [k, v] of Object.entries(obj)){
+        for (const [k, v] of Object.entries(obj)) {
             errorDict[k] = v
         }
         setErr(errorDict)
@@ -131,7 +123,7 @@ export default function EditProfile(){
         'Confirm Password'
     ]
 
-    function form(){
+    function form() {
         return (
             <React.Fragment>
                 {fieldVars.map((fieldID, index) => {
@@ -148,16 +140,16 @@ export default function EditProfile(){
                                     value={val}
                                     onChange={e => reset2(fieldID, e.target.value)}
                                     InputLabelProps={{
-                                      shrink: true,
+                                        shrink: true,
                                     }}
                                 />
                             </Box>
                             <Box>
-                                <i style={{ color: 'red'}}>{errorsRef.current[fieldID]}</i>
+                                <i style={{color: 'red'}}>{errorsRef.current[fieldID]}</i>
                             </Box>
                         </Stack>
-                        )
-                    })
+                    )
+                })
                 }
                 <Divider/>
                 {passwordVars.map((fieldID, index) => {
@@ -175,48 +167,47 @@ export default function EditProfile(){
                                     type='password'
                                     onChange={e => reset2(fieldID, e.target.value)}
                                     InputLabelProps={{
-                                      shrink: true,
+                                        shrink: true,
                                     }}
                                 />
                             </Box>
                             <Box>
-                                <i style={{ color: 'red'}}>{errorsRef.current[fieldID]}</i>
+                                <i style={{color: 'red'}}>{errorsRef.current[fieldID]}</i>
                             </Box>
                         </Stack>
-                        )
-                    })
+                    )
+                })
                 }
             </React.Fragment>
-            )
+        )
 
     }
 
-    function validate(){
+    function validate() {
         var errors = {}
         var hasErrors = false
 
-        if (formDataRef.current.password1.length !== 0){
-            if (formDataRef.current.password1.length < 8){
+        if (formDataRef.current.password1.length !== 0) {
+            if (formDataRef.current.password1.length < 8) {
                 errors['password1'] = 'Password is too short, must be at least 8 characters'
                 hasErrors = true
             }
-            if (!(formDataRef.current.password2.length)){
-                if (formDataRef.current.password1 !== formDataRef.current.password2){
+            if (!(formDataRef.current.password2.length)) {
+                if (formDataRef.current.password1 !== formDataRef.current.password2) {
                     errors['password2'] = 'Password does not match'
                     hasErrors = true
                 }
             }
         }
 
-        if (formDataRef.current.email.length === 0){
+        if (formDataRef.current.email.length === 0) {
             errors['email'] = "This field is required"
-        }
-        else if (!isEmail(formDataRef.current.email)){
+        } else if (!isEmail(formDataRef.current.email)) {
             errors['email'] = 'Please enter a valid email'
             hasErrors = true
         }
 
-        if (formDataRef.current.phone_num.length !== 0){
+        if (formDataRef.current.phone_num.length !== 0) {
             errors['phone_num'] = 'Please enter a valid phone number'
             hasErrors = true
         }
@@ -225,12 +216,11 @@ export default function EditProfile(){
         return hasErrors
     }
 
-    function submit(){
+    function submit() {
         setAxiosLoading(true)
-        if (validate()){
+        if (validate()) {
             // display error thingy
-        }
-        else{
+        } else {
             var targetURL = BASEURL + 'accounts/edit/'
             var dat = formData
 
@@ -247,13 +237,13 @@ export default function EditProfile(){
             }
 
             axios(requestData)
-                .then(function (response){
+                .then(function (response) {
                     setAxiosLoading(false)
                     // Display thing saying changes saved
                     ctx.updateDataFlag()
                     setSnackbarOpen(true)
                 })
-                .catch(function(error){
+                .catch(function (error) {
                     var errDat = error.response.data
                     setError(errDat)
                     console.log("mission failed, we get em next time")
@@ -267,27 +257,25 @@ export default function EditProfile(){
         icon = <Avatar
             alt={'upload_preview'}
             src={imageData.previewURL}
-            sx={{ width: 128, height: 128 }}
+            sx={{width: 128, height: 128}}
         />
-    }
-    else if (userData.profile_pic === null || ctx.userData.profile_pic === "") {
+    } else if (userData.profile_pic === null || ctx.userData.profile_pic === "") {
         icon = <AccountCircleIcon
-            sx={{ width: 128, height: 128 }}
+            sx={{width: 128, height: 128}}
         />
-    }
-    else{
+    } else {
         var src = BASEURLNOEND + userData.profile_pic
         icon = <Avatar
             alt={userData.username}
             src={src}
-            sx={{ width: 128, height: 128 }}
+            sx={{width: 128, height: 128}}
         />
     }
 
     const vertical = 'bottom'
     const horizontal = 'center';
 
-    function handleFileUpload(e){
+    function handleFileUpload(e) {
         if (!e.target.files) {
             return;
         }
@@ -295,7 +283,7 @@ export default function EditProfile(){
         const file = e.target.files[0];
         reader.readAsDataURL(file)
 
-        reader.onload = function (e){
+        reader.onload = function (e) {
             var url = e.target.result
 
             var formDat = new FormData()
@@ -315,40 +303,41 @@ export default function EditProfile(){
             }
 
             axios(requestData)
-                .then(function (response){
+                .then(function (response) {
                     setImageDat({
                         image: file,
                         previewURL: url
                     })
                     ctx.updateDataFlag()
-            })
-                .catch(function(error){
+                })
+                .catch(function (error) {
                     console.log('image upload failed')
-            })
+                })
 
         }
     }
 
-    function removeImage(){
+    function removeImage() {
 
     }
 
     return (
-        <Paper elevation={3} sx={{textAlign:'center'}}>
+        <Paper elevation={3} sx={{textAlign: 'center'}}>
             <Snackbar
-                anchorOrigin={{ vertical, horizontal }}
+                anchorOrigin={{vertical, horizontal}}
                 autoHideDuration={8000}
                 open={snackbarOpen}
                 onClose={() => setSnackbarOpen(false)}
             >
-                <Alert onClose={() => setSnackbarOpen(false)} severity="success" sx={{ width: '100%' }}>
+                <Alert onClose={() => setSnackbarOpen(false)} severity="success"
+                       sx={{width: '100%'}}>
                     Success!
                 </Alert>
             </Snackbar>
 
-            <Box sx={{p:2}}>
+            <Box sx={{p: 2}}>
                 <Typography variant="h3">{userData.username}</Typography>
-                <Box style={{ justifyContent: "center", display: "flex" }}>
+                <Box style={{justifyContent: "center", display: "flex"}}>
                     {icon}
                 </Box>
                 <ButtonGroup
@@ -369,7 +358,7 @@ export default function EditProfile(){
                 </ButtonGroup>
             </Box>
             <Divider/>
-            <Stack spacing={4} sx={{p:4}}>
+            <Stack spacing={4} sx={{p: 4}}>
                 {form()}
                 <Box sx={{textAlign: 'center'}}>
                     <ButtonGroup variant="contained">

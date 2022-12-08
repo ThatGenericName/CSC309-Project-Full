@@ -9,25 +9,24 @@ import {Divider} from "@mui/material";
 import LogoutButton from "./LogoutButton";
 
 
-export default class AccountButton extends React.Component{
+export default class AccountButton extends React.Component {
     static contextType = APIContext
-        constructor(props, context){
+
+    constructor(props, context) {
         super(props, context)
 
         let userData = this.context.userData
         let displayName
-        if (userData.firstName === "" && userData.lastName === ""){
+        if (userData.firstName === "" && userData.lastName === "") {
             displayName = userData.username
-        }
-        else {
+        } else {
             displayName = userData.firstName + " " + userData.lastName
         }
 
         let icon
         if (userData.imgSrc === null || userData.imgSrc === "") {
             icon = <AccountCircleIcon/>
-        }
-        else{
+        } else {
             icon = <Avatar alt={displayName} src={userData.imgSrc}/>
         }
 
@@ -54,7 +53,7 @@ export default class AccountButton extends React.Component{
         return Boolean(this.state.anchorEl)
     }
 
-    InitialMenuItem(){
+    InitialMenuItem() {
         return (
             <MenuItem>
                 {this.state.displayIcon} {"  "}Hello {this.state.displayName}
@@ -63,14 +62,14 @@ export default class AccountButton extends React.Component{
     }
 
 
-    render(){
+    render() {
         return (
             <div>
-                <IconButton sx={{ p: 0 }}
-                    aria-controls={this.open ? 'basic-menu' : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={this.open ? 'true' : undefined}
-                    onClick={(e) => this.handleClick(e)}
+                <IconButton sx={{p: 0}}
+                            aria-controls={this.open ? 'basic-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={this.open ? 'true' : undefined}
+                            onClick={(e) => this.handleClick(e)}
                 >
                     {this.state.displayIcon}
                 </IconButton>
@@ -91,7 +90,7 @@ export default class AccountButton extends React.Component{
                     }}
                 >
                     {this.InitialMenuItem()}
-                    <Divider />
+                    <Divider/>
                     <MenuItem
                         component='a'
                         href='/account'

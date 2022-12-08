@@ -6,7 +6,7 @@ import {APIContext} from "../../APIContextProvider";
 import axios from "axios";
 
 
-export function AdminSubscriptionList(props){
+export function AdminSubscriptionList(props) {
 
     const ctx = useContext(APIContext)
 
@@ -21,7 +21,7 @@ export function AdminSubscriptionList(props){
 
     const [onSendFlag, setOnSendFlag] = useState(false)
 
-    function setCompState(obj){
+    function setCompState(obj) {
         var d = {}
         Object.keys(compState).forEach(k => {
             d[k] = compState[k]
@@ -32,14 +32,14 @@ export function AdminSubscriptionList(props){
         setComp(d)
     }
 
-    function getSubscriptions(){
+    function getSubscriptions() {
         const targetURL = BASEURL + "/subscriptions/admin/all/"
 
         var params = {
             page: compState.targetPage
         }
 
-        if (ctx.userToken === null){
+        if (ctx.userToken === null) {
             return
         }
 
@@ -55,7 +55,7 @@ export function AdminSubscriptionList(props){
             params: params
         }
 
-        axios(requestData).then(function(response){
+        axios(requestData).then(function (response) {
 
             let pages = Math.ceil(response.data['count'] / 10)
 
@@ -67,12 +67,12 @@ export function AdminSubscriptionList(props){
                 onSendFlag: false
             })
             props.onUpdate()
-        }).catch(function(error){
+        }).catch(function (error) {
             let a = 1
         })
     }
 
-    function generateSubscriptionList(items){
+    function generateSubscriptionList(items) {
         return (
             <Stack spacing={2}>
                 {items.map(item =>
@@ -85,7 +85,7 @@ export function AdminSubscriptionList(props){
         )
     }
 
-    function forceReload(){
+    function forceReload() {
         setCompState({
             respReceived: false,
             axiosLoading: true,
@@ -94,12 +94,12 @@ export function AdminSubscriptionList(props){
     }
 
 
-    if (!compState.respReceived || props.reloadFlag){
+    if (!compState.respReceived || props.reloadFlag) {
         getSubscriptions()
     }
 
     return (
-        <Paper variant='outlined' sx={{p:1}}>
+        <Paper variant='outlined' sx={{p: 1}}>
             <Box
                 style={{
                     display: 'flex',
@@ -110,7 +110,7 @@ export function AdminSubscriptionList(props){
                 <Pagination
                     count={compState.pages}
                     onChange={(e, v) => {
-                        if (v !== compState.targetPage){
+                        if (v !== compState.targetPage) {
                             setCompState({
                                 targetPage: v,
                                 respReceived: false,

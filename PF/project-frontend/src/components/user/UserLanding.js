@@ -4,15 +4,14 @@ import UserLoggedIn from "./UserLoggedIn";
 import {UserNotLoggedIn} from "./NotLoggedIn/UserNotLoggedIn";
 
 
-export function UserLanding(props){
+export function UserLanding(props) {
     const ctx = useContext(APIContext)
 
-    if (ctx.userLoggedIn){
+    if (ctx.userLoggedIn) {
         return (
             <UserLoggedIn/>
         )
-    }
-    else {
+    } else {
         return (
             <UserNotLoggedIn/>
         )

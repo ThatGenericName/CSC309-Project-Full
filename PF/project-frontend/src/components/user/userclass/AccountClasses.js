@@ -10,10 +10,10 @@ import {UpcomingClassesDashboard} from "./UpcomingClassesDashboard";
 const PAGINATION_SIZE = 10
 
 
-export default class AccountClasses extends React.Component{
+export default class AccountClasses extends React.Component {
     static contextType = APIContext
 
-    constructor(props, context){
+    constructor(props, context) {
         super(props, context)
         this.state = {
             sortData: "asc",
@@ -25,7 +25,7 @@ export default class AccountClasses extends React.Component{
         }
     }
 
-    makeRequest(inputState){
+    makeRequest(inputState) {
         const targetState = inputState === undefined ? this.state : inputState
 
         var targetURL = BASEURL + 'accounts/enrolledclasses/'
@@ -53,15 +53,15 @@ export default class AccountClasses extends React.Component{
         const comp = this
 
         axios(requestData)
-            .then( function (response) {
+            .then(function (response) {
                 comp.setState({
                     axiosLoading: false,
                     responseData: response.data,
                     makeRequest: false
                 })
             })
-            .catch(function(error){
-                if (error.response.status === 404){
+            .catch(function (error) {
+                if (error.response.status === 404) {
                     comp.setState({
                         axiosLoading: false,
                         responseData: {
@@ -72,17 +72,16 @@ export default class AccountClasses extends React.Component{
                         },
                         makeRequest: false
                     })
-                }
-                else{
+                } else {
                     comp.setState({
-                    axiosLoading: false,
-                    makeRequest: false
-                })
+                        axiosLoading: false,
+                        makeRequest: false
+                    })
                 }
             })
     }
 
-    generateList(ListData){
+    generateList(ListData) {
         return (
             <Stack spacing={2}>
                 {ListData.map(data => {
@@ -101,33 +100,31 @@ export default class AccountClasses extends React.Component{
     }
 
     componentDidMount() {
-        if (this.state.makeRequest){
+        if (this.state.makeRequest) {
             this.makeRequest()
         }
     }
 
     componentWillUpdate(nextProps, nextState, nextContext) {
-        if (nextState.makeRequest){
+        if (nextState.makeRequest) {
             this.makeRequest(nextState)
         }
     }
 
-    noResults(){
+    noResults() {
         return (
             <Alert severity="info">No results matching the filter criteria</Alert>
         )
     }
 
-    render(){
-        if (this.state.axiosLoading){
+    render() {
+        if (this.state.axiosLoading) {
             return (
-                <LinearProgress />
+                <LinearProgress/>
             )
-        }
-        else if (this.state.responseData === null){
+        } else if (this.state.responseData === null) {
             // not loaded yet
-        }
-        else{
+        } else {
             let inputData = this.state.responseData
             let inputList = inputData['results']
             let pages = Math.ceil(inputData['count'] / 10)
@@ -137,21 +134,21 @@ export default class AccountClasses extends React.Component{
                     <Box>
                         <UpcomingClassesDashboard
                             filterSetter={e => {
-                                    e.makeRequest = true
-                                    this.setState(e)
-                                }}
+                                e.makeRequest = true
+                                this.setState(e)
+                            }}
                         />
                     </Box>
-                    <Box sx={{textAlign:'center'}}>
+                    <Box sx={{textAlign: 'center'}}>
                         <FilterControls
                             filterSetter={e => {
-                                    e.makeRequest = true
-                                    this.setState(e)
-                                }}
+                                e.makeRequest = true
+                                this.setState(e)
+                            }}
                             pcount={pages}
                         />
                         <Divider/>
-                        {this.state.axiosLoading ? <LinearProgress /> : null}
+                        {this.state.axiosLoading ? <LinearProgress/> : null}
                         {inputList.length === 0 ? this.noResults() : this.generateList(inputList)}
                     </Box>
                 </Stack>

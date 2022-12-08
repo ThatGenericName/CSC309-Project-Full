@@ -23,7 +23,7 @@ const BASELINKS = [
 ]
 
 
-export function InternalServerError500(props){
+export function InternalServerError500(props) {
 
     return (
         <Box
@@ -33,7 +33,7 @@ export function InternalServerError500(props){
                 justifyContent: 'center',
                 textAlign: 'center'
             }}
-            sx={{p:2}}
+            sx={{p: 2}}
         >
             <Stack spacing={2}>
                 <Box>
@@ -44,7 +44,7 @@ export function InternalServerError500(props){
                         <Box
                             component="img"
                             sx={{
-                            height: 256,
+                                height: 256,
                             }}
                             alt="logo."
                             src="/tfc.png"
@@ -54,7 +54,7 @@ export function InternalServerError500(props){
                 <Typography variant='h3'>
                     500 Internal Server Error
                 </Typography>
-                <Paper sx={{m:3, p:2}}>
+                <Paper sx={{m: 3, p: 2}}>
                     <Stack spacing={2}>
                         <Typography variant='h5'>
                             Something happened with our end, we are working to solve it

@@ -2,10 +2,10 @@ import {Card} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 
 
-export function PaymentPreview(props){
+export function PaymentPreview(props) {
     const cardDat = props.cardData
 
-    if (cardDat === undefined){
+    if (cardDat === undefined) {
         return (
             <Card>
                 undef
@@ -24,7 +24,7 @@ export function PaymentPreview(props){
         <Card
             variant="outlined"
             justifyContent="center"
-            sx={{p:1}}
+            sx={{p: 1}}
         >
             <Grid2 container>
                 <Grid2 xs={4}>

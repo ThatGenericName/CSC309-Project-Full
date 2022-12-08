@@ -5,7 +5,7 @@ import isEqual from 'lodash.isequal';
 
 export const APIContext = createContext();
 
-export class APIContextProvider extends React.Component{
+export class APIContextProvider extends React.Component {
 
     constructor(props) {
         super(props);
@@ -29,7 +29,7 @@ export class APIContextProvider extends React.Component{
 
     setUserData = (obj) => {
         let dat = this.state.userData
-        for (const [key, value] of Object.entries(obj)){
+        for (const [key, value] of Object.entries(obj)) {
             dat[key] = value
         }
         this.setState({userData: obj})
@@ -51,7 +51,7 @@ export class APIContextProvider extends React.Component{
         this.setState({updateDataFlag: true})
     }
 
-    clearUserData(){
+    clearUserData() {
         let dat = {
             userData: {
                 fullUserData: {},
@@ -68,29 +68,27 @@ export class APIContextProvider extends React.Component{
         this.setState(dat)
     }
 
-    checkLoginState(init, newToken){
+    checkLoginState(init, newToken) {
         let token = (newToken === undefined || newToken === null) ? this.state.userToken : newToken
-        if (token === null){
+        if (token === null) {
             token = localStorage.getItem('Auth')
         }
 
-        if (token === null){
+        if (token === null) {
             //not logged in
-            if (init){
+            if (init) {
                 return null
-            }
-            else{
+            } else {
                 this.clearUserData()
             }
-        }
-        else{
+        } else {
             let a = token.replace("Token ", "")
             this.checkAuth(a, init)
         }
     }
 
 
-    checkAuth(token, init){
+    checkAuth(token, init) {
 
         let targetURL = Constants.BASEURL + 'accounts/view/'
         let tokenStr = 'Token ' + token
@@ -106,47 +104,46 @@ export class APIContextProvider extends React.Component{
         var comp = this
 
         axios(requestData)
-        .then(function (response){
-            let username = response.data['username']
-            let imgSrc = response.data['profile_pic'] === null ? null : Constants.BASEURLNOEND + response.data['profile_pic']
-            let firstName = response.data['first_name'] === null ? "" : response.data['first_name']
-            let lastName = response.data['last_name'] === null ? "" : response.data['last_name']
-            let isStaff = response.data['is_staff']
-            let fd = {
-                userData: {
-                    imgSrc: imgSrc,
-                    username: username,
-                    firstName: firstName,
-                    lastName: lastName,
-                    isStaff: isStaff,
-                    fullUserData: response.data
-                },
-                userLoggedIn: true,
-                appBarLoaded: true,
-                userToken: token
-            }
-            if (init){
-                comp.state = fd
-                comp.setState(fd)
-            }
-            else{
-                comp.setState(fd)
-            }
-        })
-        .catch(function (error){
-            comp.setState({
-                userLoggedIn:false
+            .then(function (response) {
+                let username = response.data['username']
+                let imgSrc = response.data['profile_pic'] === null ? null : Constants.BASEURLNOEND + response.data['profile_pic']
+                let firstName = response.data['first_name'] === null ? "" : response.data['first_name']
+                let lastName = response.data['last_name'] === null ? "" : response.data['last_name']
+                let isStaff = response.data['is_staff']
+                let fd = {
+                    userData: {
+                        imgSrc: imgSrc,
+                        username: username,
+                        firstName: firstName,
+                        lastName: lastName,
+                        isStaff: isStaff,
+                        fullUserData: response.data
+                    },
+                    userLoggedIn: true,
+                    appBarLoaded: true,
+                    userToken: token
+                }
+                if (init) {
+                    comp.state = fd
+                    comp.setState(fd)
+                } else {
+                    comp.setState(fd)
+                }
             })
-            localStorage.removeItem('Auth')
-        })
+            .catch(function (error) {
+                comp.setState({
+                    userLoggedIn: false
+                })
+                localStorage.removeItem('Auth')
+            })
     }
 
-    checkStateChange(nextState){
+    checkStateChange(nextState) {
         let a = isEqual(this.state, nextState)
         return !a
     }
 
-    checkLoginStateChange(nextState){
+    checkLoginStateChange(nextState) {
         return (
             nextState.updateDataFlag
             || this.state.userLoggedIn !== nextState.userLoggedIn
@@ -155,25 +152,25 @@ export class APIContextProvider extends React.Component{
     }
 
     componentWillUpdate(nextProps, nextState, nextContext) {
-        if (this.checkLoginStateChange(nextState)){
+        if (this.checkLoginStateChange(nextState)) {
             this.checkLoginState(false, nextState.userToken)
             this.setState({updateDataFlag: false})
         }
     }
 
 
-    render(){
+    render() {
         let a = 1
         return (
             <APIContext.Provider
-                value = {{
+                value={{
                     ...this.state,
                     setUserData: this.setUserData,
                     setUserLoggedIn: this.setUserLoggedIn,
                     setAppBarLoaded: this.setAppBarLoaded,
                     setUserToken: this.setUserToken,
                     updateDataFlag: this.setUpdateDataFlag
-                    }}
+                }}
             >
                 {this.props.children}
             </APIContext.Provider>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import Button from "@mui/material/Button";
 import {Box, Paper} from "@mui/material";
 
@@ -6,9 +6,11 @@ import {BASEURL} from "../constants";
 import axios from "axios";
 import {Link} from "react-router-dom";
 import StudioList from "./StudioList"
+import {APIContext} from "../APIContextProvider";
 
-export default function Studio(props){
+export default function Studio(props) {
 
+    let ctx = useContext(APIContext)
 
     const [compState, setComp] = useState({
         list: [],
@@ -19,7 +21,7 @@ export default function Studio(props){
         onSendFlag: false
     })
 
-    function setCompState(obj){
+    function setCompState(obj) {
         var d = {}
         Object.keys(compState).forEach(k => {
             d[k] = compState[k]
@@ -30,50 +32,57 @@ export default function Studio(props){
         setComp(d)
     }
 
-     const getdata =  (props) => {
-         const url = BASEURL + "studios/"
+    const getdata = (props) => {
+        const url = BASEURL + "studios/"
 
-         var params = {
+        var params = {
             page: compState.targetPage
         }
 
-
-         let requestData = {
-             url: url,
-             method: "GET",
-             headers: {
-                 'Content-Type': 'application/json'
-             },
-         }
-
-          axios(requestData).then(function (response) {
-
-              let pages = Math.ceil(response.data['count'] / 10)
+        var token = ctx.userToken
+        if (token === null) {
+            return
+        }
+        token = token.replace("Token ", "")
 
 
-              setCompState({
-                  list: response.data['results'],
-                  pages: pages,
-                  axiosLoading: false,
-                  respReceived: true,
-                  onSendFlag: false
-              })
+        let requestData = {
+            url: url,
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": "Token " + token
+            },
+        }
 
-              props.onUpdate()
-          }).catch(function (error) {
-         })
+        axios(requestData).then(function (response) {
 
-     }
+            let pages = Math.ceil(response.data['count'] / 10)
+
+
+            setCompState({
+                list: response.data['results'],
+                pages: pages,
+                axiosLoading: false,
+                respReceived: true,
+                onSendFlag: false
+            })
+
+            props.onUpdate()
+        }).catch(function (error) {
+        })
+
+    }
 
 
     // getdata(props.props)
     var listItems = []
 
-    if(compState.data)
+    if (compState.data)
         listItems = compState.data["results"]
 
 
-    function forceReload(){
+    function forceReload() {
         setCompState({
             respReceived: false,
             axiosLoading: true,
@@ -81,12 +90,12 @@ export default function Studio(props){
         })
     }
 
-    if (!compState.respReceived || props.reloadFlag){
+    if (!compState.respReceived || props.reloadFlag) {
         getdata()
     }
 
 
-    if(compState.respReceived){
+    if (compState.respReceived) {
 
         return (
             <Box>
@@ -94,14 +103,16 @@ export default function Studio(props){
                 <br/>
                 <div>
                     <Box textAlign='center'>
-                        <Button variant='contained' component={Link} to={{pathname:
-                            `/studio/create/`}}>
-                          Add Studio
+                        <Button variant='contained' component={Link} to={{
+                            pathname:
+                                `/studio/create/`
+                        }}>
+                            Add Studio
                         </Button>
                     </Box>
                 </div>
                 <br/>
-                <Paper sx={{p:2, mx:2}}>
+                <Paper sx={{p: 2, mx: 2}}>
                     <StudioList items={listItems} onSend={forceReload}/>
                 </Paper>
             </Box>

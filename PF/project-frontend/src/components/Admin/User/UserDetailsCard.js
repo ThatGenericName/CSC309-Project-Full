@@ -10,48 +10,46 @@ import {BASEURL, BASEURLNOEND} from "../../constants";
 import {APIContext} from "../../APIContextProvider";
 
 
-export function UserDetailsCard(props){
+export function UserDetailsCard(props) {
     const data = props.data
     const ctx = useContext(APIContext)
 
-    function UserIcon(){
+    function UserIcon() {
         let icon
         if (data['profile_pic'] === null || data['profile_pic'] === "") {
             icon = <AccountCircleIcon
-                sx={{ width: 64, height: 64 }}
+                sx={{width: 64, height: 64}}
             />
-        }
-        else{
+        } else {
             const src = BASEURLNOEND + data['profile_pic']
             icon = <Avatar
                 alt={data['profile_pic']}
                 src={src}
-                sx={{ width: 64, height: 64 }}
+                sx={{width: 64, height: 64}}
             />
         }
 
         return (
             <Box
-                style={{ justifyContent: "center", display: "flex" }}
+                style={{justifyContent: "center", display: "flex"}}
             >
                 {icon}
             </Box>
         )
     }
 
-    function sendRequest(setCoach){
+    function sendRequest(setCoach) {
         const subUrl = setCoach ? 'setcoach/' : 'setadmin/'
         const targetURL = BASEURL + "accounts/" + subUrl + data['id'] + '/'
-        if (ctx.userToken === null){
+        if (ctx.userToken === null) {
             return
         }
         const token = "Token " + ctx.userToken.replace("Token ")
 
         var targetMethod
-        if (setCoach){
+        if (setCoach) {
             targetMethod = data['is_coach'] ? 'DELETE' : 'GET'
-        }
-        else{
+        } else {
             targetMethod = data['is_staff'] ? 'DELETE' : 'GET'
         }
 
@@ -64,11 +62,11 @@ export function UserDetailsCard(props){
             }
         }
 
-        axios(reqDat).then(function(response){
-            if (props.onSend !== undefined){
+        axios(reqDat).then(function (response) {
+            if (props.onSend !== undefined) {
                 props.onSend()
             }
-        }).catch(function(error){
+        }).catch(function (error) {
             let a = 1
         })
     }
@@ -80,10 +78,10 @@ export function UserDetailsCard(props){
                 alignContent: 'center',
                 textAlign: 'center',
                 justifyItems: 'center',
-                width: "100%" ,
+                width: "100%",
             }}
         >
-            <Paper sx={{p:2}}>
+            <Paper sx={{p: 2}}>
                 <Grid2 container spacing={1}>
                     <Grid2 xs={3}>
                         <Stack spacing={2}>
@@ -108,7 +106,7 @@ export function UserDetailsCard(props){
                     <Grid2 xs={1}/>
                     <Grid2 xs={3}>
                         <Stack spacing={2}>
-                            <Chip label={"ID: "+data['id']}/>
+                            <Chip label={"ID: " + data['id']}/>
                             <Button
                                 variant='outlined'
                                 onClick={() => sendRequest(false)}

@@ -9,7 +9,7 @@ import {PaymentPreview} from "../PaymentPreview";
 import UnsubscribeButton from "./UnsubscribeButton";
 
 
-export function AccountSubscriptionPreview(props){
+export function AccountSubscriptionPreview(props) {
     var subscriptionData = props.subData
     var startTime = Date.parse(subscriptionData['start_time'])
     var endTime = Date.parse(subscriptionData['end_time'])
@@ -22,17 +22,16 @@ export function AccountSubscriptionPreview(props){
     var nowObj = getTimeObj(now)
 
     let paymentTimeCard
-    if (subscriptionData['payment_time'] !== null){
+    if (subscriptionData['payment_time'] !== null) {
         var paymentTime = Date.parse(subscriptionData['payment_time'])
         var paymentTimeObj = getTimeObj(paymentTime)
         paymentTimeCard = <SimpleTimeCard timeObj={paymentTimeObj}/>
-    }
-    else{
+    } else {
         paymentTimeCard = (
             <Card
                 variant="outlined"
                 justifyContent="center"
-                sx={{p:1}}>
+                sx={{p: 1}}>
                 <Box>
                     Unpaid
                 </Box>
@@ -42,29 +41,26 @@ export function AccountSubscriptionPreview(props){
 
     var statusSlot
 
-    if (now < startTime){
+    if (now < startTime) {
         statusSlot = <UnsubscribeButton
             subID={props.subData['id']}
             filterSetter={props.filterSetter}
         />
-    }
-    else{
+    } else {
         if (now > endTime) {
             statusSlot = (
-                <Paper sx={{ p: 1 }} variant="outlined">
+                <Paper sx={{p: 1}} variant="outlined">
                     Subscription Over
                 </Paper>
             )
-        }
-        else{
+        } else {
             statusSlot = (
-                <Paper sx={{ p: 1 }} variant="outlined">
+                <Paper sx={{p: 1}} variant="outlined">
                     Subscription Active
                 </Paper>
             )
         }
     }
-
 
 
     return (
@@ -78,7 +74,7 @@ export function AccountSubscriptionPreview(props){
                 justifyContent='center'
             >
                 <Grid2 xs={14}>
-                    <Box sx={{ fontWeight: 'bold', fontSize: 24}}>
+                    <Box sx={{fontWeight: 'bold', fontSize: 24}}>
                         {subscriptionData['subscription']['name']}
                     </Box>
                 </Grid2>

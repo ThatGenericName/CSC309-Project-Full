@@ -1,16 +1,7 @@
 import react from "react";
 import React from "react";
 import {APIContext} from "../../APIContextProvider";
-import {
-    Alert,
-    AlertTitle,
-    Box,
-    Button,
-    Paper,
-    Snackbar,
-    Stack,
-    Typography
-} from "@mui/material";
+import {Alert, AlertTitle, Box, Button, Paper, Snackbar, Stack, Typography} from "@mui/material";
 import TextField from "@mui/material/TextField";
 
 
@@ -34,8 +25,9 @@ const PARAM_TO_NAME = {
     phone_num: 'Phone Number'
 }
 
-export class Register extends react.Component{
+export class Register extends react.Component {
     static contextType = APIContext
+
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -62,13 +54,13 @@ export class Register extends react.Component{
         }
     }
 
-    setFormDataStr(key, value){
+    setFormDataStr(key, value) {
         var dat = {}
         dat[key] = value
         this.setFormData(dat)
     }
 
-    setFormData(obj){
+    setFormData(obj) {
         var clone = ObjectDeepClone(this.state.inputData)
         Object.keys(obj).forEach(k => {
             clone[k] = obj[k]
@@ -76,7 +68,7 @@ export class Register extends react.Component{
         this.setState({inputData: clone})
     }
 
-    setErrorData(obj){
+    setErrorData(obj) {
         var clone = ObjectDeepClone(this.state.errors)
         Object.keys(obj).forEach(k => {
             clone[k] = obj[k]
@@ -84,37 +76,37 @@ export class Register extends react.Component{
         this.setState({errors: clone})
     }
 
-    ValidateData(){
+    ValidateData() {
         let data = this.state.inputData
         let errors = this.state.errors
         let hasErrors = false
-        for (let [key, value] of Object.entries(data)){
+        for (let [key, value] of Object.entries(data)) {
 
-            if (!(value.length) && REQUIRED_PARAMS.includes(key)){
+            if (!(value.length) && REQUIRED_PARAMS.includes(key)) {
                 errors[key] = "This Field is required"
                 hasErrors = true
             }
         }
 
-        if (!(errors.username.length)){
+        if (!(errors.username.length)) {
             // nothing for now?
         }
 
-        if (!(errors.password1.length)){
-            if (data.password1.length < 8){
+        if (!(errors.password1.length)) {
+            if (data.password1.length < 8) {
                 errors['password1'] = 'Password is too short, must be at least 8 characters'
                 hasErrors = true
             }
-            if (!(errors.password2.length)){
-                if (data.password1 !== data.password2){
+            if (!(errors.password2.length)) {
+                if (data.password1 !== data.password2) {
                     errors['password2'] = 'Password does not match'
                     hasErrors = true
                 }
             }
         }
 
-        if (!(errors.email.length)){
-            if (!isEmail(data.email)){
+        if (!(errors.email.length)) {
+            if (!isEmail(data.email)) {
                 errors['email'] = 'Please enter a valid email'
                 hasErrors = true
             }
@@ -124,9 +116,9 @@ export class Register extends react.Component{
         return hasErrors
     }
 
-    sendData(comp){
+    sendData(comp) {
         const e = comp.ValidateData()
-        if (e){
+        if (e) {
             // make it show errors
             return
         }
@@ -144,30 +136,29 @@ export class Register extends react.Component{
             headers: {
                 'Content-Type': 'multipart/form-data'
             },
-            data:formDat
+            data: formDat
         }
-        axios(requestData).then(function (response){
+        axios(requestData).then(function (response) {
             // Make it show a success or smtg
             comp.setState({snackbarOpen: true})
-            if (comp.props.onSend !== undefined){
+            if (comp.props.onSend !== undefined) {
                 comp.props.onSend()
             }
-        }).catch(function (error){
+        }).catch(function (error) {
             let a = 1
         })
     }
 
-    ShowGeneralMessage(){
-        if (this.state.reqSent){
-            if (!this.state.reqSucc){
+    ShowGeneralMessage() {
+        if (this.state.reqSent) {
+            if (!this.state.reqSucc) {
                 return (
                     <Alert severity="error">
                         <AlertTitle>Account or Password does not match</AlertTitle>
                     </Alert>
                 )
             }
-        }
-        else if (this.state.hasErrors) {
+        } else if (this.state.hasErrors) {
             return (
                 <Alert severity="error">
                     <AlertTitle>Please resolve errors</AlertTitle>
@@ -183,23 +174,23 @@ export class Register extends react.Component{
 
         return (
             <Paper
-                sx={{p:2}}
+                sx={{p: 2}}
                 variant='outlined'
             >
                 <Snackbar
-                    anchorOrigin={{ vertical, horizontal }}
+                    anchorOrigin={{vertical, horizontal}}
                     autoHideDuration={8000}
                     open={this.state.snackbarOpen}
-                    onClose={function(){
+                    onClose={function () {
                         this.setState({snackbarOpen: false})
                     }}
                 >
                     <Alert
-                        onClose={function(){
+                        onClose={function () {
                             this.setState({snackbarOpen: false})
                         }}
                         severity="success"
-                        sx={{ width: '100%' }}>
+                        sx={{width: '100%'}}>
                         Success, Please Log In
                     </Alert>
                 </Snackbar>
@@ -220,7 +211,7 @@ export class Register extends react.Component{
                             value={this.state.inputData.username}
                             onChange={e => this.setFormData({username: e.target.value})}
                         />
-                        <i style={{ color: 'red' }}>{this.state.errors.username}</i>
+                        <i style={{color: 'red'}}>{this.state.errors.username}</i>
                     </Stack>
                     <Stack>
                         <TextField
@@ -232,7 +223,7 @@ export class Register extends react.Component{
                             value={this.state.inputData.password1}
                             onChange={e => this.setFormData({password1: e.target.value})}
                         />
-                        <i style={{ color: 'red' }}>{this.state.errors.password1}</i>
+                        <i style={{color: 'red'}}>{this.state.errors.password1}</i>
                     </Stack>
                     <Stack>
                         <TextField
@@ -244,7 +235,7 @@ export class Register extends react.Component{
                             value={this.state.inputData.password2}
                             onChange={e => this.setFormData({password2: e.target.value})}
                         />
-                        <i style={{ color: 'red' }}>{this.state.errors.password2}</i>
+                        <i style={{color: 'red'}}>{this.state.errors.password2}</i>
                     </Stack>
                     <Stack>
                         <TextField
@@ -255,7 +246,7 @@ export class Register extends react.Component{
                             value={this.state.inputData.first_name}
                             onChange={e => this.setFormData({first_name: e.target.value})}
                         />
-                        <i style={{ color: 'red' }}>{this.state.errors.first_name}</i>
+                        <i style={{color: 'red'}}>{this.state.errors.first_name}</i>
                     </Stack>
                     <Stack>
                         <TextField
@@ -266,7 +257,7 @@ export class Register extends react.Component{
                             value={this.state.inputData.last_name}
                             onChange={e => this.setFormData({last_name: e.target.value})}
                         />
-                        <i style={{ color: 'red' }}>{this.state.errors.last_name}</i>
+                        <i style={{color: 'red'}}>{this.state.errors.last_name}</i>
                     </Stack>
                     <Stack>
                         <TextField
@@ -277,7 +268,7 @@ export class Register extends react.Component{
                             value={this.state.inputData.email}
                             onChange={e => this.setFormData({email: e.target.value})}
                         />
-                        <i style={{ color: 'red' }}>{this.state.errors.email}</i>
+                        <i style={{color: 'red'}}>{this.state.errors.email}</i>
                     </Stack>
                     <Stack>
                         <TextField
@@ -287,7 +278,7 @@ export class Register extends react.Component{
                             value={this.state.inputData.phone_num}
                             onChange={e => this.setFormData({phone_num: e.target.value})}
                         />
-                        <i style={{ color: 'red' }}>{this.state.errors.phone_num}</i>
+                        <i style={{color: 'red'}}>{this.state.errors.phone_num}</i>
                     </Stack>
                     <Box>
                         <Button

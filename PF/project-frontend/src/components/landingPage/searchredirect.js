@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import {Link} from "react-router-dom";
 
 
-export class Searchredirect extends react.Component{
+export class Searchredirect extends react.Component {
 
     constructor(props, context) {
         super(props, context);
@@ -15,8 +15,7 @@ export class Searchredirect extends react.Component{
     }
 
 
-
-    render(){
+    render() {
 
         let targetLink = '/studios/?zip=' + this.state.zipcode
 

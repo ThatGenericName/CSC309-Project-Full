@@ -2,20 +2,20 @@ import {PaymentPreview} from "../PaymentPreview";
 import {Box, Card, Stack} from "@mui/material";
 
 
-export function AccountPaymentPreview(props){
+export function AccountPaymentPreview(props) {
     const data = props.data
 
-    if (data === null){
+    if (data === null) {
         return (
             <Box
                 style={{
-                    width:"100%",
-                    height:"25%",
-                    textAlign:'center'
+                    width: "100%",
+                    height: "25%",
+                    textAlign: 'center'
                 }}
             >
                 <Card
-                    sx={{p:3}}
+                    sx={{p: 3}}
 
                 >
                     You do not have a payment method set

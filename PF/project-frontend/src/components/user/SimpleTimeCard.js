@@ -8,7 +8,7 @@ export default function SimpleTimeCard(props) {
         <Card
             variant="outlined"
             justifyContent="center"
-            sx={{p:1}}>
+            sx={{p: 1}}>
             <Stack spacing={1}>
                 <Box>
                     {timeObj.day}, {timeObj.month} {timeObj.date}

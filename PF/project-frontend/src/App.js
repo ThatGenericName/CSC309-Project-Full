@@ -71,7 +71,8 @@ class App extends React.Component{
                                     <Route path="subscriptions/*" element={<Subscription />} />
                                     <Route path='studio/*' element={<StudiosLanding/>} />
                                     <Route path="admin/*" element={<AdminLandingPage />} />
-                                    <Route path="test/*" element={<ScheduleSearch />} />
+                                    <Route path="schedules/*" element={<ScheduleSearch />} />
+
 
 
 
@@ -79,7 +80,6 @@ class App extends React.Component{
 
 
                                     <Route path="admin/*" element={<AdminLandingPage />} />
-                                    {/*<Route path='studios/*' element={<StudiosLanding/>} />*/}
                                     <Route path='testbed/' element={<StudiosLanding/>} />
                                     <Route path='studios/*' element={<StudiosLanding/>} />
                                     <Route path='testbed/*' element={<StudiosLanding/>} />

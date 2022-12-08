@@ -23,10 +23,10 @@ const BASELINKS = [
 ]
 
 
-export function Unauthorized401(props){
+export function Unauthorized401(props) {
 
-    function suggestion(){
-        if (props.suggestions === undefined || props.suggestions === null){
+    function suggestion() {
+        if (props.suggestions === undefined || props.suggestions === null) {
             return (
                 <Stack spacing={2}>
                     <Typography variant='h5'>
@@ -46,8 +46,7 @@ export function Unauthorized401(props){
                     )}
                 </Stack>
             )
-        }
-        else{
+        } else {
             return (
                 <Stack spacing={2}>
                     <Typography variant='h5'>
@@ -85,7 +84,7 @@ export function Unauthorized401(props){
                 justifyContent: 'center',
                 textAlign: 'center'
             }}
-            sx={{p:2}}
+            sx={{p: 2}}
         >
             <Stack spacing={2}>
                 <Box>
@@ -96,7 +95,7 @@ export function Unauthorized401(props){
                         <Box
                             component="img"
                             sx={{
-                            height: 256,
+                                height: 256,
                             }}
                             alt="logo."
                             src="/tfc.png"
@@ -106,7 +105,7 @@ export function Unauthorized401(props){
                 <Typography variant='h3'>
                     400 Unauthorized
                 </Typography>
-                <Paper sx={{m:3, p:2}}>
+                <Paper sx={{m: 3, p: 2}}>
                     {suggestion()}
                 </Paper>
             </Stack>

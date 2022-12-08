@@ -2,12 +2,10 @@ import React from 'react';
 import {Box} from "@mui/material";
 
 
-class InitElements extends React.Component{
-    constructor(props){
+class InitElements extends React.Component {
+    constructor(props) {
         super(props)
-        this.state = {
-
-        }
+        this.state = {}
     }
 
     render() {

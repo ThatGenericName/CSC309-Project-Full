@@ -6,17 +6,17 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import {Link} from "react-router-dom";
 import {Searchredirect} from "./searchredirect";
 
-export default class Landing extends React.Component{
+export default class Landing extends React.Component {
 
-    render(){
+    render() {
         return (
             <Box>
                 <Box
                     sx={{
                         backgroundImage: `url(${Image})`,
                         "background-position": 'center',
-                        p:3,
-                        py:15
+                        p: 3,
+                        py: 15
                     }}
                     style={{
                         alignItems: 'right',
@@ -35,7 +35,7 @@ export default class Landing extends React.Component{
                 </Box>
                 <Box
                     sx={{
-                        p:2,
+                        p: 2,
                         height: "5vh"
                     }}
                     style={{
@@ -53,8 +53,8 @@ export default class Landing extends React.Component{
                 <Stack>
                     <Paper
                         sx={{
-                            p:2,
-                            m:2
+                            p: 2,
+                            m: 2
                         }}
                         style={{
                             alignItems: 'right',

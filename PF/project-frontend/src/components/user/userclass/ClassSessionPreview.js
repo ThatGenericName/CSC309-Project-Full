@@ -9,7 +9,7 @@ import {getTimeObj} from "../TimeObject";
 import DropClassButton from "./DropClassButton";
 
 
-export function ClassSessionPreview(props){
+export function ClassSessionPreview(props) {
     var classData = props.classData['class_session']
     var startTime = Date.parse(classData['start_time'])
     var endTime = Date.parse(classData['end_time'])
@@ -33,15 +33,15 @@ export function ClassSessionPreview(props){
                 justifyContent='center'
             >
                 <Grid2 xs={5}>
-                    <Box sx={{ fontWeight: 'bold', fontSize: 24}}>
+                    <Box sx={{fontWeight: 'bold', fontSize: 24}}>
                         {classData['parent_class']['name']}
                     </Box>
                 </Grid2>
                 <Grid2 xs={3}>
-                    {props.classData['dropped'] && <Chip label="Dropped" />}
+                    {props.classData['dropped'] && <Chip label="Dropped"/>}
                 </Grid2>
                 <Grid2 xs={4}>
-                    {props.classData['financial_hold'] && <Chip label="Financial Held" />}
+                    {props.classData['financial_hold'] && <Chip label="Financial Held"/>}
                 </Grid2>
                 <Grid2 xs={10}>
                     <DropClassButton

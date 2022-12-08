@@ -20,11 +20,11 @@ import * as Constants from "../constants"
 import {useParams} from "react-router-dom";
 
 
-export default function EditGymClassSchedule(){
+export default function EditGymClassSchedule() {
 
     let ctx = useContext(APIContext)
 
-    const { id,id_2 } = useParams()
+    const {id, id_2} = useParams()
 
     const url = Constants.BASEURL + "classes/schedule/" + id_2 + "/edit/"
 
@@ -86,9 +86,9 @@ export default function EditGymClassSchedule(){
     // Loading Thingy
     const [axiosLoading, setAxiosLoading] = useState(false)
 
-    function setError(obj){
+    function setError(obj) {
         var errorDict = errorsEmpty
-        for (const [k, v] of Object.entries(obj)){
+        for (const [k, v] of Object.entries(obj)) {
             errorDict[k] = v
         }
         setErr(errorDict)
@@ -132,16 +132,16 @@ export default function EditGymClassSchedule(){
         setFormDat(origDat)
     }
 
-    function ShowGeneralMessage(){
-        var flag =0
+    function ShowGeneralMessage() {
+        var flag = 0
 
-        for (const [k, v] of Object.entries(errors)){
-            if(v){
+        for (const [k, v] of Object.entries(errors)) {
+            if (v) {
                 flag = 1
             }
         }
 
-        if (reqSent && flag === 1 && !reqSucess){
+        if (reqSent && flag === 1 && !reqSucess) {
             return (
                 <Alert severity="error">
                     <AlertTitle>Please resolve errors</AlertTitle>
@@ -170,89 +170,89 @@ export default function EditGymClassSchedule(){
         'Cancel'
     ]
 
-    function form(){
+    function form() {
         return (
             <React.Fragment>
                 {fieldVars.map((fieldID, index) => {
                     var err = Boolean(errorsRef.current[fieldID].length);
                     const label = fieldNames[index]
                     var val = formDataRef.current[fieldID]
-                    if(fieldID !== 'is_cancelled'){
+                    if (fieldID !== 'is_cancelled') {
                         return (
-                        <Stack spacing={0} key={fieldID} >
-                            <Box>
-                                <TextField
-                                    error={err}
-                                    label={label}
-                                    id={fieldID}
-                                    value={val}
-                                    onChange={e => reset2(fieldID, e.target.value)}
-                                    InputLabelProps={{
-                                      shrink: true,
-                                    }}
-                                />
-                            </Box>
-                            <Box>
-                                <i style={{ color: 'red'}}>{errorsRef.current[fieldID]}</i>
-                            </Box>
-                        </Stack>
+                            <Stack spacing={0} key={fieldID}>
+                                <Box>
+                                    <TextField
+                                        error={err}
+                                        label={label}
+                                        id={fieldID}
+                                        value={val}
+                                        onChange={e => reset2(fieldID, e.target.value)}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    />
+                                </Box>
+                                <Box>
+                                    <i style={{color: 'red'}}>{errorsRef.current[fieldID]}</i>
+                                </Box>
+                            </Stack>
                         )
-                    }
-                    else{
+                    } else {
                         return (
-                        <Stack spacing={0} key={fieldID} >
-                            <Box>
-                                {/*<div>*/}
+                            <Stack spacing={0} key={fieldID}>
+                                <Box>
+                                    {/*<div>*/}
                                     <label> Cancel: </label>
                                     <Checkbox
-                                    // error={err}
-                                    id={fieldID}
-                                    onChange={e => reset2(fieldID, e.target.checked)}
-                                     />
-                            </Box>
-                            <Box>
-                                <i style={{ color: 'red'}}>{errorsRef.current[fieldID]}</i>
-                            </Box>
-                        </Stack>
+                                        // error={err}
+                                        id={fieldID}
+                                        onChange={e => reset2(fieldID, e.target.checked)}
+                                    />
+                                </Box>
+                                <Box>
+                                    <i style={{color: 'red'}}>{errorsRef.current[fieldID]}</i>
+                                </Box>
+                            </Stack>
                         )
                     }
-                    })
+                })
                 }
 
             </React.Fragment>
-            )
+        )
 
     }
+
     function isNumeric(str) {
-      if (typeof str != "string") return false // we only process strings!
-      return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
-             !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+        if (typeof str != "string") return false // we only process strings!
+        return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+            !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
     }
 
-    function validate(){
+    function validate() {
         var d_reg = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
         var time_reg = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
         var flag = false
 
-        if (formData.date && !d_reg.test(formData.date)){
+        if (formData.date && !d_reg.test(formData.date)) {
             errors["date"] = "Wrong Date Format"
             flag = true
         }
 
-        if(formData.enrollment_capacity && !isNumeric(formData.enrollment_capacity)){
+        if (formData.enrollment_capacity && !isNumeric(formData.enrollment_capacity)) {
             errors["enrollment_capacity"] = "Integer Expected"
             flag = true
         }
-        if(formData.enrollment_count && !isNumeric(formData.enrollment_count)){
+        if (formData.enrollment_count && !isNumeric(formData.enrollment_count)) {
             errors["enrollment_count"] = "Integer Expected"
             flag = true
         }
 
-        if(formData.start_time && !time_reg.test(formData.start_time)){
-                errors["start_time"] = "Wrong Start Time Format"
+        if (formData.start_time && !time_reg.test(formData.start_time)) {
+            errors["start_time"] = "Wrong Start Time Format"
             flag = true
         }
-        if(formData.end_time && !time_reg.test(formData.end_time)){
+        if (formData.end_time && !time_reg.test(formData.end_time)) {
             errors["end_time"] = "Wrong End Time Format"
             flag = true
         }
@@ -265,22 +265,22 @@ export default function EditGymClassSchedule(){
         // validate()
         // // return
 
-        if(validate()){
+        if (validate()) {
             console.log("error")
-        }
-        else{
+        } else {
             var targetURL = url
             var dat = formData
 
 
-            // var token = ctx.userToken
-            // token = token.replace("Token ")
+            var token = ctx.userToken
+            token = token.replace("Token ", "")
+
             var requestData = {
                 url: targetURL,
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
-                    // Authorization: "Token " + token
+                    "Authorization": "Token " + token
                 },
                 data: dat
             }
@@ -301,31 +301,31 @@ export default function EditGymClassSchedule(){
     }
 
 
-
     const vertical = 'bottom'
     const horizontal = 'center';
 
 
     return (
-        <Paper elevation={3} sx={{textAlign:'center'}}>
+        <Paper elevation={3} sx={{textAlign: 'center'}}>
             <Snackbar
-                anchorOrigin={{ vertical, horizontal }}
+                anchorOrigin={{vertical, horizontal}}
                 autoHideDuration={8000}
                 open={snackbarOpen}
                 onClose={() => setSnackbarOpen(false)}
             >
-                <Alert onClose={() => setSnackbarOpen(false)} severity="success" sx={{ width: '100%' }}>
+                <Alert onClose={() => setSnackbarOpen(false)} severity="success"
+                       sx={{width: '100%'}}>
                     Success!
                 </Alert>
             </Snackbar>
 
-            <Box sx={{p:2}}>
+            <Box sx={{p: 2}}>
                 <Typography variant="h3">Edit GymClassSchedule</Typography>
             </Box>
             <Divider/>
             {reqSent && ShowGeneralMessage()}
 
-            <Stack spacing={4} sx={{p:4}}>
+            <Stack spacing={4} sx={{p: 4}}>
                 {form()}
                 <Box sx={{textAlign: 'center'}}>
                     <ButtonGroup variant="contained">

@@ -6,7 +6,7 @@ import {Box, Pagination, Paper, Stack} from "@mui/material";
 import {UserDetailsCard} from "./UserDetailsCard";
 
 
-export class UserList extends react.Component{
+export class UserList extends react.Component {
 
     static contextType = APIContext
 
@@ -22,16 +22,16 @@ export class UserList extends react.Component{
         }
     }
 
-    forceRender(comp){
+    forceRender(comp) {
         comp.setState({respReceived: false})
-        if (comp.props.onSend !== undefined){
+        if (comp.props.onSend !== undefined) {
             comp.props.onSend()
         }
     }
 
-    getData(){
+    getData() {
         const targetURL = BASEURL + "accounts/admin/allusers/"
-        if (this.context.userToken === null){
+        if (this.context.userToken === null) {
             return
         }
         const token = "Token " + this.context.userToken.replace("Token ")
@@ -51,26 +51,26 @@ export class UserList extends react.Component{
 
         const comp = this
 
-        axios(reqDat).then(function(response){
+        axios(reqDat).then(function (response) {
             comp.setState({
                 data: response.data['results'],
                 pages: Math.ceil(response.data['count'] / 10),
                 axiosLoading: false,
                 respReceived: true
             })
-        }).catch(function(error){
+        }).catch(function (error) {
             let a = 1
         })
     }
 
-    generateList(){
+    generateList() {
 
         return (
             <Stack spacing={3}>
                 {this.state.data.map(item =>
                     <UserDetailsCard
                         data={item}
-                        key={"user_"+item['id']}
+                        key={"user_" + item['id']}
                         onSend={() => this.forceRender(this)}
                     />
                 )}
@@ -78,14 +78,14 @@ export class UserList extends react.Component{
         )
     }
 
-    render(){
-        if (!this.state.respReceived){
+    render() {
+        if (!this.state.respReceived) {
             this.getData()
         }
         const comp = this
         return (
             <Box>
-                <Paper sx={{p:3}}>
+                <Paper sx={{p: 3}}>
                     <Box
                         style={{
                             display: 'flex',
@@ -96,7 +96,7 @@ export class UserList extends react.Component{
                         <Pagination
                             count={this.state.pages}
                             onChange={(e, v) => {
-                                if (v !== comp.state.targetPage){
+                                if (v !== comp.state.targetPage) {
                                     comp.setState({
                                         targetPage: v,
                                         axiosLoading: true,
