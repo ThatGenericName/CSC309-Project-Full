@@ -79,13 +79,15 @@ export function EnrollUserInClassButton(props) {
     return (
         <>
             <Tooltip title={tt}>
-                <Button
-                    variant='contained'
-                    onClick={onClick}
-                    disabled={disabled}
-                >
-                    Enroll In Class
-                </Button>
+                <Box>
+                    <Button
+                        variant='contained'
+                        onClick={onClick}
+                        disabled={disabled}
+                    >
+                        Enroll In Class
+                    </Button>
+                </Box>
             </Tooltip>
 
             <Dialog

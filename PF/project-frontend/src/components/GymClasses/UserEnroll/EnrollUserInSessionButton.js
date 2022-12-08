@@ -79,13 +79,15 @@ export function EnrollUserInSession(props) {
     return (
         <>
             <Tooltip title={tt}>
-                <Button
-                    variant='contained'
-                    onClick={onClick}
-                    disabled={disabled}
-                >
-                    Enroll In Session
-                </Button>
+                <Box>
+                    <Button
+                        variant='contained'
+                        onClick={onClick}
+                        disabled={disabled}
+                    >
+                        Enroll In Session
+                    </Button>
+                </Box>
             </Tooltip>
 
             <Dialog
