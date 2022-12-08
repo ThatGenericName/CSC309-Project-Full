@@ -1,34 +1,41 @@
-import {Box, Card, Stack} from "@mui/material";
+import {Box, Card, Paper, Stack, Typography} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import React from "react";
+import {Link} from "react-router-dom";
 
 
 
 export function StudioPreview(props){
     const studioData = props.studioData
-
+    var studioLink = "/studios/" + studioData.id + "/view/"
+    var name = studioData.name
+    var address = studioData.address
+    var postcode = studioData.post_code
+    var maxHeight = props.maxHeight === undefined ? '5em' : props.maxHeight
     return (
-    <Card
-        style={{height: '5em'}}
+    <Paper
+        style={{maxHeight: maxHeight}}
         variant="outlined"
         sx={{ p: 1 }}
-        alignItems="center"
-        component={Stack}
-        direction="column"
-        justifyContent="center"
     >
-        <Box>
-            <Box sx={{ fontWeight: 'bold', fontSize: 20}}>
-                {studioData["name"]}
-            </Box>
-            <Box>
-                {studioData['address']}
-            </Box>
-            <Box>
-                {studioData['post_code']}
-            </Box>
+        <Box
+            component={Link}
+            to={studioLink}
+        >
+            <Stack
+                direction="column"
+            >
+                <Box sx={{ fontWeight: 'bold', fontSize: 20}}>
+                    {name}
+                </Box>
+                <Typography>
+                    {address}
+                </Typography>
+                <Typography>
+                    {postcode}
+                </Typography>
+            </Stack>
         </Box>
-
-    </Card>
+    </Paper>
     )
 }

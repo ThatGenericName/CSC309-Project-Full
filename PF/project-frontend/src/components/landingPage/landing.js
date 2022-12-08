@@ -6,6 +6,7 @@ import {Box, Button, Paper, Stack, Typography} from "@mui/material";
 import Image from "./LandingBanner2.png"
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {Link} from "react-router-dom";
+import {Searchredirect} from "./searchredirect";
 
 export default class Landing extends React.Component{
 
@@ -94,6 +95,7 @@ export default class Landing extends React.Component{
                                     Memberships
                                 </Button>
                             </Grid2>
+                            <Searchredirect/>
                         </Grid2>
                     </Paper>
                 </Stack>

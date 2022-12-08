@@ -110,7 +110,8 @@ export default class AccountClasses extends React.Component{
                             filterSetter={e => {
                                 e.makeRequest = true
                                 this.setState(e)
-                            }}/>
+                            }}
+                        />
                     )
                 })}
             </Stack>
