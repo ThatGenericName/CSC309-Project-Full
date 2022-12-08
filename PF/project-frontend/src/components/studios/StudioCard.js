@@ -87,17 +87,22 @@ export function StudioCard(props){
                     </Stack>
                 </Grid2>
                 <CardActions>
-                    <Box>
-                        <Button variant='contained' component={Link} to={{pathname:
-                            `/studios/${props.data.id}/edit/`}}>
-                          Edit
-                        </Button>
+                    {props.admin && <React.Fragment>
+                        <Box>
+                            <Button variant='contained' component={Link} to={{pathname:
+                                `/studios/${props.data.id}/edit/`}}>
+                              Edit
+                            </Button>
                     </Box>
-                    <Box>
-                        <Button variant='contained' onClick={DeleteStudio}>
-                          Delete
-                        </Button>
-                    </Box>
+                        <Box>
+                            <Button variant='contained' onClick={DeleteStudio}>
+                              Delete
+                            </Button>
+                        </Box>
+                    </React.Fragment>
+                    }
+
+
                     <Box>
                         <Button variant='contained' component={Link} to={{pathname:
                             `/studios/${props.data.id}/amenities/`}}>
