@@ -301,7 +301,7 @@ export default function EditStudio() {
     }
 
 
-    const vertical = 'bottom'
+    const vertical = 'top'
     const horizontal = 'center';
 
 

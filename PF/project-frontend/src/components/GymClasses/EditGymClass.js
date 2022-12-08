@@ -324,7 +324,7 @@ export default function EditGymClassSchedule() {
     }
 
 
-    const vertical = 'bottom'
+    const vertical = 'top'
     const horizontal = 'center';
 
 

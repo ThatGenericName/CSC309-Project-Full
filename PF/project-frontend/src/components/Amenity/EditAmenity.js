@@ -235,7 +235,7 @@ export default function EditAmenity(props) {
     }
 
 
-    const vertical = 'bottom'
+    const vertical = 'top'
     const horizontal = 'center';
 
 
