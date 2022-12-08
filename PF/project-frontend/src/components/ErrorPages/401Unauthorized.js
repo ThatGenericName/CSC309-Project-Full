@@ -103,7 +103,7 @@ export function Unauthorized401(props) {
                     </ButtonBase>
                 </Box>
                 <Typography variant='h3'>
-                    400 Unauthorized
+                    401 Unauthorized
                 </Typography>
                 <Paper sx={{m: 3, p: 2}}>
                     {suggestion()}

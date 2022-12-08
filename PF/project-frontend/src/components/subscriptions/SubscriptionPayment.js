@@ -63,6 +63,7 @@ export function SubscriptionPayment(props) {
                 paymentSuccess: data.paymentSuccess,
                 hasPaymentInformation: true
             })
+
         }).catch(function (error) {
             if (error.response.status === 404) {
                 var dat = data
@@ -195,6 +196,7 @@ export function SubscriptionPayment(props) {
             setData(dataState)
             props.onPaymentSuccess()
             props.onClose()
+            ctx.updateDataFlag()
         }).catch(function (error) {
             var a = 1
         })

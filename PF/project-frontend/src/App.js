@@ -69,22 +69,14 @@ class App extends React.Component{
                                     <Route path='' element={<Landing/>}/>
                                     <Route path="account/*" element={<UserLanding />} />
                                     <Route path="subscriptions/*" element={<Subscription />} />
-                                    <Route path='studio/*' element={<StudiosLanding/>} />
+                                    <Route path='studios/*' element={<StudiosLanding/>} />
                                     <Route path="admin/*" element={<AdminLandingPage />} />
                                     <Route path="schedules/*" element={<ScheduleSearch />} />
 
-
-
-
                                     <Route path="class/:id/create" element={<AddGymClass/>} />
 
-
-                                    <Route path="admin/*" element={<AdminLandingPage />} />
-                                    <Route path='testbed/' element={<StudiosLanding/>} />
-                                    <Route path='studios/*' element={<StudiosLanding/>} />
-                                    <Route path='testbed/*' element={<StudiosLanding/>} />
                                     <Route path='*' element={<NotFound404/>}/>
-                                    <Route path='error/500' element={<InternalServerError500/>} />
+                                    <Route path='errors/500' element={<InternalServerError500/>} />
                                 </Route>
                             </Routes>
                         </TopAppBar>

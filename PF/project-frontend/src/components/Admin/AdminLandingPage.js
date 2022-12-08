@@ -13,7 +13,9 @@ import {NotFound404} from "../ErrorPages/404NotFound";
 export function AdminLandingPage() {
 
     const ctx = useContext(APIContext)
-
+    if (!ctx.appBarLoaded){
+        return null
+    }
     if (!ctx.userLoggedIn || !ctx.userData.isStaff) {
         return (<Unauthorized401/>)
     }
@@ -41,9 +43,6 @@ export function AdminLandingPage() {
             >
                 <Button component={Link} to={'/admin/studio'}>
                     Studio Management
-                </Button>
-                <Button>
-                    Class Management
                 </Button>
                 <Button component={Link} to={'/admin/subscription'}>
                     Membership Management

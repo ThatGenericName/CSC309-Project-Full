@@ -11,6 +11,7 @@ import GymClassSchedule from "../GymClasses/GymClassSchedule";
 import EditGymClassSchedule from "../GymClasses/EditGymClassSchedule";
 import EditGymClass from "../GymClasses/EditGymClass";
 import React from "react";
+import {NotFound404} from "../ErrorPages/404NotFound";
 
 
 export function StudiosLanding(props) {
@@ -38,6 +39,7 @@ export function StudiosLanding(props) {
             <Route path=":id/schedules/">
                 <Route path=":id_2/edit/" element={<EditGymClassSchedule admin={props.admin}/>}/>
             </Route>
+            <Route path='*' element={<NotFound404/>}/>
 
 
         </Routes>

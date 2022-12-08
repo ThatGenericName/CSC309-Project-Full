@@ -1,7 +1,7 @@
 export const SUBSCRIPTIONTOPCOVER = {
     img: "/subscriptionpromocards/img_header.png",
     header: "START YOUR JOURNEY",
-    caption1: "With more than 200 clubs across Canada, we’ve got what you need, where and when you need it."
+    caption1: "With clubs all across Toronto, we’ve got what you need, where and when you need it."
 }
 
 
@@ -15,11 +15,6 @@ export const SUBSCRIPTIONPROMOCONTENT = [
         img: "/subscriptionpromocards/sub_promo_2.jpeg",
         header: "Group Fitness",
         text: "We’ve got fun classes to suit any fitness style, and they’re included in all memberships, so you can try them all! From yoga to weightlifting, cycling to Zumba, there's something for everyone."
-    },
-    {
-        img: "/subscriptionpromocards/sub_promo_3.jpeg",
-        header: "On-Demand classes",
-        text: "Smash your goals from anywhere. From HIIT workouts to mindful meditation, you’ll always have something new to try."
     }
 ]
 
@@ -30,7 +25,7 @@ export const SUBSCRIPTIONBENEFITS = [
     },
     {
         header: "Convenience",
-        text: "25+ locations across Toronto, and many gyms open 24 hours a day."
+        text: "Locations all across Toronto, and many gyms open 24 hours a day."
     },
     {
         header: "Great Amenities",

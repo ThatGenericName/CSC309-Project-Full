@@ -16,6 +16,7 @@ import EditProfile from "./EditProfile";
 import AccountClasses from "./userclass/AccountClasses";
 import AccountSubscriptions from "./usersubscription/AccountSubscriptions";
 import AccountPayment from "./userpayment/AccountPayment";
+import {NotFound404} from "../ErrorPages/404NotFound";
 
 function withParams(Component) {
     return props => <Component {...props} params={useParams()} location={useLocation()}/>;
@@ -156,6 +157,7 @@ class UserLoggedIn extends React.Component {
                         <Route path='classes' element={<AccountClasses/>}/>
                         <Route path='subscriptions' element={<AccountSubscriptions/>}/>
                         <Route path='payment' element={<AccountPayment/>}/>
+                        <Route path='*' element={<NotFound404 suggestions={ACCOUNT404SUGGESTIONS}/>}/>
                     </Routes>
                 </Box>
             </Box>
@@ -182,3 +184,27 @@ class UserLoggedIn extends React.Component {
 }
 
 export default withParams(UserLoggedIn)
+
+
+const ACCOUNT404SUGGESTIONS = [
+    {
+        name: "Account Dashboard",
+        url: '/account/'
+    },
+    {
+        name: "Edit Account",
+        url: '/account/edit/'
+    },
+    {
+        name: "Class Management",
+        url: '/account/classes/'
+    },
+    {
+        name: "Subscription Management",
+        url: '/account/subscriptions/'
+    },
+    {
+        name: "Payment Management",
+        url: '/account/payment/'
+    },
+]

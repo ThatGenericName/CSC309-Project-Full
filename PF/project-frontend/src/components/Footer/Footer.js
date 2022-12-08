@@ -55,7 +55,7 @@ export function Footer(props) {
                             </Box>
                             <Box>
                                 <Link
-                                    to={"/studios/"}
+                                    to={"/studio/"}
                                     style={{
                                         color: textColor,
                                         textDecoration: 'none'
