@@ -65,7 +65,7 @@ class ScheduleClass extends react.Component {
             }
         })
 
-        var token = ctx.userToken
+        var token = this.context.userToken
         token = token.replace("Token ", "")
 
         const reqData = {
