@@ -2,7 +2,14 @@ import {useContext, useState} from "react";
 import {APIContext} from "../../APIContextProvider";
 import Button from "@mui/material/Button";
 import {DeepCloneStateSet} from "../../Utility";
-import {Box, Dialog, DialogActions, DialogTitle, Typography} from "@mui/material";
+import {
+    Box,
+    Dialog,
+    DialogActions,
+    DialogTitle,
+    Tooltip,
+    Typography
+} from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import {BASEURL} from "../../constants";
 import axios from "axios";
@@ -23,7 +30,7 @@ export function EnrollUserInClassButton(props) {
         DeepCloneStateSet(compState, obj, setComp)
     }
 
-    if (ctx.userLoggedIn === false || ctx.userData.fullUserData['active_subscription'] === null) {
+    if (ctx.userLoggedIn === false) {
         return null // user won't have perms
     }
 
@@ -62,14 +69,25 @@ export function EnrollUserInClassButton(props) {
         setDialogOpen(false)
     }
 
+    var disabled = false
+    var tt = ""
+    if (ctx.userData.fullUserData['active_subscription'] === null){
+        disabled = true
+        tt = "Please purchase a subscription"
+    }
+
     return (
         <>
-            <Button
-                variant='contained'
-                onClick={onClick}
-            >
-                Enroll In Class
-            </Button>
+            <Tooltip title={tt}>
+                <Button
+                    variant='contained'
+                    onClick={onClick}
+                    disabled={disabled}
+                >
+                    Enroll In Class
+                </Button>
+            </Tooltip>
+
             <Dialog
                 open={dialogOpen}
                 onClose={onClose}

@@ -67,17 +67,19 @@ export function StudioCard(props) {
             sx={{p: 2}}
             style={{width: '80%'}}
         >
-            <Grid2
-                sx={{width:"100%"}}
+            <Box
+                sx={{
+                    width: '100%'
+                }}
+            >
+                <Grid2
                 container
-                columns={24}
+                columns={12}
                 rowSpacing={1}
                 columnSpacing={1}
-                alignItems="center"
                 justifyContent='center'
             >
                 <Grid2 xs={1}/>
-
                 <Grid2 xs={8}>
 
                     <Stack spacing={1}>
@@ -97,105 +99,107 @@ export function StudioCard(props) {
                         {props.admin && ("ID : " + props.data.id)}
                     </Typography>
                 </Grid2>
-                <CardActions>
-                    {props.admin && <React.Fragment>
-                        {/*{ <React.Fragment>*/}
-                        <Box>
-                            <Button variant='contained' component={Link} to={{
-                                pathname:
-                                    `${props.data.id}/edit/`
-                            }}>
-                                Edit
-                            </Button>
-                        </Box>
-                        <Box>
-                            <Button variant='contained' onClick={DeleteStudio}>
-                                Delete
-                            </Button>
-                        </Box>
-                    </React.Fragment>
-                    }
-                    {props.admin && <React.Fragment>
-                        <Box>
-                            <Button variant='contained' component={Link} to={{
-                                pathname:
-                                    `/admin/studio/${props.data.id}/amenities/`
-                            }}>
-                                Amenities
-                            </Button>
-                        </Box>
-                    </React.Fragment>
-                    }
-                    {!props.admin && <React.Fragment>
-                        <Box>
-                            <Button variant='contained' component={Link} to={{
-                                pathname:
-                                    `/studio/${props.data.id}/amenities/`
-                            }}>
-                                Amenities
-                            </Button>
-                        </Box>
-                    </React.Fragment>
-                    }
 
+            </Grid2>
+            </Box>
 
-                    {!props.admin && <React.Fragment>
-                        <Box>
-                            <Button variant='contained' component={Link} to={{
-                                pathname:
-                                    `/studio/${props.data.id}/gymclasses/`
-                            }}>
-                                Gym Class
-                            </Button>
-                        </Box>
-                    </React.Fragment>
-                    }
-                    {props.admin && <React.Fragment>
-                        <Box>
-                            <Button variant='contained' component={Link} to={{
-                                pathname:
-                                    `/admin/studio/${props.data.id}/gymclasses/`
-                            }}>
-                                Gym Class
-                            </Button>
-                        </Box>
-                    </React.Fragment>
-                    }
-                    {props.admin && <React.Fragment>
-                        <Box>
-                            <Button variant='contained' component={Link} to={{
-                                pathname:
-                                    `/admin/studio/${props.data.id}/schedules/`
-                            }}>
-                                Schedules
-                            </Button>
-                        </Box>
-                    </React.Fragment>
-                    }
-                    {!props.admin && <React.Fragment>
-                        <Box>
-                            <Button variant='contained' component={Link} to={{
-                                pathname:
-                                    `/studio/${props.data.id}/schedules/`
-                            }}>
-                                Schedules
-                            </Button>
-                        </Box>
-                    </React.Fragment>
-                    }
-
+            <CardActions>
+                {props.admin && <React.Fragment>
+                    {/*{ <React.Fragment>*/}
                     <Box>
                         <Button variant='contained' component={Link} to={{
                             pathname:
-                                `/studios/${props.data.id}/view/`
+                                `${props.data.id}/edit/`
                         }}>
-                            View
+                            Edit
                         </Button>
                     </Box>
+                    <Box>
+                        <Button variant='contained' onClick={DeleteStudio}>
+                            Delete
+                        </Button>
+                    </Box>
+                </React.Fragment>
+                }
+                {props.admin && <React.Fragment>
+                    <Box>
+                        <Button variant='contained' component={Link} to={{
+                            pathname:
+                                `/admin/studio/${props.data.id}/amenities/`
+                        }}>
+                            Amenities
+                        </Button>
+                    </Box>
+                </React.Fragment>
+                }
+                {!props.admin && <React.Fragment>
+                    <Box>
+                        <Button variant='contained' component={Link} to={{
+                            pathname:
+                                `/studio/${props.data.id}/amenities/`
+                        }}>
+                            Amenities
+                        </Button>
+                    </Box>
+                </React.Fragment>
+                }
 
-                </CardActions>
-            </Grid2>
 
+                {!props.admin && <React.Fragment>
+                    <Box>
+                        <Button variant='contained' component={Link} to={{
+                            pathname:
+                                `/studio/${props.data.id}/gymclasses/`
+                        }}>
+                            Gym Class
+                        </Button>
+                    </Box>
+                </React.Fragment>
+                }
+                {props.admin && <React.Fragment>
+                    <Box>
+                        <Button variant='contained' component={Link} to={{
+                            pathname:
+                                `/admin/studio/${props.data.id}/gymclasses/`
+                        }}>
+                            Gym Class
+                        </Button>
+                    </Box>
+                </React.Fragment>
+                }
+                {props.admin && <React.Fragment>
+                    <Box>
+                        <Button variant='contained' component={Link} to={{
+                            pathname:
+                                `/admin/studio/${props.data.id}/schedules/`
+                        }}>
+                            Schedules
+                        </Button>
+                    </Box>
+                </React.Fragment>
+                }
+                {!props.admin && <React.Fragment>
+                    <Box>
+                        <Button variant='contained' component={Link} to={{
+                            pathname:
+                                `/studio/${props.data.id}/schedules/`
+                        }}>
+                            Schedules
+                        </Button>
+                    </Box>
+                </React.Fragment>
+                }
+
+                <Box>
+                    <Button variant='contained' component={Link} to={{
+                        pathname:
+                            `/studios/${props.data.id}/view/`
+                    }}>
+                        View
+                    </Button>
+                </Box>
+
+            </CardActions>
         </Card>
 
     )
