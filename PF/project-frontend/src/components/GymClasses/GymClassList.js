@@ -10,7 +10,7 @@ export default function GymClassList(props){
     function generateGymList(items){
         return (
             <Stack direction='column' spacing={2} alignItems='center'>
-                {items.map(item => <GymClassCard data={item} key={item.id}/>)}
+                {items.map(item => <GymClassCard data={item} key={item.id} onSend={props.onSend}/>)}
             </Stack>
 
             // <Grid2 container  direction={{xs: "column", md: "row"}}>

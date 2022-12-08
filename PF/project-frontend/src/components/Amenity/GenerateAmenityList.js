@@ -11,7 +11,8 @@ export default function AmenityList(props){
         return (
 
             <Stack direction='column' spacing={2} alignItems='center'>
-                {items.map(item => <AmenityCardDisplay data={item} key={item.id}/>)}
+                {items.map(item => <AmenityCardDisplay data={item} key={item.id}
+                                                       onSend={props.onSend}/>)}
             </Stack>
             // <Stack direction='column-reverse' spacing={2} alignItems='center'>
             //     {items.map(item => <AmenityCardDisplay data={item} />)}

@@ -51,8 +51,12 @@ export function StudioCard(props){
                     },
                 }
 
-        axios(requestData).then(function (response) {}).catch(function (error) {})
-        window.location.reload(false);
+        axios(requestData).then(function (response) {
+            if (props.onSend !== undefined){
+                props.onSend()
+            }
+        }).catch(function (error) {})
+
         // reload()
     }
 
@@ -87,7 +91,8 @@ export function StudioCard(props){
                     </Stack>
                 </Grid2>
                 <CardActions>
-                    {props.admin && <React.Fragment>
+                    {/*{props.admin && <React.Fragment>*/}
+                    { <React.Fragment>
                         <Box>
                             <Button variant='contained' component={Link} to={{pathname:
                                 `/studios/${props.data.id}/edit/`}}>

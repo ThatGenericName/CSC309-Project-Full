@@ -9,46 +9,85 @@ import StudioList from "./StudioList"
 
 export default function Studio(props){
 
-    const [formData, setFormDat] = useState({
-        data: null,
-        axiosLoading: false,
-        request_complete: false})
 
-     const  getdata =  (props) => {
+    const [compState, setComp] = useState({
+        list: [],
+        pages: 0,
+        targetPage: 1,
+        axiosLoading: false,
+        respReceived: false,
+        onSendFlag: false
+    })
+
+    function setCompState(obj){
+        var d = {}
+        Object.keys(compState).forEach(k => {
+            d[k] = compState[k]
+        })
+        Object.keys(obj).forEach(k => {
+            d[k] = obj[k]
+        })
+        setComp(d)
+    }
+
+     const getdata =  (props) => {
          const url = BASEURL + "studios/"
 
-         if (!formData.axiosLoading) {
-             let requestData = {
-                 url: url,
-                 method: "GET",
-                 headers: {
-                     'Content-Type': 'application/json'
-                 },
-             }
+         var params = {
+            page: compState.targetPage
+        }
 
-              axios(requestData).then(function (response) {
-                 setFormDat({
-                     data: response.data,
-                     axiosLoading: false,
-                     request_complete: true
-                 })
-             }).catch(function (error) {
-             })
+
+         let requestData = {
+             url: url,
+             method: "GET",
+             headers: {
+                 'Content-Type': 'application/json'
+             },
          }
-     }
 
-    if(!formData.request_complete)
-        getdata(props)
+          axios(requestData).then(function (response) {
+
+              let pages = Math.ceil(response.data['count'] / 10)
+
+
+              setCompState({
+                  list: response.data['results'],
+                  pages: pages,
+                  axiosLoading: false,
+                  respReceived: true,
+                  onSendFlag: false
+              })
+
+              props.onUpdate()
+          }).catch(function (error) {
+         })
+
+     }
 
 
     // getdata(props.props)
     var listItems = []
 
-    if(formData.data)
-        listItems = formData.data["results"]
+    if(compState.data)
+        listItems = compState.data["results"]
 
 
-    if(formData.request_complete){
+    function forceReload(){
+        setCompState({
+            respReceived: false,
+            axiosLoading: true,
+            onSendFlag: true
+        })
+    }
+
+    if (!compState.respReceived || props.reloadFlag){
+        getdata()
+    }
+
+
+    if(compState.respReceived){
+
         return (
             <Box>
                 {/*<TopHeader/>*/}
@@ -63,7 +102,7 @@ export default function Studio(props){
                 </div>
                 <br/>
                 <Paper sx={{p:2, mx:2}}>
-                    <StudioList items={listItems}/>
+                    <StudioList items={listItems} onSend={forceReload}/>
                 </Paper>
             </Box>
         )

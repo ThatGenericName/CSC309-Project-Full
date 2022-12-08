@@ -65,7 +65,11 @@ export function GymClassScheduleCard(props){
 
         }
 
-        axios(requestData).then(function (response) {}).catch(function (error) {})
+        axios(requestData).then(function (response) {
+            if (props.onSend !== undefined){
+                props.onSend()
+            }
+        }).catch(function (error) {})
     }
 
     function DeleteSchedule(){
@@ -86,8 +90,12 @@ export function GymClassScheduleCard(props){
 
         }
 
-        axios(requestData).then(function (response) {}).catch(function (error) {})
-        window.location.reload(false);
+        axios(requestData).then(function (response) {
+            if (props.onSend !== undefined){
+                props.onSend()
+            }
+        }).catch(function (error) {})
+        // window.location.reload(false);
     }
 
 
@@ -109,12 +117,12 @@ return (
             key={props.data.id}
             variant='outlined'
             sx={{p:2}}
-            style={{width:'90%'}}
+            style={{width:'95%'}}
         >
             <Grid2
                 container
                 alignItems='center'
-                spacing={3}
+                spacing={2}
             >
                 <Grid2 xs={3}>
                     <Stack spacing={1}>
@@ -144,7 +152,7 @@ return (
                 </Grid2>
 
 
-                <Grid2 xs={6} >
+                <CardActions sx={{gap: 1}}>
                     <Button variant='contained' component={Link} to={{pathname:
                             `/schedule/${props.data.id}/edit/`}}>
                         Edit
@@ -159,7 +167,7 @@ return (
                         sessionID={data.id}
                         className={data.parent_class.name}
                     />
-                </Grid2>
+                </CardActions>
             </Grid2>
         </Card>
     )

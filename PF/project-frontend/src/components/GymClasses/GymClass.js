@@ -9,48 +9,75 @@ import GymClassList from "./GymClassList"
 
 export default function GymClass(props){
 
-    const [formData, setFormDat] = useState({
-        data: null,
+    const [compState, setComp] = useState({
+        list: [],
+        pages: 0,
+        targetPage: 1,
         axiosLoading: false,
-        request_complete: false})
+        respReceived: false,
+        onSendFlag: false
+    })
 
     const {id}  = useParams()
+
+    function setCompState(obj){
+        var d = {}
+        Object.keys(compState).forEach(k => {
+            d[k] = compState[k]
+        })
+        Object.keys(obj).forEach(k => {
+            d[k] = obj[k]
+        })
+        setComp(d)
+    }
 
      const  getdata =  (props) => {
          const url = BASEURL + "classes/" + id + "/list/"
 
-         if (!formData.axiosLoading) {
-             let requestData = {
-                 url: url,
-                 method: "GET",
-                 headers: {
-                     'Content-Type': 'application/json'
-                 },
-             }
-
-              axios(requestData).then(function (response) {
-                 setFormDat({
-                     data: response.data,
-                     axiosLoading: false,
-                     request_complete: true
-                 })
-             }).catch(function (error) {
-             })
+         var params = {
+            page: compState.targetPage
          }
+
+
+         let requestData = {
+             url: url,
+             method: "GET",
+             headers: {
+                 'Content-Type': 'application/json'
+             },
+             params: params
+         }
+
+          axios(requestData).then(function (response) {
+             let pages = Math.ceil(response.data['count'] / 10)
+
+            setCompState({
+                list: response.data['results'],
+                pages: pages,
+                axiosLoading: false,
+                respReceived: true,
+                onSendFlag: false
+            })
+            props.onUpdate()
+         }).catch(function (error) {
+         })
+
      }
 
-    if(!formData.request_complete)
+     function forceReload(){
+        setCompState({
+            respReceived: false,
+            axiosLoading: true,
+            onSendFlag: true
+        })
+    }
+
+    if(!compState.respReceived)
         getdata(props)
 
 
-    // getdata(props.props)
-    var listItems = []
 
-    if(formData.data)
-        listItems = formData.data["results"]
-
-
-    if(formData.request_complete){
+    if(compState.respReceived){
         return (
             <Box>
                 {/*<TopHeader/>*/}
@@ -65,7 +92,7 @@ export default function GymClass(props){
                 </div>
                 <br/>
                 <Paper sx={{p:2, mx:2}}>
-                    <GymClassList items={listItems}/>
+                    <GymClassList items={compState.list} onSend={forceReload}/>
                 </Paper>
             </Box>
         )

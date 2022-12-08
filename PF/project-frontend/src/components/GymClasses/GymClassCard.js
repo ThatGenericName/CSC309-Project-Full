@@ -43,7 +43,9 @@ export function GymClassCard(props) {
         }
 
         axios(requestData).then(function (response) {
-            console.log(url)
+            if (props.onSend !== undefined){
+                props.onSend()
+            }
         }).catch(function (error) {
         })
     }
@@ -67,9 +69,12 @@ export function GymClassCard(props) {
         }
 
         axios(requestData).then(function (response) {
+            if (props.onSend !== undefined){
+                props.onSend()
+            }
         }).catch(function (error) {
         })
-        window.location.reload(false);
+        // window.location.reload(false);
     }
 
     return (
@@ -122,7 +127,7 @@ export function GymClassCard(props) {
                 </Grid2>
 
 
-                <Grid2 xs={6}>
+                <CardActions sx={{gap: 1}}>
                     <Button variant='contained' component={Link} to={{
                         pathname:
                             `/class/${props.data.id}/edit/`
@@ -139,7 +144,7 @@ export function GymClassCard(props) {
                         classID={data.id}
                         className={data.name}
                     />
-                </Grid2>
+                </CardActions>
             </Grid2>
         </Card>
     )

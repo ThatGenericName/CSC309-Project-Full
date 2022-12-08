@@ -1,4 +1,4 @@
-import react from "react";
+import react, {useState} from "react";
 import Geocode from 'react-geocode'
 import {BASEURL, GOOGLEAPIKEY} from "../constants";
 import {APIContext} from "../APIContextProvider";
@@ -22,6 +22,7 @@ import StudioList from "./StudioList";
 
 export function StudioLocator(){
     let [searchParams, setSearchParams] = useSearchParams()
+
 
     let params = {
         studio_name: searchParams.get('studio_name'),
@@ -116,6 +117,11 @@ class StudioLocatorClass extends react.Component{
         }).catch(function(error){
             let a = 1
         })
+    }
+
+    reload(){
+        this.setState({initSearch: false})
+        this.getStudioList(this)
     }
 
     getCoordinatesFromZipCode(zipCode){
@@ -330,7 +336,7 @@ class StudioLocatorClass extends react.Component{
                                     }}
                                 />
                             </Box>
-                            <StudioList items={this.state.responseList}/>
+                            <StudioList items={this.state.responseList} onSend={this.reload}/>
                         </Stack>
                     </Paper>
                 </Stack>

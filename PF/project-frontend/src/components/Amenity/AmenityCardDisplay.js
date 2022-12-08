@@ -60,8 +60,11 @@ export function AmenityCardDisplay(props){
                     },
                 }
 
-        axios(requestData).then(function (response) {}).catch(function (error) {})
-        window.location.reload(false);
+        axios(requestData).then(function (response) {
+            if (props.onSend !== undefined){
+                props.onSend()
+            }}
+        ).catch(function (error) {})
     }
 
 

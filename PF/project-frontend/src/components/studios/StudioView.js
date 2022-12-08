@@ -4,6 +4,7 @@ import React, {useState} from "react";
 import {BASEURL, BASEURLNOEND} from "../constants";
 import axios from "axios";
 import {useParams} from "react-router-dom";
+import { ImageList, ImageListItem } from '@mui/material';
 
 import {Link, Route, useNavigate} from 'react-router-dom'
 
@@ -76,27 +77,44 @@ export default function StudioPreview(props) {
                             {"Postal Code : " + formData.data.post_code}
                         </Typography>
 
-                        <a href={formData.data.direction}>
-                            <Button variant="contained">Click here for Directions</Button>
+                        <a href={formData.data.direction} style={{textDecoration: 'none'}} >
+                            <Button variant="outlined">Click here for Directions</Button>
                         </a>
 
                     </Stack>
                 </Grid2>
 
+
+                <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
+                  {formData.data.images.map((file, index) => {
+                      let link = BASEURLNOEND + file
+                      return (
+                        <ImageListItem key={file}>
+                          <img
+                            src={`${link}?w=164&h=164&fit=crop&auto=format`}
+                            srcSet={`${link}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+
+                            loading="lazy"
+                          />
+                        </ImageListItem>
+                      )
+                  })}
+                </ImageList>
+
                 {/*<React.Fragment>*/}
-                    {formData.data.images.map((file, index) => {
-                        let link = BASEURLNOEND + file
-                        return (
-                            <div>
-                                <img src={link}  height={200} width={200}/>
+                {/*    {formData.data.images.map((file, index) => {*/}
+                {/*        let link = BASEURLNOEND + file*/}
+                {/*        return (*/}
+                {/*            <div>*/}
+                {/*                <img src={link}  height={200} width={200}/>*/}
 
-                            </div>
-                        )
+                {/*            </div>*/}
+                {/*        )*/}
 
 
-                        }
-                    )
-                    }
+                {/*        }*/}
+                {/*    )*/}
+                {/*    }*/}
                     {/*<React.Fragment>*/}
 
             </Card>

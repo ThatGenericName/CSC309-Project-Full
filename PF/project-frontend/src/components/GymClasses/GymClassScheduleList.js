@@ -18,7 +18,8 @@ export default function GymClassScheduleList(props){
     function generateGymList(items){
         return (
             <Stack direction='column' spacing={2} alignItems='center'>
-                {items.map(item => <GymClassScheduleCard data={item} key={item.id}/>)}
+                {items.map(item => <GymClassScheduleCard data={item} key={item.id}
+                                                         onSend={props.onSend}/>)}
             </Stack>
         )
     }
