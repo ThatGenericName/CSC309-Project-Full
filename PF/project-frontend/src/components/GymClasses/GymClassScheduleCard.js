@@ -152,9 +152,13 @@ return (
                     <Button variant='contained' onClick={DeleteSchedule}>
                         Delete
                     </Button>
-                        <Button variant='contained' onClick={CancelSchedule}>
-                            Cancel
-                        </Button>
+                    <Button variant='contained' onClick={CancelSchedule}>
+                        Cancel
+                    </Button>
+                    <EnrollUserInSession
+                        sessionID={data.id}
+                        className={data.parent_class.name}
+                    />
                 </Grid2>
             </Grid2>
         </Card>

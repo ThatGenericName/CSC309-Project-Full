@@ -135,6 +135,10 @@ export function GymClassCard(props) {
                     <Button variant='contained' onClick={CancelClass}>
                         Cancel
                     </Button>
+                    <EnrollUserInClassButton
+                        classID={data.id}
+                        className={data.name}
+                    />
                 </Grid2>
             </Grid2>
         </Card>

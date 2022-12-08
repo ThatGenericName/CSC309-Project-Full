@@ -40,6 +40,13 @@ class ViewGymClassSchedule(ListAPIView):
     end_time = None
 
     def get(self, request, *args, **kwargs):
+
+        self.gym_class_name = None
+        self.coach_name = None
+        self.date = []
+        self.start_time = None
+        self.end_time = None
+
         a = timezone.now()
         e = self.ProcessParams(request.query_params)
         if e:
