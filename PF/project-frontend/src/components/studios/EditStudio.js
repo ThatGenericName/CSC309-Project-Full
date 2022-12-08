@@ -168,7 +168,6 @@ export default function EditStudio(){
             <React.Fragment>
                 {fieldVars.map((fieldID, index) => {
                     var err = Boolean(errorsRef.current[fieldID].length);
-                    console.log(errorsRef)
                     const label = fieldNames[index]
                     var val = formDataRef.current[fieldID]
 
@@ -270,14 +269,17 @@ export default function EditStudio(){
             }
             // console.log(formdat)
 
-            // var token = ctx.userToken
-            // token = token.replace("Token ")
+            var token = ctx.userToken
+            if (token === null){
+              return
+            }
+            token = token.replace("Token ","")
             var requestData = {
                 url: targetURL,
                 method: "POST",
                 headers: {
                     'content-type': 'multipart/form-data',
-                    // Authorization: "Token " + token
+                    "Authorization": "Token " + token
                 },
                 data: formdat
             }
