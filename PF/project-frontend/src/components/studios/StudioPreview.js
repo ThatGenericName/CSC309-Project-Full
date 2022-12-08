@@ -3,7 +3,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 
 
-export function StudioPreview(props){
+export function StudioPreview(props) {
     const studioData = props.studioData
     var studioLink = "/studios/" + studioData.id + "/view/"
     var name = studioData.name
@@ -11,29 +11,29 @@ export function StudioPreview(props){
     var postcode = studioData.post_code
     var maxHeight = props.maxHeight === undefined ? '5em' : props.maxHeight
     return (
-    <Paper
-        style={{maxHeight: maxHeight}}
-        variant="outlined"
-        sx={{ p: 1 }}
-    >
-        <Box
-            component={Link}
-            to={studioLink}
+        <Paper
+            style={{maxHeight: maxHeight}}
+            variant="outlined"
+            sx={{p: 1}}
         >
-            <Stack
-                direction="column"
+            <Box
+                component={Link}
+                to={studioLink}
             >
-                <Box sx={{ fontWeight: 'bold', fontSize: 20}}>
-                    {name}
-                </Box>
-                <Typography>
-                    {address}
-                </Typography>
-                <Typography>
-                    {postcode}
-                </Typography>
-            </Stack>
-        </Box>
-    </Paper>
+                <Stack
+                    direction="column"
+                >
+                    <Box sx={{fontWeight: 'bold', fontSize: 20}}>
+                        {name}
+                    </Box>
+                    <Typography>
+                        {address}
+                    </Typography>
+                    <Typography>
+                        {postcode}
+                    </Typography>
+                </Stack>
+            </Box>
+        </Paper>
     )
 }

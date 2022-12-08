@@ -23,7 +23,7 @@ export const SUBSCRIPTIONPROMOCONTENT = [
     }
 ]
 
-export const SUBSCRIPTIONBENEFITS =[
+export const SUBSCRIPTIONBENEFITS = [
     {
         header: "Personal Trainers",
         text: "We're here to help you! Talk to us about how a Personal Trainer can help reach your goals faster."

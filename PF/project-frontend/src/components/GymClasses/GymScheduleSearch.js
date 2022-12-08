@@ -1,4 +1,4 @@
-import react from "react";
+import react, {useContext} from "react";
 import {BASEURL} from "../constants";
 import {APIContext} from "../APIContextProvider";
 import {Box, Pagination, Paper, Stack, TextField} from "@mui/material";
@@ -9,8 +9,9 @@ import {useSearchParams} from "react-router-dom";
 import GymClassScheduleList from "./GymClassScheduleList";
 
 
-export function ScheduleSearch(){
+export function ScheduleSearch() {
     let [searchParams, setSearchParams] = useSearchParams()
+    let ctx = useContext(APIContext)
 
     let params = {
         name: searchParams.get('name'),
@@ -20,7 +21,7 @@ export function ScheduleSearch(){
     }
 
     Object.keys(params).forEach(k => {
-        if (params[k] === null){
+        if (params[k] === null) {
             params[k] = ""
         }
     })
@@ -31,7 +32,7 @@ export function ScheduleSearch(){
     )
 }
 
-class ScheduleClass extends react.Component{
+class ScheduleClass extends react.Component {
     static contextType = APIContext
 
     constructor(props, context) {
@@ -46,7 +47,7 @@ class ScheduleClass extends react.Component{
         }
     }
 
-    getScheduleList(comp){
+    getScheduleList(comp) {
 
         const targetURL = BASEURL + "classes/"
         const searchParams = comp.state.searchParams
@@ -59,26 +60,30 @@ class ScheduleClass extends react.Component{
         }
 
         Object.entries(params).forEach(([key, value]) => {
-            if (value === "" || value === null || value === undefined ){
+            if (value === "" || value === null || value === undefined) {
                 delete params[key]
             }
         })
+
+        var token = ctx.userToken
+        token = token.replace("Token ", "")
 
         const reqData = {
             url: targetURL,
             method: 'GET',
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                "Authorization": "Token " + token
             },
             params: params
         }
 
-        axios(reqData).then(function(response){
+        axios(reqData).then(function (response) {
             comp.setState({
                 pages: Math.ceil(response.data['count'] / 10),
                 responseList: response.data['results']
             })
-        }).catch(function(error){
+        }).catch(function (error) {
             let a = 1
         })
     }
@@ -89,7 +94,7 @@ class ScheduleClass extends react.Component{
         this.setState({searchParams: clone})
     }
 
-    searchForm(){
+    searchForm() {
 
         return (
             <Grid2 container spacing={3}>
@@ -132,8 +137,8 @@ class ScheduleClass extends react.Component{
         )
     }
 
-    render(){
-        if (this.state.initSearch){
+    render() {
+        if (this.state.initSearch) {
             this.setState({initSearch: false})
             this.getScheduleList(this)
         }
@@ -144,14 +149,14 @@ class ScheduleClass extends react.Component{
         return (
             <Box
                 sx={{
-                    p:3,
+                    p: 3,
                     textAlign: 'center'
                 }}
             >
                 <Stack spacing={3}>
                     <Paper
                         sx={{
-                            p:3,
+                            p: 3,
                             textAlign: 'center'
                         }}
                     >
@@ -166,14 +171,16 @@ class ScheduleClass extends react.Component{
                                 <Button
                                     variant='contained'
                                     size='large'
-                                    onClick={() => {this.getScheduleList(comp)}}
+                                    onClick={() => {
+                                        this.getScheduleList(comp)
+                                    }}
                                 >
                                     Search!
                                 </Button>
                             </Box>
                         </Stack>
                     </Paper>
-                    <Paper sx={{p:3}}>
+                    <Paper sx={{p: 3}}>
                         <Stack spacing={3}>
                             <Box
                                 sx={{

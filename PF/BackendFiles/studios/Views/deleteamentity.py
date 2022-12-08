@@ -25,7 +25,7 @@ class DeleteAmenity(APIView):
         'quantity'
     ]
 
-    # permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminUser]
 
     def delete(self, request: Request, *args, **kwargs):
 

@@ -5,18 +5,15 @@ import axios from "axios";
 
 import SubscriptionsList from "./SubscriptionsList";
 import {BASEURL} from "../constants";
-import {
-    SubscriptionPromoCards
-} from "./SubscriptionPromoCards/SubscriptionPromoCards";
-import SubscriptionBenefits
-    from "./SubscriptionPromoCards/SubscriptionBenefits";
+import {SubscriptionPromoCards} from "./SubscriptionPromoCards/SubscriptionPromoCards";
+import SubscriptionBenefits from "./SubscriptionPromoCards/SubscriptionBenefits";
 import {TopHeader} from "./SubscriptionPromoCards/TopHeader";
 
 import {AllSubscriptions} from "./AllSubscriptions/AllSubscriptions";
 import {APIContext} from "../APIContextProvider";
 import {Link} from "react-router-dom";
 
-export default function Subscription(){
+export default function Subscription() {
 
     const ctx = useContext(APIContext)
 
@@ -28,7 +25,7 @@ export default function Subscription(){
 
     const [allSubsOpen, setAllSubsOpen] = useState(false)
 
-    function setCompState(data){
+    function setCompState(data) {
         var clone = {}
         Object.keys(compState).forEach(k => {
             clone[k] = compState[k]
@@ -39,7 +36,7 @@ export default function Subscription(){
         setComp(clone)
     }
 
-    function getSubscriptionOptions(){
+    function getSubscriptionOptions() {
         const targetURL = BASEURL + 'subscriptions/'
         const params = {
             page: 1
@@ -54,33 +51,32 @@ export default function Subscription(){
             params: params
         }
 
-        axios(requestData).then(function(response){
+        axios(requestData).then(function (response) {
             setCompState({
                 subscriptionsList: response.data['results'],
                 axiosLoading: false,
                 responseReceived: true
             })
-        }).catch(function(error){
+        }).catch(function (error) {
             let a = 1
 
         })
     }
 
-    if (!compState.responseReceived){
+    if (!compState.responseReceived) {
         getSubscriptionOptions()
     }
 
     let listItems = compState.subscriptionsList
 
-    function SubBox(){
-        if (compState.axiosLoading){
-            return <LinearProgress />
-        }
-        else{
+    function SubBox() {
+        if (compState.axiosLoading) {
+            return <LinearProgress/>
+        } else {
             return (
                 <React.Fragment>
                     {<SubscriptionsList items={listItems}/>}
-                    <Box style={{textAlign:'center'}}>
+                    <Box style={{textAlign: 'center'}}>
                         <Button onClick={e => setAllSubsOpen(true)}>
                             View All Subscriptions
                         </Button>
@@ -95,8 +91,8 @@ export default function Subscription(){
     }
 
 
-    function JoinButton(){
-        if (!ctx.userLoggedIn){
+    function JoinButton() {
+        if (!ctx.userLoggedIn) {
             return (
                 <Button
                     variant='contained'
@@ -112,22 +108,22 @@ export default function Subscription(){
     }
 
     return (
+        <Box>
+            <TopHeader/>
+            <Paper sx={{p: 2, mx: 2}}>
+                <Stack>
+                    {JoinButton()}
+                    {SubBox()}
+                </Stack>
+            </Paper>
             <Box>
-                <TopHeader/>
-                <Paper sx={{p:2, mx:2}}>
-                    <Stack>
-                        {JoinButton()}
-                        {SubBox()}
-                    </Stack>
-                </Paper>
-                <Box>
-                    <SubscriptionPromoCards/>
-                </Box>
-                <Box sx={{px:2}} alignItems='center'>
-                    <Paper sx={{p:1}}>
-                        <SubscriptionBenefits/>
-                    </Paper>
-                </Box>
+                <SubscriptionPromoCards/>
             </Box>
+            <Box sx={{px: 2}} alignItems='center'>
+                <Paper sx={{p: 1}}>
+                    <SubscriptionBenefits/>
+                </Paper>
+            </Box>
+        </Box>
     )
 }

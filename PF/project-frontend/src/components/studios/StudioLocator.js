@@ -1,4 +1,5 @@
 import react from "react";
+import React from "react";
 import Geocode from 'react-geocode'
 import {BASEURL, GOOGLEAPIKEY} from "../constants";
 import {APIContext} from "../APIContextProvider";
@@ -7,12 +8,12 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import {MapContainer} from "./MapContainer";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import {useSearchParams} from "react-router-dom";
+import {Link, useSearchParams} from "react-router-dom";
 import {ObjectDeepClone} from "../Utility";
 import StudioList from "./StudioList";
 
 
-export function StudioLocator(props){
+export function StudioLocator(props) {
     let [searchParams, setSearchParams] = useSearchParams()
 
 
@@ -25,7 +26,7 @@ export function StudioLocator(props){
     }
 
     Object.keys(params).forEach(k => {
-        if (params[k] === null){
+        if (params[k] === null) {
             params[k] = ""
         }
     })
@@ -33,21 +34,22 @@ export function StudioLocator(props){
     let a = 1
 
     return (
-        <StudioLocatorClass admin={props.admin} searchParams={params} searchParamSetter={setSearchParams}/>
+        <StudioLocatorClass admin={props.admin} searchParams={params}
+                            searchParamSetter={setSearchParams}/>
     )
 }
 
-class StudioLocatorClass extends react.Component{
+class StudioLocatorClass extends react.Component {
     static contextType = APIContext
 
     constructor(props, context) {
         super(props, context);
-        if (props.searchParams.zip !== undefined && props.searchParams.zip !== null){
+        if (props.searchParams.zip !== undefined && props.searchParams.zip !== null) {
             this.setZipCode(props.searchParams.zip)
         }
 
         this.state = {
-            userZipCode : props.searchParams.zip,
+            userZipCode: props.searchParams.zip,
             userLocation: {
                 lat: null,
                 lng: null
@@ -63,7 +65,7 @@ class StudioLocatorClass extends react.Component{
         }
     }
 
-    getStudioList(comp){
+    getStudioList(comp) {
 
         const targetURL = BASEURL + "/studios/"
         const searchParams = comp.state.searchParams
@@ -77,7 +79,7 @@ class StudioLocatorClass extends react.Component{
 
         var paramClone = ObjectDeepClone(searchParams)
         Object.entries(paramClone).forEach(([key, value]) => {
-            if (value === ""){
+            if (value === "") {
                 delete paramClone[key]
             }
         })
@@ -85,7 +87,7 @@ class StudioLocatorClass extends react.Component{
 
         const formData = new FormData()
         const loc = comp.state.userLocation
-        if (loc.lat !== null){
+        if (loc.lat !== null) {
             const locStr = loc.lat + "," + loc.lng
             formData.set('location', locStr)
         }
@@ -100,25 +102,25 @@ class StudioLocatorClass extends react.Component{
             data: formData
         }
 
-        axios(reqData).then( async function(response){
+        axios(reqData).then(async function (response) {
             let cObjList = await comp.getCoordinateObjects(response.data['results'])
             comp.setState({
                 pages: Math.ceil(response.data['count'] / 10),
                 responseList: response.data['results'],
                 cObjList: cObjList
             })
-        }).catch(function(error){
+        }).catch(function (error) {
             let a = 1
         })
     }
 
-    reload(){
+    reload() {
         this.setState({initSearch: false})
         this.getStudioList(this)
     }
 
-    getCoordinatesFromZipCode(zipCode){
-        if (zipCode.length === 0){
+    getCoordinatesFromZipCode(zipCode) {
+        if (zipCode.length === 0) {
             this.setState({
                 userLocation: {
                     lat: null,
@@ -126,8 +128,7 @@ class StudioLocatorClass extends react.Component{
                 }
             })
             return
-        }
-        else if (zipCode.length !== 6){
+        } else if (zipCode.length !== 6) {
             return
         }
 
@@ -137,27 +138,29 @@ class StudioLocatorClass extends react.Component{
 
         let comp = this
 
-        Geocode.fromAddress(zipCode).then(function (results){
-            if (results.status='OK'){
+        Geocode.fromAddress(zipCode).then(function (results) {
+            if (results.status = 'OK') {
                 const {lat, lng} = results.results[0].geometry.location
-                comp.setState({userLocation: {
-                    lat: lat,
-                    lng: lng
+                comp.setState({
+                    userLocation: {
+                        lat: lat,
+                        lng: lng
+                    }
+                })
+            } else {
+                comp.setState({
+                    userLocation: {
+                        lat: null,
+                        lng: null
                     }
                 })
             }
-            else{
-                comp.setState({userLocation: {
-                    lat: null,
-                    lng: null
-                    }
-                })
-            }
-        }).catch(function(error){
-            if (error.message === "undefined.\\nServer returned status code ZERO_RESULTS"){
-                comp.setState({userLocation: {
-                    lat: null,
-                    lng: null
+        }).catch(function (error) {
+            if (error.message === "undefined.\\nServer returned status code ZERO_RESULTS") {
+                comp.setState({
+                    userLocation: {
+                        lat: null,
+                        lng: null
                     }
                 })
             }
@@ -170,12 +173,12 @@ class StudioLocatorClass extends react.Component{
         this.setState({searchParams: clone})
     }
 
-    setZipCode(zipCode){
+    setZipCode(zipCode) {
         this.setState({userZipCode: zipCode})
         this.getCoordinatesFromZipCode(zipCode)
     }
 
-    searchForm(){
+    searchForm() {
 
         return (
             <Grid2 container spacing={3}>
@@ -238,7 +241,7 @@ class StudioLocatorClass extends react.Component{
         return coord
     }
 
-    async getCoordinateObjects(list){
+    async getCoordinateObjects(list) {
         const cobjList = []
 
         for (const studio of list) {
@@ -247,16 +250,14 @@ class StudioLocatorClass extends react.Component{
             var lng = parseFloat(geoLocSplit[1])
 
             let coords
-            if (isNaN(lat) || isNaN(lng)){
-                try{
+            if (isNaN(lat) || isNaN(lng)) {
+                try {
                     coords = await this.getCoordiateFromAddress(studio.address)
-                }
-                catch (e) {
+                } catch (e) {
                     coords = {lat, lng}
                 }
 
-            }
-            else{
+            } else {
                 coords = {lat, lng}
             }
 
@@ -272,8 +273,8 @@ class StudioLocatorClass extends react.Component{
     }
 
 
-    render(){
-        if (this.state.initSearch){
+    render() {
+        if (this.state.initSearch) {
             this.setState({initSearch: false})
             this.getStudioList(this)
         }
@@ -282,11 +283,11 @@ class StudioLocatorClass extends react.Component{
 
         let userLocObj = undefined
 
-        if (userLoc.lat !== null){
+        if (userLoc.lat !== null) {
             userLocObj = {
                 id: 0,
                 name: "You",
-                position: { lat: userLoc.lat, lng: userLoc.lng }
+                position: {lat: userLoc.lat, lng: userLoc.lng}
             }
         }
 
@@ -296,7 +297,7 @@ class StudioLocatorClass extends react.Component{
         return (
             <Box
                 sx={{
-                    p:3,
+                    p: 3,
                     textAlign: 'center'
                 }}
             >
@@ -311,7 +312,7 @@ class StudioLocatorClass extends react.Component{
                     </Box>
                     <Paper
                         sx={{
-                            p:3,
+                            p: 3,
                             textAlign: 'center'
                         }}
                     >
@@ -326,14 +327,29 @@ class StudioLocatorClass extends react.Component{
                                 <Button
                                     variant='contained'
                                     size='large'
-                                    onClick={() => {this.getStudioList(comp)}}
+                                    onClick={() => {
+                                        this.getStudioList(comp)
+                                    }}
                                 >
                                     Search!
                                 </Button>
                             </Box>
                         </Stack>
                     </Paper>
-                    <Paper sx={{p:3}}>
+
+                    {this.state.admin && <React.Fragment>
+                        <Box textAlign='center'>
+                            <Button variant='contained' component={Link} to={{
+                                pathname:
+                                    `create/`
+                            }}>
+                                Add Studio
+                            </Button>
+                        </Box>
+                    </React.Fragment>}
+
+
+                    <Paper sx={{p: 3}}>
                         <Stack spacing={3}>
                             <Box
                                 sx={{

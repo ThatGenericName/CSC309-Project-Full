@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import Button from "@mui/material/Button";
 import {Box, LinearProgress, Pagination, Paper} from "@mui/material";
 
@@ -6,10 +6,12 @@ import AmenityList from "./GenerateAmenityList";
 import {BASEURL} from "../constants";
 import axios from "axios";
 import {Link, useParams} from "react-router-dom";
+import {APIContext} from "../APIContextProvider";
 
-export default function Amenity(props){
+export default function Amenity(props) {
 
     const {id} = useParams()
+    let ctx = useContext(APIContext)
 
     const [compState, setComp] = useState({
         list: [],
@@ -20,7 +22,7 @@ export default function Amenity(props){
         onSendFlag: false
     })
 
-    function setCompState(obj){
+    function setCompState(obj) {
         var d = {}
         Object.keys(compState).forEach(k => {
             d[k] = compState[k]
@@ -31,19 +33,22 @@ export default function Amenity(props){
         setComp(d)
     }
 
-     const getdata = (props) => {
+    const getdata = (props) => {
         const url = BASEURL + "studios/" + id + "/amenities/"
 
-         var params = {
+        var params = {
             page: compState.targetPage
-         }
+        }
+        var token = ctx.userToken
+        token = token.replace("Token ", "")
 
 
         let requestData = {
             url: url,
             method: "GET",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": "Token " + token
             },
             params: params
         }
@@ -59,11 +64,12 @@ export default function Amenity(props){
                 onSendFlag: false
             })
             props.onUpdate()
-        }).catch(function (error) {})
+        }).catch(function (error) {
+        })
 
     }
 
-    function forceReload(){
+    function forceReload() {
         setCompState({
             respReceived: false,
             axiosLoading: true,
@@ -71,11 +77,11 @@ export default function Amenity(props){
         })
     }
 
-    if(!compState.respReceived)
+    if (!compState.respReceived)
         getdata(props)
 
 
-    if(compState.respReceived){
+    if (compState.respReceived) {
         return (
 
             <Box>
@@ -85,9 +91,11 @@ export default function Amenity(props){
                 <div>
                     {props.admin && <React.Fragment>
                         <Box textAlign='center'>
-                            <Button variant='contained' component={Link} to={{pathname:
-                                `/studio/${id}/amenities/create/`}}>
-                              Add Amenity
+                            <Button variant='contained' component={Link} to={{
+                                pathname:
+                                    `/studio/${id}/amenities/create/`
+                            }}>
+                                Add Amenity
                             </Button>
                         </Box>
                     </React.Fragment>}
@@ -104,7 +112,7 @@ export default function Amenity(props){
                     <Pagination
                         count={compState.pages}
                         onChange={(e, v) => {
-                            if (v !== compState.targetPage){
+                            if (v !== compState.targetPage) {
                                 setCompState({
                                     targetPage: v,
                                     respReceived: false,
@@ -114,7 +122,7 @@ export default function Amenity(props){
                         }}
                     />
                 </Box>
-                <Paper sx={{p:2, mx:2}}>
+                <Paper sx={{p: 2, mx: 2}}>
                     {compState.axiosLoading ? <LinearProgress/> : <AmenityList
                         admin={props.admin}
                         items={compState.list}

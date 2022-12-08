@@ -19,7 +19,7 @@ import axios from "axios";
 import {APIContext} from "../../APIContextProvider";
 
 
-export function SubscriptionDisplayAdmin(props){
+export function SubscriptionDisplayAdmin(props) {
 
     const ctx = useContext(APIContext)
     const data = props.data
@@ -30,7 +30,7 @@ export function SubscriptionDisplayAdmin(props){
     var duration = GetTimeStringComp(data['duration_map'])
 
 
-    function sendDelete(remove){
+    function sendDelete(remove) {
         const targetURL = BASEURL + "subscriptions/" + data['id'] + '/'
 
         const token = ctx.userToken.replace('Token ')
@@ -48,11 +48,11 @@ export function SubscriptionDisplayAdmin(props){
             data: formDat
         }
 
-        axios(requestData).then(function(response){
-            if (props.onSend !== undefined){
+        axios(requestData).then(function (response) {
+            if (props.onSend !== undefined) {
                 props.onSend()
             }
-        }).catch(function(errors){
+        }).catch(function (errors) {
             let a = 1
         })
     }
@@ -60,8 +60,8 @@ export function SubscriptionDisplayAdmin(props){
     return (
         <Card
             variant='outlined'
-            sx={{p:2}}
-            style={{width:'90%'}}
+            sx={{p: 2}}
+            style={{width: '90%'}}
         >
             <Grid2
                 container

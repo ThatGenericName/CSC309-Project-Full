@@ -8,7 +8,7 @@ export default function GetAmenity(props) {
     const [formData, setFormDat] = useState({data: {}, axiosLoading: false})
 
     if (!formData.axiosLoading) {
-         axios.get(url).then(function (response) {
+        axios.get(url).then(function (response) {
             // console.log(response)
             setFormDat({
                 data: response.data,

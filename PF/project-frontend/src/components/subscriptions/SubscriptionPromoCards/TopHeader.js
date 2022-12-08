@@ -4,7 +4,7 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import React from "react";
 
 
-export function TopHeader(props){
+export function TopHeader(props) {
     const data = SUBSCRIPTIONTOPCOVER
 
     return (
@@ -26,7 +26,7 @@ export function TopHeader(props){
                 <Grid2 xs>
                 </Grid2>
                 <Grid2 xs={6} md={5}>
-                    <img src={data.img}  alt={data.header} width='100%'/>
+                    <img src={data.img} alt={data.header} width='100%'/>
                 </Grid2>
             </Grid2>
         </Box>

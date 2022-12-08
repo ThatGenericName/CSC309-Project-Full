@@ -14,9 +14,10 @@ import {APIContext} from "../APIContextProvider";
 import * as Constants from '../constants';
 
 
-export default class LogoutButton extends React.Component{
+export default class LogoutButton extends React.Component {
     static contextType = APIContext
-    constructor(props, context){
+
+    constructor(props, context) {
         super(props, context)
         this.state = {
             reqSent: false,
@@ -28,19 +29,19 @@ export default class LogoutButton extends React.Component{
         }
     }
 
-    HandleClose(){
+    HandleClose() {
         this.setOpen(false)
     }
 
-    setOpen(val){
+    setOpen(val) {
         this.setState({openDiag: val})
     }
 
-    OnClick(){
+    OnClick() {
         this.setOpen(true)
     }
 
-    ShowGeneralMessage(){
+    ShowGeneralMessage() {
         return (
             <Alert severity="error">
                 <AlertTitle>{this.state.generalMessage}</AlertTitle>
@@ -48,13 +49,13 @@ export default class LogoutButton extends React.Component{
         )
     }
 
-    LogOut(){
+    LogOut() {
         this.setState({axionLoading: true})
 
         let targetURL = Constants.BASEURL + 'accounts/logout/'
         let token = localStorage.getItem('Auth')
 
-        if (token == null){
+        if (token == null) {
             let dat = {
                 generalMessage: "You are already logged out"
             }
@@ -74,60 +75,60 @@ export default class LogoutButton extends React.Component{
         }
         let comp = this
         axios(requestData)
-        .then(function (response){
-            comp.setState({
-                axiosLoading: false
+            .then(function (response) {
+                comp.setState({
+                    axiosLoading: false
+                })
+                let newData = {
+                    reqSent: true,
+                    reqSucc: true,
+                    reqResp: response.data,
+                    generalMessage: null
+                }
+                console.log(response.status)
+                comp.setState(newData)
+                localStorage.removeItem('Auth')
+                comp.context.setUserLoggedIn(false)
+                comp.context.setUserData({
+                    fullUserData: {},
+                    username: "",
+                    firstName: "",
+                    lastName: "",
+                    isStaff: false,
+                    imgSrc: ""
+                })
+                comp.setOpen(false)
             })
-            let newData = {
-                reqSent: true,
-                reqSucc: true,
-                reqResp: response.data,
-                generalMessage: null
-            }
-            console.log(response.status)
-            comp.setState(newData)
-            localStorage.removeItem('Auth')
-            comp.context.setUserLoggedIn(false)
-            comp.context.setUserData({
-                fullUserData: {},
-                username: "",
-                firstName: "",
-                lastName: "",
-                isStaff: false,
-                imgSrc: ""
+            .catch(function (error) {
+                comp.setState({
+                    axiosLoading: false
+                })
+                let a = error.response.data
+                let newData = {
+                    reqSent: true,
+                    reqSucc: false,
+                    reqResp: a,
+                    generalMessage: 'Something went wrong, please try again later'
+                }
+                comp.setState(newData)
             })
-            comp.setOpen(false)
-        })
-        .catch(function (error){
-            comp.setState({
-                axiosLoading: false
-            })
-            let a = error.response.data
-            let newData = {
-                reqSent: true,
-                reqSucc: false,
-                reqResp: a,
-                generalMessage: 'Something went wrong, please try again later'
-            }
-            comp.setState(newData)
-        })
     }
 
 
-    render(){
+    render() {
         // Obtained from https://stackoverflow.com/questions/56284497/pressing-tab-key-closes-material-ui-dialog-that-is-opened-from-a-submenu
         // It's use in Dialog in MaterialUI prevents the dialog from closing when you press tab to
         // switch to the next form.
 
         const stopPropagationForTab = (event) => {
             if (event.key === "Tab") {
-              event.stopPropagation();
+                event.stopPropagation();
             }
         };
 
         const loadingCircle = (
-            <Box sx={{ display: 'flex', justifyContent: 'center'}}>
-                <CircularProgress />
+            <Box sx={{display: 'flex', justifyContent: 'center'}}>
+                <CircularProgress/>
             </Box>
         )
 
@@ -142,7 +143,7 @@ export default class LogoutButton extends React.Component{
                     style={{
                         zIndex: 1401
                     }}
-                    >
+                >
                     <DialogTitle>
                         Are you sure you want to log out?
                     </DialogTitle>
@@ -151,10 +152,10 @@ export default class LogoutButton extends React.Component{
                         <Box
                             noValidate
                             sx={{
-                              display: 'flex',
-                              flexDirection: 'column',
-                              m: 'auto',
-                              width: 'fit-content',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                m: 'auto',
+                                width: 'fit-content',
                             }}
                         >
                             {this.state.generalMessage !== null && this.ShowGeneralMessage()}
@@ -162,7 +163,8 @@ export default class LogoutButton extends React.Component{
                         </Box>
                     </DialogContent>
                     <DialogActions>
-                        <Button variant='outlined' onClick={() => this.HandleClose()}>Cancel</Button>
+                        <Button variant='outlined'
+                                onClick={() => this.HandleClose()}>Cancel</Button>
                         <Button variant='contained' onClick={() => this.LogOut()}>Logout</Button>
                     </DialogActions>
                 </Dialog>

@@ -1,4 +1,4 @@
-import {Box, CardActions, Paper, Stack, Typography} from "@mui/material";
+import {Box, CardActions, Stack, Typography} from "@mui/material";
 
 import Button from "@mui/material/Button";
 import React, {useContext, useState} from "react";
@@ -10,7 +10,7 @@ import {BASEURL} from "../constants";
 import Grid2 from "@mui/material/Unstable_Grid2";
 
 
-export function StudioCard(props){
+export function StudioCard(props) {
 
     const ctx = useContext(APIContext)
 
@@ -21,26 +21,35 @@ export function StudioCard(props){
 
 
     const navigate = useNavigate();
-      const reload = () => {
+    const reload = () => {
         navigate.go(0);
-      }
+    }
 
 
-    function DeleteStudio(){
+    function DeleteStudio() {
         const id = props.data.id
 
         const url = BASEURL + "studios/" + id + "/delete/"
 
+        var token = ctx.userToken
+        if (token === null) {
+            return
+        }
+        token = token.replace("Token ", "")
+
+
         let requestData = {
-                    url: url,
-                    method: "DELETE",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                }
+            url: url,
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": "Token " + token
+            },
+        }
+
 
         axios(requestData).then(function (response) {
-            if (props.onSend !== undefined){
+            if (props.onSend !== undefined) {
                 props.onSend()
             }
         }).catch(function (error) {
@@ -52,11 +61,11 @@ export function StudioCard(props){
 
 
     return (
-        <Paper
+        <Card
             key={props.data.id}
             variant='outlined'
-            sx={{p:2}}
-            style={{width:'70%'}}
+            sx={{p: 2}}
+            style={{width: '80%'}}
         >
             <Grid2
                 container
@@ -82,89 +91,104 @@ export function StudioCard(props){
                 </Grid2>
                 <CardActions>
                     {props.admin && <React.Fragment>
-                    {/*{ <React.Fragment>*/}
+                        {/*{ <React.Fragment>*/}
                         <Box>
-                            <Button variant='contained' component={Link} to={{pathname:
-                                `${props.data.id}/edit/`}}>
-                              Edit
+                            <Button variant='contained' component={Link} to={{
+                                pathname:
+                                    `${props.data.id}/edit/`
+                            }}>
+                                Edit
                             </Button>
-                    </Box>
+                        </Box>
                         <Box>
                             <Button variant='contained' onClick={DeleteStudio}>
-                              Delete
+                                Delete
                             </Button>
                         </Box>
                     </React.Fragment>
                     }
                     {props.admin && <React.Fragment>
                         <Box>
-                            <Button variant='contained' component={Link} to={{pathname:
-                                `/admin/studio/${props.data.id}/amenities/`}}>
-                              Amenities
+                            <Button variant='contained' component={Link} to={{
+                                pathname:
+                                    `/admin/studio/${props.data.id}/amenities/`
+                            }}>
+                                Amenities
                             </Button>
                         </Box>
                     </React.Fragment>
                     }
                     {!props.admin && <React.Fragment>
                         <Box>
-                            <Button variant='contained' component={Link} to={{pathname:
-                                `/studio/${props.data.id}/amenities/`}}>
-                              Amenities
+                            <Button variant='contained' component={Link} to={{
+                                pathname:
+                                    `/studio/${props.data.id}/amenities/`
+                            }}>
+                                Amenities
                             </Button>
                         </Box>
                     </React.Fragment>
                     }
 
 
-
                     {!props.admin && <React.Fragment>
                         <Box>
-                            <Button variant='contained' component={Link} to={{pathname:
-                                `/studio/${props.data.id}/gymclasses/`}}>
-                              Gym Class
+                            <Button variant='contained' component={Link} to={{
+                                pathname:
+                                    `/studio/${props.data.id}/gymclasses/`
+                            }}>
+                                Gym Class
                             </Button>
                         </Box>
                     </React.Fragment>
                     }
                     {props.admin && <React.Fragment>
                         <Box>
-                            <Button variant='contained' component={Link} to={{pathname:
-                                `/admin/studio/${props.data.id}/gymclasses/`}}>
-                              Gym Class
+                            <Button variant='contained' component={Link} to={{
+                                pathname:
+                                    `/admin/studio/${props.data.id}/gymclasses/`
+                            }}>
+                                Gym Class
                             </Button>
                         </Box>
                     </React.Fragment>
                     }
                     {props.admin && <React.Fragment>
                         <Box>
-                            <Button variant='contained' component={Link} to={{pathname:
-                                `/admin/studio/${props.data.id}/schedules/`}}>
-                              Schedules
+                            <Button variant='contained' component={Link} to={{
+                                pathname:
+                                    `/admin/studio/${props.data.id}/schedules/`
+                            }}>
+                                Schedules
                             </Button>
                         </Box>
                     </React.Fragment>
                     }
                     {!props.admin && <React.Fragment>
                         <Box>
-                            <Button variant='contained' component={Link} to={{pathname:
-                                `/studio/${props.data.id}/schedules/`}}>
-                              Schedules
+                            <Button variant='contained' component={Link} to={{
+                                pathname:
+                                    `/studio/${props.data.id}/schedules/`
+                            }}>
+                                Schedules
                             </Button>
                         </Box>
                     </React.Fragment>
                     }
 
                     <Box>
-                        <Button variant='contained' component={Link} to={{pathname:
-                            `/studios/${props.data.id}/view/`}}>
-                          View
+                        <Button variant='contained' component={Link} to={{
+                            pathname:
+                                `/studios/${props.data.id}/view/`
+                        }}>
+                            View
                         </Button>
                     </Box>
 
                 </CardActions>
             </Grid2>
 
-        </Paper>
+        </Card>
 
     )
 }

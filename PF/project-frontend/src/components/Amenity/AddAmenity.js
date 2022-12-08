@@ -5,21 +5,23 @@ import {Alert, AlertTitle, Typography} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import * as Constants from "../constants";
 import axios from "axios";
+import {APIContext} from "../APIContextProvider";
 
 const REQUIRED_PARAMS = ['name', 'address', 'post_code', 'phone_num']
 
-export default class AddAmenity extends Component{
+export default class AddAmenity extends Component {
+    static contextType = APIContext
 
-    constructor(props){
+    constructor(props, context) {
 
-        super(props)
+        super(props, context)
 
         this.state = {
             reqSent: false,
             reqSucc: false,
             reqResp: null,
             hasErrors: false,
-            studioId : window.location.href.split('/')[4],
+            studioId: window.location.href.split('/')[4],
             errors: {
                 type: '',
                 quantity: ''
@@ -35,9 +37,9 @@ export default class AddAmenity extends Component{
         }
     }
 
-    setFormData(change){
+    setFormData(change) {
         let dat = this.state.data
-        for (let [key, value] of Object.entries(change)){
+        for (let [key, value] of Object.entries(change)) {
             dat[key] = value
         }
 
@@ -45,15 +47,14 @@ export default class AddAmenity extends Component{
     }
 
 
-    ShowGeneralMessage(){
-        if (this.state.reqSucc){
+    ShowGeneralMessage() {
+        if (this.state.reqSucc) {
             return (
                 <Alert severity="success">
                     <AlertTitle>Amenity Added successfully to studio</AlertTitle>
                 </Alert>
             )
-        }
-        else{
+        } else {
             return (
                 <Alert severity="error">
                     <AlertTitle>Please resolve errors</AlertTitle>
@@ -62,17 +63,16 @@ export default class AddAmenity extends Component{
         }
     }
 
-    ValidateData(){
+    ValidateData() {
         let data = this.state.data
         let errors = this.state.errors
         let hasErrors = false
-        for (let [key, value] of Object.entries(data)){
+        for (let [key, value] of Object.entries(data)) {
 
-            if (!(value.length) && REQUIRED_PARAMS.includes(key)){
+            if (!(value.length) && REQUIRED_PARAMS.includes(key)) {
                 errors[key] = "This Field is required"
                 hasErrors = true
-            }
-            else{
+            } else {
                 errors[key] = ""
             }
         }
@@ -81,29 +81,34 @@ export default class AddAmenity extends Component{
         return hasErrors
     }
 
-    OnSignupSubmit(){
+    OnSignupSubmit() {
         this.setState({
             axiosLoading: true
         })
         let e = this.ValidateData()
 
-        if (e){
+        if (e) {
             this.setState({
                 axiosLoading: false
             })
-        }
-        else{
+        } else {
             let dat = this.state.data
 
-            let targetURL = Constants.BASEURL + 'studios/' + this.state.studioId +'/amenities/add/'
+            let targetURL = Constants.BASEURL + 'studios/' + this.state.studioId + '/amenities/add/'
 
-
+            var token = this.context.userToken
+            if (token === null || token === undefined) {
+                return
+            }
+            console.log(token)
+            token = token.replace("Token ", "")
 
             let requestData = {
                 url: targetURL,
                 method: "POST",
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    "Authorization": "Token " + token
                 },
                 data: dat
             }
@@ -111,61 +116,62 @@ export default class AddAmenity extends Component{
             var comp = this
 
             axios(requestData)
-            .then(function (response){
-                comp.setState({
-                    axiosLoading: false
+                .then(function (response) {
+                    comp.setState({
+                        axiosLoading: false
+                    })
+                    let newData = {
+                        reqSent: true,
+                        reqSucc: true,
+                        reqResp: response.data
+                    }
+                    comp.setState(newData)
+
+                    comp.setState({
+                        generalMessage: "Amenity Added Successfully"
+                    })
                 })
-                let newData = {
-                    reqSent: true,
-                    reqSucc: true,
-                    reqResp: response.data
-                }
-                comp.setState(newData)
+                .catch(function (error) {
+                    comp.setState({
+                        axiosLoading: false
+                    })
+                    let a = error.response.data
 
-                comp.setState({
-                    generalMessage: "Amenity Added Successfully"
+                    let errors = comp.state.errors
+                    for (let [key, value] of Object.entries(a)) {
+                        errors[key] = value
+                    }
+
+                    let newData = {
+                        reqSent: true,
+                        reqSucc: false,
+                        reqResp: a
+                    }
+
+                    comp.setState(newData)
                 })
-            })
-            .catch(function (error){
-                comp.setState({
-                    axiosLoading: false
-                })
-                let a = error.response.data
-
-                let errors = comp.state.errors
-                for (let [key, value] of Object.entries(a)){
-                    errors[key] = value
-                }
-
-                let newData = {
-                    reqSent: true,
-                    reqSucc: false,
-                    reqResp: a
-                }
-
-                comp.setState(newData)
-            })
 
 
         }
     }
+
     render() {
         return (
             <div>
                 <br/>
                 <Typography variant="h3" align="center">Add Amenity</Typography>
-              <Box
-                  noValidate
-                  sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      m: 'auto',
-                      width: 'fit-content',
-                  }}
-              >
-                  {this.state.reqSent && this.ShowGeneralMessage()}
-                  <br/>
-              </Box>
+                <Box
+                    noValidate
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        m: 'auto',
+                        width: 'fit-content',
+                    }}
+                >
+                    {this.state.reqSent && this.ShowGeneralMessage()}
+                    <br/>
+                </Box>
                 <Box
                     noValidate
                     sx={{
@@ -184,7 +190,7 @@ export default class AddAmenity extends Component{
                         onChange={e => this.setFormData({type: e.target.value})}
                     />
 
-                    <i style={{ color: 'red' }}>{this.state.errors.type}</i>
+                    <i style={{color: 'red'}}>{this.state.errors.type}</i>
                     <br/>
                     <TextField
                         error={!!(this.state.errors.quantity.length)}
@@ -194,13 +200,14 @@ export default class AddAmenity extends Component{
                         label='Quantity'
                         onChange={e => this.setFormData({quantity: e.target.value})}
                     />
-                    <i style={{ color: 'red' }}>{this.state.errors.quantity}</i>
+                    <i style={{color: 'red'}}>{this.state.errors.quantity}</i>
                     <br/>
 
 
-                    <Button variant='contained' onClick={() => this.OnSignupSubmit()}>Submit</Button>
+                    <Button variant='contained'
+                            onClick={() => this.OnSignupSubmit()}>Submit</Button>
 
-                    </Box>
+                </Box>
 
             </div>
         )

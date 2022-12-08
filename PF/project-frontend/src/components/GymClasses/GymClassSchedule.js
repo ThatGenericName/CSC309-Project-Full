@@ -1,12 +1,13 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Box, Pagination, Paper} from "@mui/material";
 
 import {BASEURL} from "../constants";
 import axios from "axios";
 import {useParams} from "react-router-dom";
 import GymClassScheduleList from "./GymClassScheduleList"
+import {APIContext} from "../APIContextProvider";
 
-export default function GymClassSchedule(props){
+export default function GymClassSchedule(props) {
 
     const [compState, setComp] = useState({
         list: [],
@@ -17,9 +18,10 @@ export default function GymClassSchedule(props){
         onSendFlag: false
     })
 
-    const {id}  = useParams()
+    const {id} = useParams()
+    let ctx = useContext(APIContext)
 
-    function setCompState(obj){
+    function setCompState(obj) {
         var d = {}
         Object.keys(compState).forEach(k => {
             d[k] = compState[k]
@@ -30,24 +32,28 @@ export default function GymClassSchedule(props){
         setComp(d)
     }
 
-     const getdata =  (props) => {
-         const url = BASEURL + "classes/studio/" + id + "/list/"
+    const getdata = (props) => {
+        const url = BASEURL + "classes/studio/" + id + "/list/"
 
-         var params = {
+        var params = {
             page: compState.targetPage
         }
 
-         let requestData = {
-             url: url,
-             method: "GET",
-             headers: {
-                 'Content-Type': 'application/json'
-             },
-             params: params
-         }
+        var token = ctx.userToken
+        token = token.replace("Token ", "")
 
-          axios(requestData).then(function (response) {
-             let pages = Math.ceil(response.data['count'] / 10)
+        let requestData = {
+            url: url,
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": "Token " + token
+            },
+            params: params
+        }
+
+        axios(requestData).then(function (response) {
+            let pages = Math.ceil(response.data['count'] / 10)
 
             setCompState({
                 list: response.data['results'],
@@ -57,14 +63,14 @@ export default function GymClassSchedule(props){
                 onSendFlag: false
             })
 
-              props.onUpdate()
-         }).catch(function (error) {
-             let a = 1
-         })
+            props.onUpdate()
+        }).catch(function (error) {
+            let a = 1
+        })
 
-     }
+    }
 
-     function forceReload(){
+    function forceReload() {
         setCompState({
             respReceived: false,
             axiosLoading: true,
@@ -72,26 +78,26 @@ export default function GymClassSchedule(props){
         })
     }
 
-    if(!compState.respReceived)
+    if (!compState.respReceived)
         getdata(props)
 
 
-    if(compState.respReceived){
+    if (compState.respReceived) {
         return (
 
-        <Paper sx={{p:2, mx:2}}>
+            <Paper sx={{p: 2, mx: 2}}>
                 <br/>
                 <Box
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                }}
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}
                 >
                     <Pagination
                         count={compState.pages}
                         onChange={(e, v) => {
-                            if (v !== compState.targetPage){
+                            if (v !== compState.targetPage) {
                                 setCompState({
                                     targetPage: v,
                                     respReceived: false,
@@ -103,8 +109,9 @@ export default function GymClassSchedule(props){
                 </Box>
                 <br/>
 
-                <GymClassScheduleList admin={props.admin} items={compState.list} onSend={forceReload}/>
-        </Paper>
+                <GymClassScheduleList admin={props.admin} items={compState.list}
+                                      onSend={forceReload}/>
+            </Paper>
 
         )
     }

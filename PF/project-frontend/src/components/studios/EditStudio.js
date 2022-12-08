@@ -20,13 +20,13 @@ import * as Constants from "../constants"
 import {useParams} from "react-router-dom";
 
 
-export default function EditStudio(){
+export default function EditStudio() {
 
     let ctx = useContext(APIContext)
 
-    const { id } = useParams()
+    const {id} = useParams()
 
-    const url = Constants.BASEURL + "studios/" + id  + "/edit/"
+    const url = Constants.BASEURL + "studios/" + id + "/edit/"
 
     let studioData = {
         name: "",
@@ -78,9 +78,9 @@ export default function EditStudio(){
     // Loading Thingy
     const [axiosLoading, setAxiosLoading] = useState(false)
 
-    function setError(obj){
+    function setError(obj) {
         var errorDict = errorsEmpty
-        for (const [k, v] of Object.entries(obj)){
+        for (const [k, v] of Object.entries(obj)) {
             errorDict[k] = v
         }
         setErr(errorDict)
@@ -111,10 +111,10 @@ export default function EditStudio(){
             phone_num: formDataRef.current.phone_num,
             images: []
         }
-        if(key !== 'images')
+        if (key !== 'images')
             origDat[key] = value.target.value
-        else{
-            for(var img of value.target.files){
+        else {
+            for (var img of value.target.files) {
                 origDat['images'].push(img)
             }
         }
@@ -127,16 +127,16 @@ export default function EditStudio(){
         setFormDat(origDat)
     }
 
-    function ShowGeneralMessage(){
-        var flag =0
+    function ShowGeneralMessage() {
+        var flag = 0
 
-        for (const [k, v] of Object.entries(errors)){
-            if(v){
+        for (const [k, v] of Object.entries(errors)) {
+            if (v) {
                 flag = 1
             }
         }
 
-        if (reqSent && flag === 1 && !reqSucess){
+        if (reqSent && flag === 1 && !reqSucess) {
             return (
                 <Alert severity="error">
                     <AlertTitle>Please resolve errors</AlertTitle>
@@ -144,7 +144,6 @@ export default function EditStudio(){
             )
         }
     }
-
 
 
     const fieldVars = [
@@ -163,7 +162,7 @@ export default function EditStudio(){
         'Images'
     ]
 
-    function form(){
+    function form() {
         return (
             <React.Fragment>
                 {fieldVars.map((fieldID, index) => {
@@ -171,74 +170,74 @@ export default function EditStudio(){
                     const label = fieldNames[index]
                     var val = formDataRef.current[fieldID]
 
-                    if(fieldID !== 'images'){
+                    if (fieldID !== 'images') {
                         return (
-                        <Stack spacing={0} key={fieldID} >
-                            <Box>
-                                <TextField
-                                    error={err}
-                                    label={label}
-                                    id={fieldID}
-                                    value={val}
-                                    onChange={e => reset2(fieldID, e)}
-                                    InputLabelProps={{
-                                      shrink: true,
-                                    }}
-                                />
-                            </Box>
-                            <Box>
-                                <i style={{ color: 'red'}}>{errorsRef.current[fieldID]}</i>
-                            </Box>
-                        </Stack>
+                            <Stack spacing={0} key={fieldID}>
+                                <Box>
+                                    <TextField
+                                        error={err}
+                                        label={label}
+                                        id={fieldID}
+                                        value={val}
+                                        onChange={e => reset2(fieldID, e)}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    />
+                                </Box>
+                                <Box>
+                                    <i style={{color: 'red'}}>{errorsRef.current[fieldID]}</i>
+                                </Box>
+                            </Stack>
                         )
-                    }
-                    else{
+                    } else {
                         return (
-                        <Stack spacing={0} key={fieldID} >
-                            <Box>
-                                <input
-                                    multiple
-                                    type="file"
-                                    name="studio_images"
-                                    accept='image/png, image/jpeg'
-                                    id='images'
-                                    style={{ display: 'none' }}
-                                    onChange={e => reset2(fieldID, e)}
-                                />
-                                <label htmlFor="images">
-                                    <Button variant="contained" color="primary" component="span">
-                                      Studio Images
-                                    </Button>
-                                </label>
+                            <Stack spacing={0} key={fieldID}>
+                                <Box>
+                                    <input
+                                        multiple
+                                        type="file"
+                                        name="studio_images"
+                                        accept='image/png, image/jpeg'
+                                        id='images'
+                                        style={{display: 'none'}}
+                                        onChange={e => reset2(fieldID, e)}
+                                    />
+                                    <label htmlFor="images">
+                                        <Button variant="contained" color="primary"
+                                                component="span">
+                                            Studio Images
+                                        </Button>
+                                    </label>
 
-                            </Box>
-                            <Box>
-                                <i style={{ color: 'red'}}>{errorsRef.current[fieldID]}</i>
-                            </Box>
-                        </Stack>
+                                </Box>
+                                <Box>
+                                    <i style={{color: 'red'}}>{errorsRef.current[fieldID]}</i>
+                                </Box>
+                            </Stack>
                         )
                     }
-                    })
+                })
                 }
 
             </React.Fragment>
-            )
+        )
 
     }
 
-    function validateData(){
+    function validateData() {
         let data = formData
         let hasErrors = false
 
-        if(formData.phone_num && !(errors.phone_num.length)){
-            if(!(/^([0-9]{3})[-]([0-9]{3})[-]([0-9]{4})$/.test(data.phone_num))){
+        if (formData.phone_num && !(errors.phone_num.length)) {
+            if (!(/^([0-9]{3})[-]([0-9]{3})[-]([0-9]{4})$/.test(data.phone_num))) {
                 errors['phone_num'] = 'Phone Number is Invalid'
                 hasErrors = true
             }
         }
 
-        if(formData.post_code && !(errors.post_code.length)){
-            if(!(/^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$/.test(data.post_code))){
+        if (formData.post_code && !(errors.post_code.length)) {
+            if (!(/^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$/.test(data.post_code))) {
                 errors['post_code'] = 'Postal Code is Invalid'
                 hasErrors = true
             }
@@ -250,9 +249,8 @@ export default function EditStudio(){
     }
 
     function submit() {
-        if(validateData()){
-        }
-        else{
+        if (validateData()) {
+        } else {
             setAxiosLoading(true)
 
             var targetURL = url
@@ -265,15 +263,15 @@ export default function EditStudio(){
 
             // console.log(formData.images)
             for (let i = 0; i < formData.images.length; i++) {
-               formdat.append('images', formData.images[i])
+                formdat.append('images', formData.images[i])
             }
             // console.log(formdat)
 
             var token = ctx.userToken
-            if (token === null){
-              return
+            if (token === null) {
+                return
             }
-            token = token.replace("Token ","")
+            token = token.replace("Token ", "")
             var requestData = {
                 url: targetURL,
                 method: "POST",
@@ -303,32 +301,32 @@ export default function EditStudio(){
     }
 
 
-
     const vertical = 'bottom'
     const horizontal = 'center';
 
 
     return (
-        <Paper elevation={3} sx={{textAlign:'center'}}>
+        <Paper elevation={3} sx={{textAlign: 'center'}}>
             <Snackbar
-                anchorOrigin={{ vertical, horizontal }}
+                anchorOrigin={{vertical, horizontal}}
                 autoHideDuration={8000}
                 open={snackbarOpen}
                 onClose={() => setSnackbarOpen(false)}
             >
-                <Alert onClose={() => setSnackbarOpen(false)} severity="success" sx={{ width: '100%' }}>
+                <Alert onClose={() => setSnackbarOpen(false)} severity="success"
+                       sx={{width: '100%'}}>
                     Success!
                 </Alert>
             </Snackbar>
 
 
-            <Box sx={{p:2}}>
+            <Box sx={{p: 2}}>
                 <Typography variant="h3">Edit Studio</Typography>
             </Box>
             {reqSent && ShowGeneralMessage()}
             <Divider/>
 
-            <Stack spacing={4} sx={{p:4}}>
+            <Stack spacing={4} sx={{p: 4}}>
                 {form()}
                 <Box sx={{textAlign: 'center'}}>
                     <ButtonGroup variant="contained">

@@ -11,7 +11,7 @@ import {AddPaymentMethod} from "./AddPaymentMethod";
 import {RemovePaymentMethod} from "./RemovePaymentMethod";
 
 
-export function AccountPaymentDashboard(props){
+export function AccountPaymentDashboard(props) {
     const ctx = useContext(APIContext)
 
     const [componentState, setComponentState] = useState({
@@ -21,7 +21,7 @@ export function AccountPaymentDashboard(props){
         responseReceived: false
     })
 
-    function getComponentState(){
+    function getComponentState() {
         // apparently state change is by detecting if the reference changes.
         // weird.
         const newObj = {}
@@ -34,7 +34,7 @@ export function AccountPaymentDashboard(props){
     const [dialogState, setDialogState] = useState(false)
 
 
-    function getPaymentInfo(){
+    function getPaymentInfo() {
         const targetURL = BASEURL + 'accounts/payment/'
 
         const token = ctx.userToken.replace("Token ")
@@ -48,15 +48,15 @@ export function AccountPaymentDashboard(props){
             }
         }
 
-        axios(requestData).then(function(response){
+        axios(requestData).then(function (response) {
             var data = getComponentState()
             data.activePayment = response.data
             data.hasPaymentInfo = true
             data.axiosLoading = false
             data.responseReceived = true
             setComponentState(data)
-        }).catch(function(error){
-            if (error.response.status === 404){
+        }).catch(function (error) {
+            if (error.response.status === 404) {
                 var data = getComponentState()
                 data.activePayment = null
                 data.hasPaymentInfo = false
@@ -67,19 +67,19 @@ export function AccountPaymentDashboard(props){
         })
     }
 
-    function forceUpdateDash(){
+    function forceUpdateDash() {
         setUpdateDash(true)
     }
 
-    function handleClose(){
+    function handleClose() {
         setDialogState(false)
     }
 
-    function handleOpen(){
+    function handleOpen() {
         setDialogState(true)
     }
 
-    if (updateDash){
+    if (updateDash) {
         setUpdateDash(false)
         let state = getComponentState()
         state.responseReceived = false
@@ -88,14 +88,14 @@ export function AccountPaymentDashboard(props){
         setComponentState(state)
     }
 
-    if (!componentState.responseReceived){
+    if (!componentState.responseReceived) {
         getPaymentInfo()
     }
 
-    if (componentState.axiosLoading){
+    if (componentState.axiosLoading) {
         return (
-            <Paper sx={{p:3}}>
-                <LinearProgress />
+            <Paper sx={{p: 3}}>
+                <LinearProgress/>
             </Paper>
         )
     }
@@ -115,8 +115,11 @@ export function AccountPaymentDashboard(props){
                     <Button variant='outlined' onClick={handleOpen}>
                         Add Payment Method
                     </Button>
-                    <AddPaymentMethod open={dialogState} onClose={handleClose} onSend={forceUpdateDash}/>
-                    {componentState.activePayment !== null && <RemovePaymentMethod data={componentState.activePayment} onSend={forceUpdateDash}/>}
+                    <AddPaymentMethod open={dialogState} onClose={handleClose}
+                                      onSend={forceUpdateDash}/>
+                    {componentState.activePayment !== null &&
+                        <RemovePaymentMethod data={componentState.activePayment}
+                                             onSend={forceUpdateDash}/>}
                 </Grid2>
                 <Grid2 xs={12}>
                     <AccountPaymentPreview data={componentState.activePayment}/>

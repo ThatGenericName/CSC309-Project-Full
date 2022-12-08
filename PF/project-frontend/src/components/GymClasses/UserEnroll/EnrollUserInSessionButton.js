@@ -2,19 +2,13 @@ import {useContext, useState} from "react";
 import {APIContext} from "../../APIContextProvider";
 import Button from "@mui/material/Button";
 import {DeepCloneStateSet} from "../../Utility";
-import {
-    Box,
-    Dialog,
-    DialogActions,
-    DialogTitle,
-    Typography
-} from "@mui/material";
+import {Box, Dialog, DialogActions, DialogTitle, Typography} from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import {BASEURL} from "../../constants";
 import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
 
-export function EnrollUserInSession(props){
+export function EnrollUserInSession(props) {
     const ctx = useContext(APIContext)
     const navigate = useNavigate()
 
@@ -25,15 +19,15 @@ export function EnrollUserInSession(props){
 
     const [dialogOpen, setDialogOpen] = useState(false)
 
-    function setCompState(obj){
+    function setCompState(obj) {
         DeepCloneStateSet(compState, obj, setComp)
     }
 
-    if (ctx.userLoggedIn === false || ctx.userData.fullUserData['active_subscription'] === null){
+    if (ctx.userLoggedIn === false || ctx.userData.fullUserData['active_subscription'] === null) {
         return null // user won't have perms
     }
 
-    function onClick(){
+    function onClick() {
         setCompState({
             dialogOpen: true,
             axiosLoading: true
@@ -53,18 +47,18 @@ export function EnrollUserInSession(props){
             }
         }
 
-        axios(reqData).then(function (response){
+        axios(reqData).then(function (response) {
             setCompState({
-                axiosLoading:false
+                axiosLoading: false
             })
-        }).catch(function (error){
-            if (error.response.status >= 500){
+        }).catch(function (error) {
+            if (error.response.status >= 500) {
                 return navigate('/error/500')
             }
         })
     }
 
-    function onClose(){
+    function onClose() {
         setDialogOpen(false)
     }
 
@@ -85,13 +79,13 @@ export function EnrollUserInSession(props){
                 </DialogTitle>
                 <Box
                     sx={{
-                        p:2
+                        p: 2
                     }}
                     style={{
                         textAlign: 'center'
                     }}
                 >
-                    {compState.axiosLoading && <CircularProgress />}
+                    {compState.axiosLoading && <CircularProgress/>}
                     {!compState.axiosLoading &&
                         <Typography>
                             Success, you can manage your classes in your account page
@@ -117,7 +111,6 @@ export function EnrollUserInSession(props){
             </Dialog>
         </>
     )
-
 
 
 }

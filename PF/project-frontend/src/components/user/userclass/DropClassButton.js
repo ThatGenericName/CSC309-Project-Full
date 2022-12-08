@@ -10,7 +10,7 @@ import {BASEURL} from "../../constants";
 import axios from "axios";
 
 
-export default function DropClassButton(props){
+export default function DropClassButton(props) {
     const ctx = useContext(APIContext)
 
     const [dialogueState, setDialogueState] = useState({
@@ -20,14 +20,14 @@ export default function DropClassButton(props){
 
     const [axiosLoading, setAxiosLoading] = useState(false)
 
-    function dropAllSessions(){
+    function dropAllSessions() {
         setDialogueState({
             open: true,
             all: true
         })
     }
 
-    function dropSession(){
+    function dropSession() {
         setDialogueState({
             open: true,
             all: false
@@ -35,7 +35,7 @@ export default function DropClassButton(props){
     }
 
 
-    function handleClose(){
+    function handleClose() {
         setDialogueState({
             open: false,
             all: false
@@ -44,39 +44,34 @@ export default function DropClassButton(props){
 
     let dialogueText
 
-    if (dialogueState.all){
+    if (dialogueState.all) {
         dialogueText = "Are you sure you want to drop all sessions of this class?"
-    }
-    else{
-        if (props.data['dropped']){
-            if (props.data['financial_hold']){
+    } else {
+        if (props.data['dropped']) {
+            if (props.data['financial_hold']) {
                 dialogueText = "You are currently under financial hold, please sign up for a membership before enrolling in classes"
-            }
-            else{
+            } else {
                 dialogueText = "Are you sure you want to re-enroll in this session?"
             }
-        }
-        else{
+        } else {
             dialogueText = "Are you sure you want to drop this session?"
         }
     }
 
-    function send(){
+    function send() {
         setAxiosLoading(true)
-        if (dialogueState.all){
+        if (dialogueState.all) {
             sendDropClass()
-        }
-        else{
-            if (props.data['dropped']){
+        } else {
+            if (props.data['dropped']) {
                 sendReenrollClassSession()
-            }
-            else{
+            } else {
                 sendDropClassSession()
             }
         }
     }
 
-    function sendReenrollClassSession(){
+    function sendReenrollClassSession() {
         const token = ctx.userToken.replace("Token ")
 
         var targetURL = BASEURL + 'classes/session/' + props.sessionID + '/signup/'
@@ -98,14 +93,14 @@ export default function DropClassButton(props){
             })
             .catch(function (error) {
                 // ya dun goof'd
-                if (error.response.status = 403){
+                if (error.response.status = 403) {
                     let a = 1
                 }
                 let a = 1
             })
     }
 
-    function sendDropClassSession(){
+    function sendDropClassSession() {
         const token = ctx.userToken.replace("Token ")
 
         var targetURL = BASEURL + 'classes/session/' + props.sessionID + '/drop/'
@@ -131,7 +126,7 @@ export default function DropClassButton(props){
             })
     }
 
-    function sendDropClass(){
+    function sendDropClass() {
         const token = ctx.userToken.replace("Token ")
 
         var targetURL = BASEURL + 'classes/' + props.classID + '/drop/'
@@ -167,7 +162,7 @@ export default function DropClassButton(props){
                 </Button>
             </ButtonGroup>
             <Dialog open={dialogueState.open} onClose={handleClose}>
-                <Box sx={{p:3}}>
+                <Box sx={{p: 3}}>
                     {dialogueText}
                 </Box>
                 <DialogActions>

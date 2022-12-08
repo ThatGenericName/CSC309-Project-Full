@@ -4,7 +4,7 @@ import {Box, Paper} from "@mui/material";
 import {Register} from "./Register";
 
 
-export function UserNotLoggedIn(props){
+export function UserNotLoggedIn(props) {
 
     return (
         <Box
@@ -15,7 +15,7 @@ export function UserNotLoggedIn(props){
             }}
         >
             <Paper
-                sx={{m:3, p:2}}
+                sx={{m: 3, p: 2}}
             >
                 <Grid2 container spacing={2}>
                     <Grid2 xs={1}/>

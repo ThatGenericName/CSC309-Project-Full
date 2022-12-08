@@ -3,7 +3,7 @@ import {EnrollUserInSession} from "./EnrollUserInSessionButton";
 import {EnrollUserInClassButton} from "./EnrollUserInClassButton";
 
 
-export function TempTestPage(props){
+export function TempTestPage(props) {
 
     return (
         <Box
@@ -13,8 +13,8 @@ export function TempTestPage(props){
         >
             <Paper
                 sx={{
-                    p:5,
-                    m:5
+                    p: 5,
+                    m: 5
                 }}
             >
                 <EnrollUserInSession

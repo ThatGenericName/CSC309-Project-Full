@@ -1,15 +1,10 @@
 import Paper from "@mui/material/Paper";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import {
-    Pagination,
-    Stack,
-    ToggleButton,
-    ToggleButtonGroup
-} from "@mui/material";
+import {Pagination, Stack, ToggleButton, ToggleButtonGroup} from "@mui/material";
 import React from "react";
 
 
-export default class FilterControls extends React.Component{
+export default class FilterControls extends React.Component {
 
     constructor(props) {
         super(props);
@@ -21,7 +16,7 @@ export default class FilterControls extends React.Component{
         }
     }
 
-    applyFilterState(state){
+    applyFilterState(state) {
         this.props.filterSetter({
             sortData: state.sortData,
             filterData: state.filterData,
@@ -33,7 +28,7 @@ export default class FilterControls extends React.Component{
 
     }
 
-    render(){
+    render() {
         return (
             <Paper sx={{py: 2}}>
                 <Stack alignItems="center" spacing={2}>
@@ -43,7 +38,7 @@ export default class FilterControls extends React.Component{
                                 value={this.state.sortData}
                                 color='primary'
                                 onChange={(e, val) => {
-                                    if (val === null){
+                                    if (val === null) {
                                         return
                                     }
                                     let stateDat = this.state
@@ -63,7 +58,7 @@ export default class FilterControls extends React.Component{
                                 value={this.state.filterData}
                                 color='primary'
                                 onChange={(e, val) => {
-                                    if (val === null){
+                                    if (val === null) {
                                         return
                                     }
                                     let stateDat = this.state

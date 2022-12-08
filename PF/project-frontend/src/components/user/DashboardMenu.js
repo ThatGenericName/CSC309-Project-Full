@@ -21,26 +21,26 @@ import {Link} from "react-router-dom"
 import {BASEURLNOEND} from "../constants";
 
 
-export default class DashboardMenu extends React.Component{
+export default class DashboardMenu extends React.Component {
     static contextType = APIContext
+
     constructor(props, context) {
         super(props, context);
     }
 
-    UserIconClosed(){
+    UserIconClosed() {
         let userData = this.props.userData
         let icon
         if (userData.profile_pic === null || userData.profile_pic === "") {
             icon = <AccountCircleIcon
-                sx={{ width: 48, height: 48 }}
+                sx={{width: 48, height: 48}}
             />
-        }
-        else{
+        } else {
             var src = BASEURLNOEND + userData.profile_pic
             icon = <Avatar
                 alt={userData.username}
                 src={src}
-                sx={{ width: 48, height: 48 }}
+                sx={{width: 48, height: 48}}
             />
         }
 
@@ -49,34 +49,31 @@ export default class DashboardMenu extends React.Component{
         )
     }
 
-    UserIconText(){
+    UserIconText() {
         let userData = this.props.userData
         let displayName;
         let displayUsername;
-        if (userData.first_name === null && userData.last_name === null){
+        if (userData.first_name === null && userData.last_name === null) {
             displayName = userData.username
             displayUsername = ""
-        }
-        else if (userData.first_name === null){
+        } else if (userData.first_name === null) {
             displayName = userData.last_name
             displayUsername = userData.username
-        }
-        else{
+        } else {
             displayName = userData.first_name + " " + userData.last_name
             displayUsername = userData.username
         }
 
         let staffBox = ""
-        if (userData.is_staff){
+        if (userData.is_staff) {
             staffBox = "Staff"
-        }
-        else if (userData.is_coach){
+        } else if (userData.is_coach) {
             staffBox = "Coach"
         }
 
         return (
             <Box>
-                <Box sx={{ fontWeight: 'bold'}}>
+                <Box sx={{fontWeight: 'bold'}}>
                     {displayName}
                 </Box>
                 <Box>
@@ -89,7 +86,7 @@ export default class DashboardMenu extends React.Component{
         )
     }
 
-    render(){
+    render() {
         let a = 0
         return (
             <List>
@@ -119,7 +116,7 @@ export default class DashboardMenu extends React.Component{
                         Dashboard
                     </ListItemButton>
                 </ListItem>
-                <ListItem disablePadding sx={{ display: 'block' }}>
+                <ListItem disablePadding sx={{display: 'block'}}>
                     <ListItemButton component={Link} to={'/account/edit'}>
                         <ListItemIcon>
                             <EditIcon/>
@@ -127,7 +124,7 @@ export default class DashboardMenu extends React.Component{
                         Edit Profile
                     </ListItemButton>
                 </ListItem>
-                <ListItem disablePadding sx={{ display: 'block' }}>
+                <ListItem disablePadding sx={{display: 'block'}}>
                     <ListItemButton component={Link} to={'/account/classes'}>
                         <ListItemIcon>
                             <CalendarMonthIcon/>
@@ -135,7 +132,7 @@ export default class DashboardMenu extends React.Component{
                         Classes
                     </ListItemButton>
                 </ListItem>
-                <ListItem disablePadding sx={{ display: 'block' }}>
+                <ListItem disablePadding sx={{display: 'block'}}>
                     <ListItemButton component={Link} to={'/account/subscriptions'}>
                         <ListItemIcon>
                             <FitnessCenterIcon/>
@@ -143,7 +140,7 @@ export default class DashboardMenu extends React.Component{
                         Subscription
                     </ListItemButton>
                 </ListItem>
-                <ListItem disablePadding sx={{ display: 'block' }}>
+                <ListItem disablePadding sx={{display: 'block'}}>
                     <ListItemButton component={Link} to={'/account/payment'}>
                         <ListItemIcon>
                             <PaymentIcon/>

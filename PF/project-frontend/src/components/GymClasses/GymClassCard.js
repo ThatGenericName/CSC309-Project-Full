@@ -22,18 +22,21 @@ export function GymClassCard(props) {
 
 
         let requestData
+        var token = ctx.userToken
+        token = token.replace("Token ", "")
 
         requestData = {
             url: url,
             method: "DELETE",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": "Token " + token
             },
 
         }
 
         axios(requestData).then(function (response) {
-            if (props.onSend !== undefined){
+            if (props.onSend !== undefined) {
                 props.onSend()
             }
         }).catch(function (error) {
@@ -47,19 +50,22 @@ export function GymClassCard(props) {
 
 
         let requestData
+        var token = ctx.userToken
+        token = token.replace("Token ", "")
 
         requestData = {
             url: url,
             method: "DELETE",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": "Token " + token
             },
             data: {"delete": true}
 
         }
 
         axios(requestData).then(function (response) {
-            if (props.onSend !== undefined){
+            if (props.onSend !== undefined) {
                 props.onSend()
             }
         }).catch(function (error) {
@@ -120,7 +126,7 @@ export function GymClassCard(props) {
 
 
                 {props.admin && <React.Fragment>
-                        <CardActions sx={{gap: 1}}>
+                    <CardActions sx={{gap: 1}}>
                         <Button variant='contained' component={Link} to={{
                             pathname:
                                 `${props.data.id}/edit/`

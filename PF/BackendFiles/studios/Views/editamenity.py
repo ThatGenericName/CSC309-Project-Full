@@ -25,7 +25,7 @@ class EditAmenity(APIView):
         'quantity'
     ]
 
-    # permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminUser]
 
     def post(self, request: Request, *args, **kwargs):
 

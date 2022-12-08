@@ -16,9 +16,10 @@ import {APIContext} from "../APIContextProvider";
 
 const REQUIRED_PARAMS = ['username', 'password']
 
-export default class SignInButton extends React.Component{
+export default class SignInButton extends React.Component {
     static contextType = APIContext
-    constructor(props, context){
+
+    constructor(props, context) {
         super(props, context)
         this.state = {
             reqSent: false,
@@ -40,35 +41,35 @@ export default class SignInButton extends React.Component{
         console.log("test")
     }
 
-    HandleClose(){
+    HandleClose() {
         this.setOpen(false)
     }
 
-    setOpen(val){
+    setOpen(val) {
         this.setState({openDiag: val})
     }
 
-    setFormData(change){
+    setFormData(change) {
         let dat = this.state.data
-        for (let [key, value] of Object.entries(change)){
+        for (let [key, value] of Object.entries(change)) {
             dat[key] = value
         }
         this.setState({data: dat})
     }
 
 
-    OnClick(){
+    OnClick() {
         this.setOpen(true)
     }
 
 
-    ValidateData(){
+    ValidateData() {
         let data = this.state.data
         let errors = this.state.errors
         let hasErrors = false
-        for (let [key, value] of Object.entries(data)){
+        for (let [key, value] of Object.entries(data)) {
 
-            if (!(value.length) && REQUIRED_PARAMS.includes(key)){
+            if (!(value.length) && REQUIRED_PARAMS.includes(key)) {
                 errors[key] = "This Field is required"
                 hasErrors = true
             }
@@ -78,16 +79,15 @@ export default class SignInButton extends React.Component{
         return hasErrors
     }
 
-    OnSignupSubmit(){
+    OnSignupSubmit() {
         this.setState({axionLoading: true})
         let e = this.ValidateData()
 
-        if (e){
+        if (e) {
             this.setState({
                 axiosLoading: false
             })
-        }
-        else{
+        } else {
             let targetURL = Constants.BASEURL + 'accounts/login/'
 
             let requestData = {
@@ -102,50 +102,49 @@ export default class SignInButton extends React.Component{
             var comp = this
 
             axios(requestData)
-            .then(function (response){
-                comp.setState({
-                    axiosLoading: false
+                .then(function (response) {
+                    comp.setState({
+                        axiosLoading: false
+                    })
+                    let newData = {
+                        reqSent: true,
+                        reqSucc: true,
+                        reqResp: response.data
+                    }
+                    console.log(response.status)
+                    comp.setState(newData)
+                    localStorage.setItem('Auth', response.data.detail)
+                    if (localStorage.getItem('Auth') !== response.data.detail) {
+                        throw "Auth Token not saved!"
+                    }
+                    comp.setOpen(false)
+                    comp.context.setUserToken(response.data.detail)
                 })
-                let newData = {
-                    reqSent: true,
-                    reqSucc: true,
-                    reqResp: response.data
-                }
-                console.log(response.status)
-                comp.setState(newData)
-                localStorage.setItem('Auth', response.data.detail)
-                if (localStorage.getItem('Auth') !== response.data.detail){
-                    throw "Auth Token not saved!"
-                }
-                comp.setOpen(false)
-                comp.context.setUserToken(response.data.detail)
-            })
-            .catch(function (error){
-                comp.setState({
-                    axiosLoading: false
+                .catch(function (error) {
+                    comp.setState({
+                        axiosLoading: false
+                    })
+                    let a = error.response.data
+                    let newData = {
+                        reqSent: true,
+                        reqSucc: false,
+                        reqResp: a
+                    }
+                    comp.setState(newData)
                 })
-                let a = error.response.data
-                let newData = {
-                    reqSent: true,
-                    reqSucc: false,
-                    reqResp: a
-                }
-                comp.setState(newData)
-            })
         }
     }
 
-    ShowGeneralMessage(){
-        if (this.state.reqSent){
-            if (!this.state.reqSucc){
+    ShowGeneralMessage() {
+        if (this.state.reqSent) {
+            if (!this.state.reqSucc) {
                 return (
                     <Alert severity="error">
                         <AlertTitle>Account or Password does not match</AlertTitle>
                     </Alert>
                 )
             }
-        }
-        else if (this.state.hasErrors) {
+        } else if (this.state.hasErrors) {
             return (
                 <Alert severity="error">
                     <AlertTitle>Please resolve errors</AlertTitle>
@@ -154,92 +153,94 @@ export default class SignInButton extends React.Component{
         }
     }
 
-    render(){
+    render() {
         // Obtained from https://stackoverflow.com/questions/56284497/pressing-tab-key-closes-material-ui-dialog-that-is-opened-from-a-submenu
         // It's use in Dialog in MaterialUI prevents the dialog from closing when you press tab to
         // switch to the next form.
 
         const stopPropagationForTab = (event) => {
             if (event.key === "Tab") {
-              event.stopPropagation();
+                event.stopPropagation();
             }
         };
 
         const loadingCircle = (
-            <Box sx={{ display: 'flex', justifyContent: 'center'}}>
-                <CircularProgress />
+            <Box sx={{display: 'flex', justifyContent: 'center'}}>
+                <CircularProgress/>
             </Box>
         )
 
         return (
             <div>
-            <MenuItem onClick={() => this.OnClick()}>Sign In</MenuItem>
+                <MenuItem onClick={() => this.OnClick()}>Sign In</MenuItem>
 
-            <Dialog
-                open={this.state.openDiag} onClose={() => this.HandleClose()}
-                fullWidth={true}
-                maxWidth="sm"
-                onKeyDown={stopPropagationForTab}
-                style={{
-                    zIndex: 1401
-                }}
+                <Dialog
+                    open={this.state.openDiag} onClose={() => this.HandleClose()}
+                    fullWidth={true}
+                    maxWidth="sm"
+                    onKeyDown={stopPropagationForTab}
+                    style={{
+                        zIndex: 1401
+                    }}
                 >
-                <DialogTitle>
-                    <Typography variant="h3" align="center">Sign In</Typography>
-                </DialogTitle>
+                    <DialogTitle>
+                        <Typography variant="h3" align="center">Sign In</Typography>
+                    </DialogTitle>
 
-                {this.state.axiosLoading && loadingCircle}
-                <DialogContent>
-                    <Box
-                        noValidate
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          m: 'auto',
-                          width: 'fit-content',
-                        }}
-                    >
-                        {this.state.reqSent && this.ShowGeneralMessage()}
-                        <br/>
-                    </Box>
+                    {this.state.axiosLoading && loadingCircle}
+                    <DialogContent>
+                        <Box
+                            noValidate
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                m: 'auto',
+                                width: 'fit-content',
+                            }}
+                        >
+                            {this.state.reqSent && this.ShowGeneralMessage()}
+                            <br/>
+                        </Box>
 
-                    <Box
-                        noValidate
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          m: 'auto',
-                          width: 'fit-content',
-                        }}
-                    >
-                        <TextField
-                            error={this.state.errors.username.length}
-                            required
-                            id='username'
-                            label='username'
-                            value={this.state.data.username}
-                            onChange={e => this.setFormData({username: e.target.value})}
-                        />
-                        <i style={{ color: 'red' }}>{this.state.errors.username}</i>
-                        <br/>
-                        <TextField
-                            error={this.state.errors.password.length}
-                            required
-                            type='password'
-                            id='password'
-                            label='password'
-                            value={this.state.data.password}
-                            onChange={e => this.setFormData({password: e.target.value})}
-                        />
-                        <i style={{ color: 'red' }}>{this.state.errors.password}</i>
-                    </Box>
-                </DialogContent>
-                <DialogActions>
-                    <Button variant='outlined' onClick={() => this.HandleClose()}>Cancel</Button>
-                    <Button variant='contained' onClick={() => this.OnSignupSubmit()}>Submit</Button>
-                </DialogActions>
-            </Dialog>
-        </div>
+                        <Box
+                            noValidate
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                m: 'auto',
+                                width: 'fit-content',
+                            }}
+                        >
+                            <TextField
+                                error={this.state.errors.username.length}
+                                required
+                                id='username'
+                                label='username'
+                                value={this.state.data.username}
+                                onChange={e => this.setFormData({username: e.target.value})}
+                            />
+                            <i style={{color: 'red'}}>{this.state.errors.username}</i>
+                            <br/>
+                            <TextField
+                                error={this.state.errors.password.length}
+                                required
+                                type='password'
+                                id='password'
+                                label='password'
+                                value={this.state.data.password}
+                                onChange={e => this.setFormData({password: e.target.value})}
+                            />
+                            <i style={{color: 'red'}}>{this.state.errors.password}</i>
+                        </Box>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button variant='outlined'
+                                onClick={() => this.HandleClose()}>Cancel</Button>
+                        <Button variant='contained'
+                                onClick={() => this.OnSignupSubmit()}>Submit</Button>
+                    </DialogActions>
+                </Dialog>
+            </div>
         )
     }
 }

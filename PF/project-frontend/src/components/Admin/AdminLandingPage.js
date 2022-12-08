@@ -3,25 +3,23 @@ import Button from "@mui/material/Button";
 import {Link, Route, Routes} from "react-router-dom";
 import React, {useContext} from "react";
 import {AdminMain} from "./AdminMain";
-import {
-    SubscriptionControlPanel
-} from "./Subscription/SubscriptionControlPanel";
+import {SubscriptionControlPanel} from "./Subscription/SubscriptionControlPanel";
 import {UserControlPanel} from "./User/UserControlPanel";
 import {StudiosLanding} from "../studios/StudioLanding";
 import {APIContext} from "../APIContextProvider";
 import {Unauthorized401} from "../ErrorPages/401Unauthorized";
 import {NotFound404} from "../ErrorPages/404NotFound";
 
-export function AdminLandingPage(){
+export function AdminLandingPage() {
 
     const ctx = useContext(APIContext)
 
-    if (!ctx.userLoggedIn || !ctx.userData.isStaff){
+    if (!ctx.userLoggedIn || !ctx.userData.isStaff) {
         return (<Unauthorized401/>)
     }
 
     return (
-        <Stack sx={{p:2}}>
+        <Stack sx={{p: 2}}>
             <Box
                 style={{
                     display: 'flex',
@@ -34,7 +32,7 @@ export function AdminLandingPage(){
                 </Typography>
             </Box>
             <Box
-                sx={{p:3}}
+                sx={{p: 3}}
                 style={{
                     display: 'flex',
                     alignItems: 'center',

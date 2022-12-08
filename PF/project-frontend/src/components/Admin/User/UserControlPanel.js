@@ -5,15 +5,15 @@ import {useState} from "react";
 
 export let rerenderQueued = false
 
-export function UserControlPanel(props){
+export function UserControlPanel(props) {
 
     const [rerender, setRerender] = useState(false)
 
-    function forceRerender(){
+    function forceRerender() {
         setRerender(!rerender)
     }
 
-    function analyticsCard(){
+    function analyticsCard() {
         return <AnalyticsCard/>
     }
 

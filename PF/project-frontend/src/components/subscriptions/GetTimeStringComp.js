@@ -1,4 +1,4 @@
-export function GetTimeStringComp(timeMap){
+export function GetTimeStringComp(timeMap) {
     var monthInt = Math.floor(timeMap['days'] / 30)
     var monthIntRem = timeMap['days'] % 30
     var monthComp = monthInt === 0 ? "" : monthInt + (monthInt > 1 ? " months " : " month ")

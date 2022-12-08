@@ -22,7 +22,7 @@ import {BASEURL} from "../constants";
 import {Link} from "react-router-dom";
 
 
-export function SubscriptionPayment(props){
+export function SubscriptionPayment(props) {
     // this is having alot of issues, might need to change this to a class based component
     const ctx = useContext(APIContext)
 
@@ -34,12 +34,12 @@ export function SubscriptionPayment(props){
         hasPaymentInformation: false
     })
 
-    function loadPaymentData(){
+    function loadPaymentData() {
 
         var targetURL = BASEURL + 'accounts/payment/'
         var token = ctx.userToken
 
-        if (token === null){
+        if (token === null) {
             return
         }
         token = token.replace('Token ')
@@ -53,7 +53,7 @@ export function SubscriptionPayment(props){
             }
         }
 
-        axios(requestData).then(function(response) {
+        axios(requestData).then(function (response) {
             var data = response.data
 
             setData({
@@ -63,8 +63,8 @@ export function SubscriptionPayment(props){
                 paymentSuccess: data.paymentSuccess,
                 hasPaymentInformation: true
             })
-        }).catch(function (error){
-            if (error.response.status === 404){
+        }).catch(function (error) {
+            if (error.response.status === 404) {
                 var dat = data
                 dat.axiosLoading = false
                 dat.hasPaymentInformation = false
@@ -75,18 +75,17 @@ export function SubscriptionPayment(props){
         })
     }
 
-    function paymentOptionSection(){
-        if (data.paymentData === null){
+    function paymentOptionSection() {
+        if (data.paymentData === null) {
             loadPaymentData()
         }
-        if (data.axiosLoading){
+        if (data.axiosLoading) {
             return (
                 <Box>
-                    <LinearProgress />
+                    <LinearProgress/>
                 </Box>
             )
-        }
-        else if (!data.hasPaymentInformation){
+        } else if (!data.hasPaymentInformation) {
             return (
                 <Box>
                     You do not have a payment option enabled
@@ -98,8 +97,7 @@ export function SubscriptionPayment(props){
                     </Button>
                 </Box>
             )
-        }
-        else{
+        } else {
             return (
                 <Box>
                     Current Payment Option:
@@ -109,7 +107,7 @@ export function SubscriptionPayment(props){
         }
     }
 
-    function cartTable(){
+    function cartTable() {
         var price = parseFloat(props.item['price'])
         var tax = price * 0.13
         var total = price * 1.13
@@ -157,7 +155,7 @@ export function SubscriptionPayment(props){
         )
     }
 
-    function pay(){
+    function pay() {
         const targetURL = BASEURL + 'accounts/subscriptions/add/'
         var token = ctx.userToken.replace("Token ")
 
@@ -168,7 +166,7 @@ export function SubscriptionPayment(props){
         dat1.paymentAxios = true
         setData(dat1)
 
-        if (token === null){
+        if (token === null) {
             return
         }
         token = token.replace('Token ')
@@ -188,7 +186,7 @@ export function SubscriptionPayment(props){
             data: formDat
         }
 
-        axios(requestData).then(function(response) {
+        axios(requestData).then(function (response) {
             var dataState = {}
             Object.keys(data).forEach(k => {
                 dataState[k] = data[k]
@@ -197,7 +195,7 @@ export function SubscriptionPayment(props){
             setData(dataState)
             props.onPaymentSuccess()
             props.onClose()
-        }).catch(function (error){
+        }).catch(function (error) {
             var a = 1
         })
     }
@@ -221,7 +219,7 @@ export function SubscriptionPayment(props){
     )
 
 
-    function subButton(){
+    function subButton() {
         return (
             <Box>
                 <Button variant='outlined' onClick={props.onClose}>
@@ -231,7 +229,6 @@ export function SubscriptionPayment(props){
             </Box>
         )
     }
-
 
 
     let a = 1

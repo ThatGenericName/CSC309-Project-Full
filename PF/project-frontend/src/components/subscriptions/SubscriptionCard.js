@@ -1,11 +1,4 @@
-import {
-    Card,
-    CardActions,
-    DialogContent,
-    DialogTitle,
-    Stack,
-    Typography
-} from "@mui/material";
+import {Card, CardActions, DialogContent, DialogTitle, Stack, Typography} from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import {useContext, useState} from "react";
@@ -13,7 +6,7 @@ import {SubscriptionPayment} from "./SubscriptionPayment";
 import {APIContext} from "../APIContextProvider";
 import {GetTimeStringComp} from "./GetTimeStringComp";
 
-export function SubscriptionCard(props){
+export function SubscriptionCard(props) {
 
     const ctx = useContext(APIContext)
 
@@ -24,25 +17,25 @@ export function SubscriptionCard(props){
     const [open, setOpen] = useState(false)
     const [openSub, setOpenSub] = useState(false)
 
-    function handleClose(){
+    function handleClose() {
         setOpen(false)
     }
 
-    function handleOpen(){
+    function handleOpen() {
         setOpen(true)
     }
 
-    function handleSubscriptionOpen(){
+    function handleSubscriptionOpen() {
         setOpenSub(true)
     }
 
-    function handleSubscriptionClose(){
+    function handleSubscriptionClose() {
         setOpenSub(false)
     }
 
     var subButton = ctx.userLoggedIn ? (
         <Button onClick={handleSubscriptionOpen} variant='contained'>
-        Subscribe
+            Subscribe
         </Button>) : null
 
     return (

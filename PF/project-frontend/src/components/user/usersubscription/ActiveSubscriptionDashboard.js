@@ -11,7 +11,7 @@ import DialogActions from "@mui/material/DialogActions";
 import {Link} from "react-router-dom";
 
 
-export function ActiveSubscriptionDashboard(props){
+export function ActiveSubscriptionDashboard(props) {
     const ctx = useContext(APIContext)
 
     const [componentState, setComponentState] = useState({
@@ -22,16 +22,15 @@ export function ActiveSubscriptionDashboard(props){
     const [dialogState, setDialogState] = useState(false)
 
     const actSub = ctx.userData.fullUserData['active_subscription']
-    if (actSub === null){
+    if (actSub === null) {
         return (
-            <Paper sx={{p:3, textAlign:'center'}} >
+            <Paper sx={{p: 3, textAlign: 'center'}}>
                 <Typography variant="h4">
                     You do not have any active subscriptions
                 </Typography>
             </Paper>
         )
-    }
-    else if (componentState.activeSubscription === null){
+    } else if (componentState.activeSubscription === null) {
         var activeSubID = actSub['id']
 
         var targetURL = BASEURL + 'accounts/subscriptions/' + activeSubID + '/'
@@ -49,28 +48,28 @@ export function ActiveSubscriptionDashboard(props){
         }
 
         axios(requestData)
-            .then( function (response) {
+            .then(function (response) {
                 setComponentState({
                     axiosLoading: false,
                     activeSubscription: response.data,
                 })
             })
-            .catch(function(error){
-                if (error.response.status === 404){
+            .catch(function (error) {
+                if (error.response.status === 404) {
 
                 }
             })
     }
 
-    if (componentState.axiosLoading){
+    if (componentState.axiosLoading) {
         return (
-            <Paper sx={{p:3}}>
-                <LinearProgress />
+            <Paper sx={{p: 3}}>
+                <LinearProgress/>
             </Paper>
         )
     }
 
-    function send(){
+    function send() {
         var targetURL = BASEURL + 'accounts/subscriptions/cancel/'
 
         var token = ctx.userToken
@@ -85,7 +84,7 @@ export function ActiveSubscriptionDashboard(props){
             }
         }
         axios(requestData)
-            .then( function (response) {
+            .then(function (response) {
                 setComponentState({
                     axiosLoading: false,
                     activeSubscription: componentState.activeSubscription,
@@ -93,16 +92,16 @@ export function ActiveSubscriptionDashboard(props){
                 props.filterSetter({makeRequest: true})
                 handleClose()
             })
-            .catch(function(error){
+            .catch(function (error) {
                 console.log('Something went wrong')
             })
     }
 
-    function handleClose(){
+    function handleClose() {
         setDialogState(false)
     }
 
-    function handleOpen(){
+    function handleOpen() {
         setDialogState(true)
     }
 
@@ -122,7 +121,7 @@ export function ActiveSubscriptionDashboard(props){
                         Cancel Future Subscriptions
                     </Button>
                     <Dialog open={dialogState} onClose={handleClose}>
-                        <Box sx={{p:3}}>
+                        <Box sx={{p: 3}}>
                             Are you sure you want to cancel all future subscriptions?
                         </Box>
                         <DialogActions>

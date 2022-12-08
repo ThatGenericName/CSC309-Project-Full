@@ -1,10 +1,4 @@
-import {
-    Box,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle
-} from "@mui/material";
+import {Box, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 import Button from "@mui/material/Button";
 import {useContext, useState} from "react";
 
@@ -13,21 +7,21 @@ import {BASEURL} from "../../constants";
 import {APIContext} from "../../APIContextProvider";
 import axios from "axios";
 
-export function RemovePaymentMethod(props){
+export function RemovePaymentMethod(props) {
 
     const ctx = useContext(APIContext)
 
     const [dialogOpen, setDialogOpen] = useState(false)
 
-    function handleClose(){
+    function handleClose() {
         setDialogOpen(false)
     }
 
-    function handleOpen(){
+    function handleOpen() {
         setDialogOpen(true)
     }
 
-    function sendPaymentRemoval(){
+    function sendPaymentRemoval() {
         var targetURL = BASEURL + 'accounts/payment/remove/'
 
         var token = ctx.userToken
@@ -41,11 +35,11 @@ export function RemovePaymentMethod(props){
             },
         }
 
-        axios(requestData).then(function(response){
+        axios(requestData).then(function (response) {
             let a = 1
             props.onSend()
             handleClose()
-        }).catch(function(error){
+        }).catch(function (error) {
             let a = 1
         })
     }

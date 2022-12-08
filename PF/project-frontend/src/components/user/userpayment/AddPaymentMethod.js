@@ -1,11 +1,4 @@
-import {
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    Stack,
-    TextField
-} from "@mui/material";
+import {Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField} from "@mui/material";
 import react from "react";
 import {APIContext} from "../../APIContextProvider";
 import MenuItem from "@mui/material/MenuItem";
@@ -15,10 +8,10 @@ import {BASEURL} from "../../constants";
 
 const cardTypes = ['credit', 'debit']
 
-export class AddPaymentMethod extends react.Component{
+export class AddPaymentMethod extends react.Component {
     static contextType = APIContext
 
-    constructor(props, context){
+    constructor(props, context) {
         super(props, context);
         this.state = {
             axiosLoading: false,
@@ -38,7 +31,7 @@ export class AddPaymentMethod extends react.Component{
         }
     }
 
-    setInputData(obj){
+    setInputData(obj) {
         var data = this.state.inputData
         Object.keys(obj).forEach(k => {
             data[k] = obj[k]
@@ -46,7 +39,7 @@ export class AddPaymentMethod extends react.Component{
         this.setState({inputData: data})
     }
 
-    setError(obj){
+    setError(obj) {
         var data = this.state.errors
         Object.keys(obj).forEach(k => {
             data[k] = obj[k]
@@ -54,7 +47,7 @@ export class AddPaymentMethod extends react.Component{
         this.setState({errors: data})
     }
 
-    sendPaymentData(comp){
+    sendPaymentData(comp) {
         comp.setState({axiosLoading: true})
         const targetURL = BASEURL + "accounts/payment/add/"
         const dat = this.state.inputData
@@ -78,24 +71,24 @@ export class AddPaymentMethod extends react.Component{
             data: formDat
         }
 
-        axios(requestData).then(function(response){
+        axios(requestData).then(function (response) {
             let a = 1
             comp.props.onSend()
             comp.props.onClose()
-        }).catch(function(error){
+        }).catch(function (error) {
             let a = 1
             comp.props.onClose()
         })
     }
 
-    render(){
+    render() {
         return (
             <Dialog open={this.props.open} onClose={this.props.onClose}>
                 <DialogTitle>
                     Add Payment Information
                 </DialogTitle>
                 <DialogContent>
-                    <Stack spacing={1} sx={{p:1}}>
+                    <Stack spacing={1} sx={{p: 1}}>
                         <TextField
                             select
                             id='card_type'
@@ -105,11 +98,11 @@ export class AddPaymentMethod extends react.Component{
                                 this.setInputData({card_type: e.target.value})
                             }}
                         >
-                        {cardTypes.map((option) => (
-                            <MenuItem key={option} value={option}>
-                                {option}
-                            </MenuItem>
-                        ))}
+                            {cardTypes.map((option) => (
+                                <MenuItem key={option} value={option}>
+                                    {option}
+                                </MenuItem>
+                            ))}
                         </TextField>
                         <TextField
                             required
@@ -127,13 +120,13 @@ export class AddPaymentMethod extends react.Component{
                             value={this.state.inputData.card_num}
                             onChange={e => {
                                 var next = e.target.value
-                                if (next === ""){
+                                if (next === "") {
                                     this.setInputData({card_num: next})
                                 }
                                 var parsed = parseInt(next)
-                                if (!isNaN(parsed) && next.length <= 16){
+                                if (!isNaN(parsed) && next.length <= 16) {
                                     // do nothing
-                                     this.setInputData({card_num: parsed})
+                                    this.setInputData({card_num: parsed})
                                 }
                             }}
                         />
@@ -143,7 +136,7 @@ export class AddPaymentMethod extends react.Component{
                             type="number"
                             label='expiration month'
                             value={this.state.inputData.exp_month}
-                            InputProps={{ inputProps: { min: 1, max: 12 } }}
+                            InputProps={{inputProps: {min: 1, max: 12}}}
                             onChange={e => {
                                 this.setInputData({exp_month: e.target.value})
                             }}
@@ -154,7 +147,7 @@ export class AddPaymentMethod extends react.Component{
                             type="number"
                             label='expiration year'
                             value={this.state.inputData.exp_year}
-                            InputProps={{ inputProps: { min: 2022, max: 5000 } }}
+                            InputProps={{inputProps: {min: 2022, max: 5000}}}
                             onChange={e => {
                                 this.setInputData({exp_year: e.target.value})
                             }}

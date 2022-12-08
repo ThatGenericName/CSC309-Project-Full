@@ -2,11 +2,11 @@ import {Box, Stack} from "@mui/material";
 import {StudioCard} from "./StudioCard";
 import React, {useState} from "react";
 
-export default function StudioList(props){
+export default function StudioList(props) {
 
     const [snackbarOpen, setSnackbarOpen] = useState(false)
 
-    function generateStudioList(items){
+    function generateStudioList(items) {
         return (
             <Stack direction='column' spacing={2} alignItems='center'>
                 {items.map(item => <StudioCard data={item} admin={props.admin}
@@ -18,7 +18,7 @@ export default function StudioList(props){
 
     return (
         <Box
-            sx={{p:2}}
+            sx={{p: 2}}
             style={{maxWidth: "100%", overflow: 'auto'}}
             alignItems='center'
         >

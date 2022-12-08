@@ -9,7 +9,7 @@ import axios from "axios";
 import {BASEURL} from "../constants";
 import Grid2 from "@mui/material/Unstable_Grid2";
 
-export function GymClassScheduleCard(props){
+export function GymClassScheduleCard(props) {
 
     const ctx = useContext(APIContext)
 
@@ -17,71 +17,80 @@ export function GymClassScheduleCard(props){
 
     const [open, setOpen] = useState(false)
     const [openSub, setOpenSub] = useState(false)
+
     // const []
 
-    function handleClose(){
+    function handleClose() {
         setOpen(false)
     }
 
-    function handleOpen(){
+    function handleOpen() {
         setOpen(true)
     }
 
-    function handleAmenityOpen(){
+    function handleAmenityOpen() {
         setOpenSub(true)
     }
 
-    function handleSubscriptionClose(){
+    function handleSubscriptionClose() {
         setOpenSub(false)
     }
 
-    function CancelSchedule(){
+    function CancelSchedule() {
         const id = props.data.id
 
         const url = BASEURL + "classes/schedule/" + id + "/delete/"
 
 
         let requestData
+        var token = ctx.userToken
+        token = token.replace("Token ", "")
 
         requestData = {
             url: url,
             method: "DELETE",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": "Token " + token
             },
 
         }
 
         axios(requestData).then(function (response) {
-            if (props.onSend !== undefined){
+            if (props.onSend !== undefined) {
                 props.onSend()
             }
-        }).catch(function (error) {})
+        }).catch(function (error) {
+        })
     }
 
-    function DeleteSchedule(){
+    function DeleteSchedule() {
         const id = props.data.id
 
         const url = BASEURL + "classes/schedule/" + id + "/delete/"
 
 
         let requestData
+        var token = ctx.userToken
+        token = token.replace("Token ", "")
 
         requestData = {
             url: url,
             method: "DELETE",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": "Token " + token
             },
             data: {"delete": true}
 
         }
 
         axios(requestData).then(function (response) {
-            if (props.onSend !== undefined){
+            if (props.onSend !== undefined) {
                 props.onSend()
             }
-        }).catch(function (error) {})
+        }).catch(function (error) {
+        })
         // window.location.reload(false);
     }
 
@@ -91,21 +100,23 @@ export function GymClassScheduleCard(props){
     //     Subscribe
     //     </Button>) : null
     function getPosition(string, subString, index) {
-      return string.split(subString, index).join(subString).length;
+        return string.split(subString, index).join(subString).length;
     }
-    function extract_date(date){
+
+    function extract_date(date) {
         var start_index = date.indexOf('T') + 1
         var end_index = getPosition(date, ":", 2)
         return date.substring(start_index, end_index)
     }
+
     let a = 1
 
     return (
         <Card
             key={props.data.id}
             variant='outlined'
-            sx={{p:2}}
-            style={{width:'95%'}}
+            sx={{p: 2}}
+            style={{width: '95%'}}
         >
             <Grid2
                 container
@@ -117,10 +128,10 @@ export function GymClassScheduleCard(props){
                         <Typography variant='h5'>
                             {"Date : " + props.data.date}
                         </Typography>
-                        <Typography >
+                        <Typography>
                             {"Enrollment Capacity : " + props.data.enrollment_capacity}
                         </Typography>
-                        <Typography >
+                        <Typography>
                             {"Enrollment Count : " + props.data.enrollment_count}
                         </Typography>
                     </Stack>
@@ -129,20 +140,22 @@ export function GymClassScheduleCard(props){
                 <Grid2 xs={3}>
                     <Stack spacing={1}>
                         <Typography>
-                        {
-                            "Start Time : " +extract_date(props.data.start_time)
-                        }
+                            {
+                                "Start Time : " + extract_date(props.data.start_time)
+                            }
                         </Typography>
-                        <Typography >
-                            {"End Time : " +extract_date(props.data.end_time)}
+                        <Typography>
+                            {"End Time : " + extract_date(props.data.end_time)}
                         </Typography>
                     </Stack>
                 </Grid2>
 
                 {props.admin && <React.Fragment>
                     <CardActions sx={{gap: 1}}>
-                        <Button variant='contained' component={Link} to={{pathname:
-                                `${props.data.id}/edit/`}}>
+                        <Button variant='contained' component={Link} to={{
+                            pathname:
+                                `${props.data.id}/edit/`
+                        }}>
                             Edit
                         </Button>
                         <Button variant='contained' onClick={DeleteSchedule}>

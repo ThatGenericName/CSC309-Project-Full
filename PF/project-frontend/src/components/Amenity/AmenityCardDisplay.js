@@ -8,7 +8,7 @@ import axios from "axios";
 import {BASEURL} from "../constants";
 import Grid2 from "@mui/material/Unstable_Grid2";
 
-export function AmenityCardDisplay(props){
+export function AmenityCardDisplay(props) {
 
     const ctx = useContext(APIContext)
 
@@ -16,56 +16,59 @@ export function AmenityCardDisplay(props){
 
     const [open, setOpen] = useState(false)
     const [openSub, setOpenSub] = useState(false)
+
     // const []
 
-    function handleClose(){
+    function handleClose() {
         setOpen(false)
     }
 
-    function handleOpen(){
+    function handleOpen() {
         setOpen(true)
     }
 
-    function handleAmenityOpen(){
+    function handleAmenityOpen() {
         setOpenSub(true)
     }
 
-    function handleSubscriptionClose(){
+    function handleSubscriptionClose() {
         setOpenSub(false)
     }
 
-    function DeleteAmenity(){
+    function DeleteAmenity() {
         const id = props.data.id
 
         const url = BASEURL + "studios/" + id + "/amenities/delete/"
 
         let requestData = {
-                    url: url,
-                    method: "DELETE",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                }
+            url: url,
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }
 
         axios(requestData).then(function (response) {
-            if (props.onSend !== undefined){
-                props.onSend()
-            }}
-        ).catch(function (error) {})
+                if (props.onSend !== undefined) {
+                    props.onSend()
+                }
+            }
+        ).catch(function (error) {
+        })
     }
 
 
     var subButton = ctx.userLoggedIn ? (
         <Button onClick={handleAmenityOpen} variant='contained'>
-        Subscribe
+            Subscribe
         </Button>) : null
 
     return (
         <Card
             key={props.key}
             variant='outlined'
-            sx={{p:2}}
-            style={{width:'60%'}}
+            sx={{p: 2}}
+            style={{width: '60%'}}
         >
             <Grid2
                 container
@@ -81,7 +84,7 @@ export function AmenityCardDisplay(props){
                             {"Amenity Type : " + props.data.type}
                         </Typography>
                         <Typography>
-                            {"Quantity : "+ props.data.quantity}
+                            {"Quantity : " + props.data.quantity}
                         </Typography>
                     </Stack>
                 </Grid2>
@@ -89,14 +92,16 @@ export function AmenityCardDisplay(props){
                 {props.admin && <React.Fragment>
                     <CardActions>
                         <Box>
-                            <Button variant='contained' component={Link} to={{pathname:
-                            `${props.data.id}/edit/`}}>
-                              Edit
+                            <Button variant='contained' component={Link} to={{
+                                pathname:
+                                    `${props.data.id}/edit/`
+                            }}>
+                                Edit
                             </Button>
                         </Box>
                         <Box>
                             <Button variant='contained' onClick={DeleteAmenity}>
-                              Delete
+                                Delete
                             </Button>
                         </Box>
 
