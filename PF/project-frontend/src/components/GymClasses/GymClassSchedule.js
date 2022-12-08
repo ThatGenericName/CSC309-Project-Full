@@ -32,8 +32,16 @@ export default function GymClassSchedule(props) {
         setComp(d)
     }
 
-    const getdata = (props) => {
-        const url = BASEURL + "classes/studio/" + id + "/list/"
+    const getdata = () => {
+
+        var url
+
+        if(props.admin){
+            url = BASEURL + "classes/studio/" + id + "/list/admin"
+        }
+        else{
+            url = BASEURL + "classes/studio/" + id + "/list/"
+        }
 
         var params = {
             page: compState.targetPage

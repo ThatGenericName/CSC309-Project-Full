@@ -24,7 +24,7 @@ class ClassesofStudioPagination(PageNumberPagination):
     page_size = 10
 
 
-class GymClassList(ListAPIView):
+class ClassesofStudioAdmin(ListAPIView):
     '''
     edits a specific profile
     '''
@@ -37,8 +37,8 @@ class GymClassList(ListAPIView):
 
     permission_classes = [IsAuthenticated]
     pagination_class = ClassesofStudioPagination
-    model = GymClass
-    serializer_class = GymClassSerializer
+    model = GymClassSchedule
+    serializer_class = GymClassScheduleSerializer
 
     def get(self, request, *args, **kwargs):
         studio_id = kwargs['studio_id']
@@ -47,8 +47,6 @@ class GymClassList(ListAPIView):
         except ObjectDoesNotExist:
             return Response({'error': 'Studio Class was not found'}, status=404)
 
-        # if not len(GymClass.objects.filter(studio=studio)):
-        #     return Response({'error':'No Classes  found'}, status=404)
 
         return super().get(request, *args, **kwargs)
 
@@ -58,9 +56,9 @@ class GymClassList(ListAPIView):
 
         studio = Studio.objects.get(id=studio_id)
 
-        qs = GymClass.objects.filter(studio=studio)
+        classes = GymClassSchedule.objects.filter(parent_class__studio=studio)
 
-        qs = qs.filter(is_cancelled=False)
-
+        qs = classes.filter(start_time__gt=timezone.now())
+        qs = qs.filter(end_time__gt=timezone.now())
 
         return qs

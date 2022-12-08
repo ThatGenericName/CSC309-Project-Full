@@ -15,6 +15,37 @@ export function GymClassCard(props) {
 
     const data = props.data
 
+    function UnCancelClass() {
+        const id = props.data.id
+
+        const url = BASEURL + "classes/gymclass/" + id + "/uncancel/"
+
+
+        let requestData
+        var token = ctx.userToken
+        if(token === null){
+            return
+        }
+        token = token.replace("Token ", "")
+
+        requestData = {
+            url: url,
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": "Token " + token
+            },
+
+        }
+
+        axios(requestData).then(function (response) {
+            if (props.onSend !== undefined) {
+                props.onSend()
+            }
+        }).catch(function (error) {
+        })
+    }
+
     function CancelClass() {
         const id = props.data.id
 
@@ -121,6 +152,11 @@ export function GymClassCard(props) {
                         <Typography>
                             {"End Time : " + props.data.end_time}
                         </Typography>
+                        {props.admin && <React.Fragment>
+                            <Typography >
+                                {"IsCancelled : " + props.data.is_cancelled}
+                            </Typography>
+                        </React.Fragment>}
                     </Stack>
                 </Grid2>
 
@@ -138,6 +174,9 @@ export function GymClassCard(props) {
                         </Button>
                         <Button variant='contained' onClick={CancelClass}>
                             Cancel
+                        </Button>
+                        <Button variant='contained' onClick={UnCancelClass}>
+                            UnCancel
                         </Button>
 
                     </CardActions>

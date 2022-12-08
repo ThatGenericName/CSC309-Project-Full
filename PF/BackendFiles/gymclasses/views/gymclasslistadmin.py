@@ -24,7 +24,7 @@ class ClassesofStudioPagination(PageNumberPagination):
     page_size = 10
 
 
-class GymClassList(ListAPIView):
+class GymClassListAdmin(ListAPIView):
     '''
     edits a specific profile
     '''
@@ -59,8 +59,5 @@ class GymClassList(ListAPIView):
         studio = Studio.objects.get(id=studio_id)
 
         qs = GymClass.objects.filter(studio=studio)
-
-        qs = qs.filter(is_cancelled=False)
-
 
         return qs
