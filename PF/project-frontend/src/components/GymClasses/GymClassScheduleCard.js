@@ -15,25 +15,35 @@ export function GymClassScheduleCard(props) {
 
     const data = props.data
 
-    const [open, setOpen] = useState(false)
-    const [openSub, setOpenSub] = useState(false)
+    function UnCancelSchedule() {
+        const id = props.data.id
 
-    // const []
+        const url = BASEURL + "classes/schedule/" + id + "/uncancel/"
 
-    function handleClose() {
-        setOpen(false)
-    }
 
-    function handleOpen() {
-        setOpen(true)
-    }
+        let requestData
+        var token = ctx.userToken
+        if(token === null){
+            return
+        }
+        token = token.replace("Token ", "")
 
-    function handleAmenityOpen() {
-        setOpenSub(true)
-    }
+        requestData = {
+            url: url,
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": "Token " + token
+            },
 
-    function handleSubscriptionClose() {
-        setOpenSub(false)
+        }
+
+        axios(requestData).then(function (response) {
+            if (props.onSend !== undefined) {
+                props.onSend()
+            }
+        }).catch(function (error) {
+        })
     }
 
     function CancelSchedule() {
@@ -44,6 +54,9 @@ export function GymClassScheduleCard(props) {
 
         let requestData
         var token = ctx.userToken
+        if(token === null){
+            return
+        }
         token = token.replace("Token ", "")
 
         requestData = {
@@ -125,7 +138,12 @@ export function GymClassScheduleCard(props) {
             >
                 <Grid2 xs={3}>
                     <Stack spacing={1}>
-                        <Typography variant='h5'>
+                        {props.admin && <React.Fragment>
+                            <Typography variant='h5'>
+                                {"ID : " + props.data.id}
+                            </Typography>
+                        </React.Fragment>}
+                        <Typography variant='h7'>
                             {"Date : " + props.data.date}
                         </Typography>
                         <Typography>
@@ -134,6 +152,11 @@ export function GymClassScheduleCard(props) {
                         <Typography>
                             {"Enrollment Count : " + props.data.enrollment_count}
                         </Typography>
+                        {props.admin && <React.Fragment>
+                            <Typography >
+                                {"IsCancelled : " + props.data.is_cancelled}
+                            </Typography>
+                        </React.Fragment>}
                     </Stack>
                 </Grid2>
 
@@ -163,6 +186,9 @@ export function GymClassScheduleCard(props) {
                         </Button>
                         <Button variant='contained' onClick={CancelSchedule}>
                             Cancel
+                        </Button>
+                        <Button variant='contained' onClick={UnCancelSchedule}>
+                            UnCancel
                         </Button>
 
                     </CardActions>

@@ -35,7 +35,15 @@ export default function GymClass(props) {
     }
 
     const getdata = (props) => {
-        const url = BASEURL + "classes/" + id + "/list/"
+
+        var url
+
+        if(props.admin){
+            url = BASEURL + "classes/" + id + "/list/admin"
+        }
+        else{
+            url = BASEURL + "classes/" + id + "/list/"
+        }
 
         var params = {
             page: compState.targetPage

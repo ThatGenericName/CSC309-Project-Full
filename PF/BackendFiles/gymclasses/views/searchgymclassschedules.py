@@ -55,7 +55,8 @@ class ViewGymClassSchedule(ListAPIView):
 
     def get_queryset(self):
 
-        qs = GymClassSchedule.objects.order_by('start_time')
+        qs = GymClassSchedule.objects.filter(is_cancelled=False)
+        qs = qs.order_by('start_time')
 
         return qs
 

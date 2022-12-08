@@ -48,5 +48,9 @@ class DeleteGymClass(APIView):
             for item in GymClassSchedule.objects.filter(parent_class_id=gym_class):
                 setattr(item, "is_cancelled", True)
                 item.save()
+            setattr(gym_class, "is_cancelled", True)
+
+            gym_class.save()
+
 
         return Response({"success": True}, status=200)

@@ -42,9 +42,6 @@ export function AdminLandingPage() {
                 <Button component={Link} to={'/admin/studio'}>
                     Studio Management
                 </Button>
-                <Button>
-                    Class Management
-                </Button>
                 <Button component={Link} to={'/admin/subscription'}>
                     Membership Management
                 </Button>
