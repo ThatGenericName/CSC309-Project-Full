@@ -17,7 +17,7 @@ export class Searchredirect extends react.Component {
 
     render() {
 
-        let targetLink = '/studios/?zip=' + this.state.zipcode
+        let targetLink = '/studios/?zip=' + this.state.zipcode.replace(" ", "")
 
         return (
             <react.Fragment>

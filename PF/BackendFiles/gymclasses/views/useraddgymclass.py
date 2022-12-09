@@ -145,11 +145,11 @@ class AddGymClassToUser(APIView):
                         uci.dropped = False
                         uci.financial_hold = False
                         uci.save()
-                        gcs.enrollment_count += 1
-                        gcs.save()
                 else:
                     uci = UserClassInterface.objects.create(user=user, class_session=gcs)
                     uci.save()
+                gcs.enrollment_count += 1
+                gcs.save()
             else:
                 fullClasses.append(gcs.id)
 

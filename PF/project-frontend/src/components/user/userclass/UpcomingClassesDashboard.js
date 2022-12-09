@@ -106,22 +106,22 @@ export function UpcomingClassesDashboard(props) {
                     </Grid2>
                     <Grid2 xs={2}/>
                     <Grid2 xs={4}>
-                        <Button variant='outlined' onClick={() => {
-                        }}>
-                            Drop Future Classes
-                        </Button>
-                        <Dialog open={false} onClose={() => {
-                        }}>
-                            <Box sx={{p: 3}}>
-                                Are you sure you want to drop all future classes?
-                            </Box>
-                            <DialogActions>
-                                <Button onClick={() => {
-                                }}>Cancel</Button>
-                                <Button onClick={() => {
-                                }}>Confirm</Button>
-                            </DialogActions>
-                        </Dialog>
+                        {/*<Button variant='outlined' onClick={() => {*/}
+                        {/*}}>*/}
+                        {/*    Drop Future Classes*/}
+                        {/*</Button>*/}
+                        {/*<Dialog open={false} onClose={() => {*/}
+                        {/*}}>*/}
+                        {/*    <Box sx={{p: 3}}>*/}
+                        {/*        Are you sure you want to drop all future classes?*/}
+                        {/*    </Box>*/}
+                        {/*    <DialogActions>*/}
+                        {/*        <Button onClick={() => {*/}
+                        {/*        }}>Cancel</Button>*/}
+                        {/*        <Button onClick={() => {*/}
+                        {/*        }}>Confirm</Button>*/}
+                        {/*    </DialogActions>*/}
+                        {/*</Dialog>*/}
                     </Grid2>
                     <Grid2 xs={12}>
                         {generateList(compState.itemsList)}

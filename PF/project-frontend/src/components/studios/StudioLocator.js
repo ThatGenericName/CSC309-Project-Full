@@ -90,7 +90,9 @@ class StudioLocatorClass extends react.Component {
         if (loc.lat !== null) {
             const locStr = loc.lat + "," + loc.lng
             formData.set('location', locStr)
+            params.location = locStr
         }
+
 
         const reqData = {
             url: targetURL,
@@ -220,7 +222,7 @@ class StudioLocatorClass extends react.Component {
                         value={this.state.userZipCode}
                         label='Zip Code'
                         fullWidth
-                        onChange={(e) => this.setZipCode(e.target.value)}
+                        onChange={(e) => this.setZipCode(e.target.value.replace(' ', ''))}
                     />
                 </Grid2>
                 <Grid2 md={5} sm={4}/>

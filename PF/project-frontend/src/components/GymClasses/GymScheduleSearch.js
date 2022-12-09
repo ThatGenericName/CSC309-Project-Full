@@ -117,7 +117,7 @@ class ScheduleClass extends react.Component {
                 <Grid2 md={3} sm={6}>
                     <TextField
                         value={this.state.searchParams.date}
-                        label='Date'
+                        label='Date (DD/MM/YYYY)'
                         fullWidth
                         onChange={(e) => this.setSearchParam({date: e.target.value})}
                     />
@@ -125,7 +125,7 @@ class ScheduleClass extends react.Component {
                 <Grid2 md={3} sm={6}>
                     <TextField
                         value={this.state.searchParams.time_range}
-                        label='Time Range'
+                        label='Time Range (HH:MM-HH:MM)'
                         fullWidth
                         onChange={(e) => this.setSearchParam({time_range: e.target.value})}
                     />

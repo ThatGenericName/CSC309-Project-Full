@@ -139,6 +139,13 @@ class ViewStudios(ListAPIView):
                 self.location = None
             else:
                 self.location = (float(a[0]), float(a[1]))
+        elif 'location' in params:
+            a = params['location'].split(',')
+            if not (IsFloat(a[0]) and IsFloat(a[1])):
+                self.location = None
+            else:
+                self.location = (float(a[0]), float(a[1]))
+
 
     search_hash_obj = None
 

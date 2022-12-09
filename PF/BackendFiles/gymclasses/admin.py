@@ -12,5 +12,5 @@ class GymclassAdmin(admin.ModelAdmin):
 
 @admin.register(GymClassSchedule)
 class GymclassScheduleAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'parent_class', 'start_time')
+    list_display = ('__str__', 'parent_class', 'start_time', 'enrollment_count', 'enrollment_capacity')
     pass
