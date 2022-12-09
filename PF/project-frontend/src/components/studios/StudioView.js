@@ -15,6 +15,7 @@ import {useParams} from "react-router-dom";
 
 import Button from "@mui/material/Button";
 import {APIContext} from "../APIContextProvider";
+import {Image} from "@mui/icons-material";
 
 export default function StudioPreview(props) {
 
@@ -116,16 +117,20 @@ export default function StudioPreview(props) {
                             <Box
                                 sx={{width:500}}
                             >
-                                <Grid2 container columns={3}>
-                                    {formData.data.images.map((file, index) => {
-                                        let link = BASEURLNOEND + file
+                                <ImageList
+                                    sx={{width: '100%'}}
+                                    cols={3}
+                                    rowHeight={164}
+                                >
+                                    {formData.data.images.map((fp, index) => {
+                                        let link = BASEURLNOEND + fp
                                         return (
-                                            <Grid2 xs>
-                                                <img src={`${link}?w=164&h=164&fit=crop&auto=format`} height="164" color="white"/>
-                                            </Grid2>
+                                            <ImageListItem>
+                                                <img src={link}/>
+                                            </ImageListItem>
                                         )
                                     })}
-                                </Grid2>
+                                </ImageList>
                             </Box>
                         </Paper>
 

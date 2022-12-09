@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import {Alert, AlertTitle, Typography} from "@mui/material";
+import {Alert, AlertTitle, Paper, Typography} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import * as Constants from "../constants";
 import axios from "axios";
@@ -157,8 +157,9 @@ export default class AddAmenity extends Component {
 
     render() {
         return (
-            <div>
-                <br/>
+            <Paper
+                sx={{m:3, p:2, pb:4}}
+            >
                 <Typography variant="h3" align="center">Add Amenity</Typography>
                 <Box
                     noValidate
@@ -209,7 +210,7 @@ export default class AddAmenity extends Component {
 
                 </Box>
 
-            </div>
+            </Paper>
         )
     }
 }

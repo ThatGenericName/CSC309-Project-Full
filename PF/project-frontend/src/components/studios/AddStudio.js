@@ -2,7 +2,7 @@ import React from "react";
 import FormData from "form-data"
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import {Alert, AlertTitle, Typography} from "@mui/material";
+import {Alert, AlertTitle, Paper, Typography} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import * as Constants from "../constants";
 import axios from "axios";
@@ -203,8 +203,10 @@ export default class Studio extends React.Component {
 
     render() {
         return (
-            <div>
-                <br/>
+            <Paper
+                sx={{m:3, p:2, pb:4}}
+
+            >
                 <Typography variant="h3" align="center">Register Studio</Typography>
                 <Box
                     noValidate
@@ -274,7 +276,7 @@ export default class Studio extends React.Component {
                     <i style={{color: 'red'}}>{this.state.errors.phone_num}</i>
                     <br/>
 
-                    <div style={{
+                    <Box style={{
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}>
@@ -296,16 +298,14 @@ export default class Studio extends React.Component {
                                 Studio Images
                             </Button>
                         </label>
-                    </div>
-
+                    </Box>
                     <br/>
-
                     <Button type="submit" variant='contained'
                             onClick={() => this.OnSignupSubmit()}>Submit</Button>
 
                 </Box>
 
-            </div>
+            </Paper>
         )
     }
 }
