@@ -74,7 +74,7 @@ class StudioLocatorClass extends react.Component {
             a: searchParams.amenity,
             cln: searchParams.class_name,
             chn: searchParams.coach_name,
-            page: comp.targetPage
+            page: comp.state.targetPage
         }
 
         var paramClone = ObjectDeepClone(searchParams)
