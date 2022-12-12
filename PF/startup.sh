@@ -1,11 +1,11 @@
+cd project-frontend
+npm install react-scripts
+npm install
+
+cd ../BackendFiles
 python3 -m venv venv
 source venv/bin/activate
-pip install django
-pip install pillow
-pip install djangorestframework
-pip install geopy
-pip install django-apscheduler
-pip install django-cors-headers
+pip install -r requirements.txt
 python3 manage.py makemigrations
 python3 manage.py migrate
 python3 manage.py makemigrations
