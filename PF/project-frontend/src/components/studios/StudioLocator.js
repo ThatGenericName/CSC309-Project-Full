@@ -93,7 +93,6 @@ class StudioLocatorClass extends react.Component {
             params.location = locStr
         }
 
-
         const reqData = {
             url: targetURL,
             method: 'GET',
